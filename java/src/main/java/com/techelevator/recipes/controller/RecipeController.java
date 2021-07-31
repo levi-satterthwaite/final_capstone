@@ -23,9 +23,9 @@ public class RecipeController {
     public Recipe getById(@PathVariable(name = "id") Long recipeId) {
         return recipeDAO.getRecipeById(recipeId);
     }
-    @RequestMapping(path = "/recipes", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestBody Recipe recipe) {
-        return recipeDAO.addRecipe(recipe);
-    }
+
+
+
+
 
 }
