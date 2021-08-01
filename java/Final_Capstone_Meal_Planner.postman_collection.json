@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "3bf90045-1385-4491-af20-f43aa289fdb4",
+		"name": "Final_Capstone_Meal_Planner",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Uploaded File URLs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/files",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload File",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Student/Pictures/Camera Roll/grilled_cheese.jpg"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/files",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get File",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/files/grilled_cheese.jpg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"files",
+						"grilled_cheese.jpg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All Recipes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/recipes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

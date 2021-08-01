@@ -14,22 +14,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-@Service
+@Service // Annotation needed for Service classes on the server side to allow the class to be autowired into Spring
 public class FileSystemStorageService implements StorageService {
-
+    // root location is the absolute path to the upload directory (this is the path where the files are uploaded/retrieved)
     private final Path rootLocation;
 
-    @Autowired
+    @Autowired //Allows for dependency injection
     public FileSystemStorageService(StorageProperties properties) {
+        // creating the absolute path
         this.rootLocation = Paths.get(properties.getLocation());
     }
-
     @Override
     public void store(MultipartFile file) {
         try {
+            // If user tries to upload an empty file throw an exception
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
+            // Takes file from request and saves to the upload directory
             Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
@@ -39,25 +41,34 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public Stream<Path> loadAll() {
         try {
+            // Collects and returns a list of all file names that were uploaded
+            // .walk() iterates over all the contents of a directory
+            // maxDepth will limit how deep we go down in the directory tree
             return Files.walk(this.rootLocation, 1)
+                    // filtering for files that are not the root location
                     .filter(path -> !path.equals(this.rootLocation))
+                    // takes the path and generates a relative path to that file
+                    // .relativize() takes the absolute path and turns it into a relative path
                     .map(path -> this.rootLocation.relativize(path));
         } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
-
     }
 
     @Override
     public Path load(String filename) {
+        // .resolve() takes a file name and generates and absolute path to it
         return rootLocation.resolve(filename);
     }
 
     @Override
     public Resource loadAsResource(String filename) {
         try {
+            // takes file name and gets absolute path relative to the root location
             Path file = load(filename);
+            // generates a resource from the files URI
             Resource resource = new UrlResource(file.toUri());
+            // if the resource exists OR is readable return the resource, else throw an exception
             if(resource.exists() || resource.isReadable()) {
                 return resource;
             }
@@ -72,12 +83,14 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void deleteAll() {
+        // .deleteRecursively() will delete all the files and folders from the root folder (bottom up)
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
     @Override
     public void init() {
         try {
+            // if the root location doesn't exist, create it
             if(!Files.exists(rootLocation)) {
                 Files.createDirectory(rootLocation);
             }

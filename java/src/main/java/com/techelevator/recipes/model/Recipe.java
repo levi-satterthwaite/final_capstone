@@ -14,6 +14,7 @@ public class Recipe {
     private int servingSize;
     private String instructions;
     private Date dateCreated;
+    private String imageFileName;
     private List<Ingredient> ingredientList;
 
 
@@ -91,6 +92,14 @@ public class Recipe {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
 
     public List<Ingredient> getIngredientList() {

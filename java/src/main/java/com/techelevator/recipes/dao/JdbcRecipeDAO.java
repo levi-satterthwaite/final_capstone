@@ -26,7 +26,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     public List<Recipe> getListOfRecipes() {
         List<Recipe> recipes = new ArrayList<Recipe>();
         String sql = "SELECT recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
-                "serving_size, instructions, date_created " +
+                "serving_size, instructions, date_created, image_file_name " +
                 "FROM recipe";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql);
         while (rows.next()) {
@@ -41,7 +41,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     public Recipe getRecipeById(Long recipeId) {
         Recipe recipe = null;
         String sql = "SELECT recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
-                "serving_size, instructions, date_created " +
+                "serving_size, instructions, date_created, image_file_name " +
                 "FROM recipe WHERE recipe_id = ?";
         SqlRowSet rows =  jdbcTemplate.queryForRowSet(sql,recipeId);
         if (rows.next()) {
@@ -55,7 +55,16 @@ public class JdbcRecipeDAO implements RecipeDAO {
 
     @Override
     public Recipe addRecipe(Recipe recipe) {
-        return null;
+        String sql = "INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
+                "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                "RETURNING recipe_id";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(
+                sql, recipe.getRecipeId(), recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
+                recipe.getPrepTimeMin(), recipe.getCookTimeMin(), recipe.getServingSize(), recipe.getInstructions(),
+                recipe.getDateCreated(), recipe.getImageFileName());
+        rows.next();
+        recipe.setRecipeId(rows.getLong("recipe_id"));
+        return recipe;
     }
 
     private Recipe mapRecipe(SqlRowSet row) {
@@ -70,6 +79,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
         recipe.setServingSize(row.getInt("serving_size"));
         recipe.setInstructions(row.getString("instructions"));
         recipe.setDateCreated(row.getDate("date_created"));
+        recipe.setImageFileName(row.getString("image_file_name"));
 
         return recipe;
 

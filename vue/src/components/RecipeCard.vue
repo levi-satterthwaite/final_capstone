@@ -1,6 +1,6 @@
 <template>
-  <div id="recipeCard">
-      <!-- <img src="" alt="recipe.name" > -->
+  <div class="recipe-card">
+      <img v-bind:src="'/files/'+ recipe.imageFileName" v-bind:alt="recipe.name" >
       <h2>{{recipe.name}}</h2>
       <p>{{recipe.category}}</p>
       <p>{{recipe.difficultyLevel}}</p>
@@ -14,10 +14,11 @@ export default {
     methods: {
 
     }
-
 }
 </script>
 
 <style>
-
+div.recipe-card img {
+    width: 200px;
+}
 </style>
