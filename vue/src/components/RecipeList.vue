@@ -1,27 +1,37 @@
 <template>
   <div>
-      <recipe-card />
+      <recipe-card v-for="recipe in $store.state.recipes" v-bind:key="recipe.id" v-bind:recipe="recipe" />
   </div>
 </template>
 
 <script>
 import mealPlannerService from '@/services/MealPlannerService';
-import RecipeCard from '@/components/RecipeCard'
+import RecipeCard from '@/components/RecipeCard';
 
 export default {
     name: 'recipe-list',
-    data() {
-        return {
-            recipes: []
-        }
-    },
     components: {
         RecipeCard
     },
     methods: {
         getAllRecipes() {
-            mealPlannerService
+            mealPlannerService.getRecipes().then(response => {
+                this.$store.commit("SET_RECIPES", response.data)
+            }).catch(error => {
+                if(error.response) {
+                    this.errorMsg = "Error Status " + error.response.status 
+                    + ": " + error.response.statusText + ".";
+                }
+                else if(error.request) {
+                    this.errorMsg = "Server did not respond.";
+                } else {
+                    this.errorMsg = "Something did went wrong!";
+                }
+            });
         }
+    },
+    created() {
+        this.getAllRecipes();
     }
 }
 </script>

@@ -36,8 +36,7 @@ public class JdbcIngredientDAO implements IngredientDAO {
     @Override
     public List<Ingredient> getIngredientsByRecipeId(Long recipeId) {
         List<Ingredient> ingredients = new ArrayList<Ingredient>();
-        String sql = "SELECT recipe.recipe_id, recipe.name AS recipe_name, recipe.category AS recipe_category, difficulty_level, prep_time_min, " +
-                "cook_time_min, serving_size, instructions, date_created, ingredient.name AS ingredient_name, quantity, unit_measurement " +
+        String sql = "SELECT recipe.recipe_id, ingredient.ingredient_id AS ingredient_id, ingredient.name AS ingredient_name, ingredient.category AS ingredient_category, quantity, unit_measurement " +
                 "FROM recipe " +
                 "JOIN recipe_ingredient ON recipe_ingredient.recipe_id = recipe.recipe_id " +
                 "JOIN ingredient ON recipe_ingredient.ingredient_id = ingredient.ingredient_id " +
@@ -56,8 +55,8 @@ public class JdbcIngredientDAO implements IngredientDAO {
     private Ingredient mapIngredient(SqlRowSet row) {
         Ingredient ingredient = new Ingredient();
         ingredient.setIngredientId(row.getLong("ingredient_id"));
-        ingredient.setName(row.getString("name"));
-        ingredient.setCategory(row.getString("category"));
+        ingredient.setName(row.getString("ingredient_name"));
+        ingredient.setCategory(row.getString("ingredient_category"));
         ingredient.setQuantity(row.getDouble("quantity"));
         ingredient.setUnitMeasurement(row.getString("unit_measurement"));
 
