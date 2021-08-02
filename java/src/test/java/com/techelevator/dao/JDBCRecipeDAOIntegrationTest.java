@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
@@ -41,6 +42,17 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         Assert.assertEquals(originalList.size() + 1, recipeFromDataBase.size());
     }
 
+    @Test
+    public void retrieve_recipe_by_id() {
+        Recipe recipeOne = getRecipe(-1L);
+        recipeDAO.addRecipe(recipeOne);
+
+        //Test
+        Recipe testRecipe = recipeDAO.getRecipeById(recipeOne.getRecipeId());
+        //Assert
+        Assert.assertEquals(recipeOne, testRecipe);
+    }
+
     private void createNewTestRecipe(Recipe recipe) {
         String sql = "INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                 "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
@@ -65,6 +77,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         recipe.setInstructions("testInstructions");
         recipe.setDateCreated(LocalDate.of(2021, 8, 2));
         recipe.setImageFileName("testImage.jpg");
+        recipe.setIngredientList(new ArrayList<>());
         return recipe;
     }
 }
