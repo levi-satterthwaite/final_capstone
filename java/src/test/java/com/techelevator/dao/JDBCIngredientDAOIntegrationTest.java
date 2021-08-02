@@ -2,13 +2,14 @@ package com.techelevator.dao;
 
 import com.techelevator.recipes.dao.IngredientDAO;
 import com.techelevator.recipes.dao.JdbcIngredientDAO;
-import com.techelevator.recipes.dao.JdbcRecipeDAO;
-import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.model.Ingredient;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
 
@@ -43,10 +44,16 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
 
     @Test
     public void retrieve_ingredients_by_name() {
-        
+        Ingredient ingredientOne = getByName("testName");
+        Ingredient ingredientTwo = getByName("testName2");
+        ingredientDAO.addIngredient(ingredientOne);
+        ingredientDAO.addIngredient(ingredientTwo);
+
+        List<Ingredient> testIngredientList = ingredientDAO.getIngredientsByName("testName");
+        Assert.assertTrue(testIngredientList.size() > 0);
+
     }
-
-
+    
     private Ingredient getIngredient(Long ingredientId) {
         Ingredient ingredient = new Ingredient();
         ingredient.setIngredientId(ingredientId);
@@ -55,5 +62,14 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
         return ingredient;
 
     }
+
+    private Ingredient getByName(String name) {
+        Ingredient ingredient = new Ingredient();
+        ingredient.setIngredientId(-1L);
+        ingredient.setName(name);
+        ingredient.setCategory("testCategory");
+        return ingredient;
+    }
+
 
 }
