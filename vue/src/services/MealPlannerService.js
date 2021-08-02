@@ -28,6 +28,10 @@ export default {
                 'Content-Type': 'multipart/form-data'
             }
         });
+    },
+    
+    getIngredients(name) {
+        return http.get(`/ingredients?name=${name}}`)
     }
 
 }
