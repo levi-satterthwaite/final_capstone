@@ -3,6 +3,7 @@ package com.techelevator.recipes.model;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Recipe {
 
@@ -115,4 +116,16 @@ public class Recipe {
         this.ingredientList.add(ingredient);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return prepTimeMin == recipe.prepTimeMin && cookTimeMin == recipe.cookTimeMin && servingSize == recipe.servingSize && Objects.equals(recipeId, recipe.recipeId) && Objects.equals(name, recipe.name) && Objects.equals(category, recipe.category) && Objects.equals(difficultyLevel, recipe.difficultyLevel) && Objects.equals(instructions, recipe.instructions) && Objects.equals(dateCreated, recipe.dateCreated) && Objects.equals(imageFileName, recipe.imageFileName) && Objects.equals(ingredientList, recipe.ingredientList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recipeId, name, category, difficultyLevel, prepTimeMin, cookTimeMin, servingSize, instructions, dateCreated, imageFileName, ingredientList);
+    }
 }
