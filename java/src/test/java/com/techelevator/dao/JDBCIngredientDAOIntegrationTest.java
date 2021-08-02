@@ -30,9 +30,22 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
         Assert.assertTrue(newIngredient.getIngredientId() > 0);
         Ingredient expectedIngredient = ingredientDAO.getIngredientById(newIngredient.getIngredientId());
         Assert.assertEquals(newIngredient, expectedIngredient);
-
-
     }
+
+    @Test
+    public void retrieve_ingredient_by_id() {
+    Ingredient ingredientOne = getIngredient(-1L);
+    ingredientDAO.addIngredient(ingredientOne);
+
+    Ingredient testIngredient = ingredientDAO.getIngredientById(ingredientOne.getIngredientId());
+    Assert.assertEquals(ingredientOne, testIngredient);
+    }
+
+    @Test
+    public void retrieve_ingredients_by_name() {
+        
+    }
+
 
     private Ingredient getIngredient(Long ingredientId) {
         Ingredient ingredient = new Ingredient();
