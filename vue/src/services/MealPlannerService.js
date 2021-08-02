@@ -12,6 +12,22 @@ export default {
 
     getRecipeById(id) {
         return http.get(`/recipes/${id}`);
+    },
+
+    addRecipe(recipe) {
+        return http.post('/recipes', recipe);
+    },
+
+    addImage(file) {
+        const formData = new FormData();
+        // attaching a file to our request by the key 'file'
+        // see Postman for example
+        formData.append('file', file);
+        return http.post('/files', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
     }
 
 }
