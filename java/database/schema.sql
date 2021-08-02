@@ -34,7 +34,8 @@ CREATE TABLE recipe (
         cook_time_min int not null,
         serving_size int not null,
         instructions text not null,
-        date_created date not null
+        date_created date not null,
+        image_file_name text
 );
 
 CREATE TABLE ingredient (
@@ -59,14 +60,14 @@ INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Unsalte
 INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Mayonnaise', 'Condiment');
 INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Cheddar Cheese', 'Dairy');
 
-INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, serving_size, instructions, date_created) 
+INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, serving_size, instructions, date_created, image_file_name) 
 VALUES (DEFAULT, 'Grilled Cheese', 'Comfort Food', 'Easy', 5, 7, 1, 'On a cutting board, butter each piece of bread with butter on one side. 
 Flip the bread over and spread each piece of bread with mayonnaise. 
 Place the cheese on the buttered side of one piece of bread. Top it with the second piece of bread, mayonnaise side out. 
 Heat a nonstick pan over medium low heat. 
 Place the sandwich on the pan, mayonnaise side down. 
 Cook for 3-4 minutes, until golden brown. 
-Using a spatula, flip the sandwich over and continue cooking until golden brown, about 2-3 minutes.', '2021-07-31');
+Using a spatula, flip the sandwich over and continue cooking until golden brown, about 2-3 minutes.', '2021-07-31', 'grilled_cheese.jpg');
 
 INSERT INTO recipe_ingredient (recipe_id, ingredient_id, quantity, unit_measurement) VALUES (1, 1, 2, 'Slices');
 INSERT INTO recipe_ingredient (recipe_id, ingredient_id, quantity, unit_measurement) VALUES (1, 2, 1.5, 'Tablespoons');
