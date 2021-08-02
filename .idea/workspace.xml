@@ -34,7 +34,7 @@
       <recent name="C:\Users\Student\source\repos\team-delta-java-blue-final-capstone\upload-dir" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.JDBCRecipeDAOIntegrationTest.retrieve_recipe_by_id">
+  <component name="RunManager" selected="JUnit.JDBCIngredientDAOIntegrationTest.create_ingredient">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.techelevator.Application" />
       <module name="final-capstone-starter" />
@@ -52,6 +52,22 @@
       <module name="final-capstone-starter" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JDBCIngredientDAOIntegrationTest.create_ingredient" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="final-capstone-starter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JDBCIngredientDAOIntegrationTest" />
+      <option name="METHOD_NAME" value="create_ingredient" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -90,7 +106,11 @@
     </configuration>
     <recent_temporary>
       <list>
+<<<<<<< HEAD
         <item itemvalue="JUnit.JDBCRecipeDAOIntegrationTest.retrieve_recipe_by_id" />
+=======
+        <item itemvalue="JUnit.JDBCIngredientDAOIntegrationTest.create_ingredient" />
+>>>>>>> 977563b386bf184c3217cf8e58327e231731b0b6
         <item itemvalue="JUnit.JDBCRecipeDAOIntegrationTest.retrieve_all_recipes" />
         <item itemvalue="JUnit.All in final-capstone-starter" />
         <item itemvalue="Application.Application" />

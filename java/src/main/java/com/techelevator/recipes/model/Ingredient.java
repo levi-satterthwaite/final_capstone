@@ -1,5 +1,7 @@
 package com.techelevator.recipes.model;
 
+import java.util.Objects;
+
 public class Ingredient {
 
     private Long ingredientId;
@@ -49,5 +51,18 @@ public class Ingredient {
 
     public void setUnitMeasurement(String unitMeasurement) {
         this.unitMeasurement = unitMeasurement;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return Double.compare(that.quantity, quantity) == 0 && Objects.equals(ingredientId, that.ingredientId) && Objects.equals(name, that.name) && Objects.equals(category, that.category) && Objects.equals(unitMeasurement, that.unitMeasurement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ingredientId, name, category, quantity, unitMeasurement);
     }
 }
