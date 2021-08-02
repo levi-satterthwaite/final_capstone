@@ -31,7 +31,7 @@
           </div>
           <div>
               <label for="image">Image:</label>
-              <input type="file" id="image" v-on:change="onFileChange"/>
+              <input type="file" id="image" v-on:change="onFileChange" required/>
           </div>
           <div class="image-preview" v-if="image">
               <img v-bind:src="image">

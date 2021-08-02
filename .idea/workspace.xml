@@ -29,7 +29,12 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Student\source\repos\team-delta-java-blue-final-capstone\upload-dir" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.JDBCRecipeDAOIntegrationTest.retrieve_all_recipes">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.techelevator.Application" />
       <module name="final-capstone-starter" />
@@ -43,8 +48,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="All in final-capstone-starter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="final-capstone-starter" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JDBCRecipeDAOIntegrationTest.retrieve_all_recipes" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="final-capstone-starter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JDBCRecipeDAOIntegrationTest" />
+      <option name="METHOD_NAME" value="retrieve_all_recipes" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.JDBCRecipeDAOIntegrationTest.retrieve_all_recipes" />
+        <item itemvalue="JUnit.All in final-capstone-starter" />
         <item itemvalue="Application.Application" />
       </list>
     </recent_temporary>
