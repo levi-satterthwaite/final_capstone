@@ -53,6 +53,33 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         Assert.assertEquals(recipeOne, testRecipe);
     }
 
+    @Test
+    public void add_recipe() {
+        Recipe newRecipe = getRecipe(-1L);
+
+        recipeDAO.addRecipe(newRecipe);
+
+        Assert.assertTrue(newRecipe.getRecipeId() > 0);
+        Recipe expectedRecipe = recipeDAO.getRecipeById(newRecipe.getRecipeId());
+        Assert.assertEquals(newRecipe, expectedRecipe);
+    }
+
+    @Test
+    public void add_ingredients_to_recipe() {
+        Recipe recipeOne = getRecipe(-1L);
+        recipeDAO.addRecipe(recipeOne);
+        Ingredient ingredientOne = getIngredient(-1L);
+        ingredientOne.setUnitMeasurement("unitMeasurement");
+        ingredientOne.setQuantity(1.5);
+        ingredientDAO.addIngredient(ingredientOne);
+        List<Ingredient> ingredients = new ArrayList<Ingredient>();
+        ingredients.add(ingredientOne);
+
+        Recipe testRecipe = recipeDAO.addIngredientsToRecipe(recipeOne, ingredients);
+        Assert.assertTrue(testRecipe.getIngredientList().size() > 0);
+        Assert.assertEquals(testRecipe.getIngredientList().get(0), ingredientOne);
+    }
+
     private void createNewTestRecipe(Recipe recipe) {
         String sql = "INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                 "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
@@ -79,5 +106,13 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         recipe.setImageFileName("testImage.jpg");
         recipe.setIngredientList(new ArrayList<>());
         return recipe;
+    }
+
+    private Ingredient getIngredient(Long ingredientId) {
+        Ingredient ingredient = new Ingredient();
+        ingredient.setIngredientId(ingredientId);
+        ingredient.setName("testName");
+        ingredient.setCategory("testCategory");
+        return ingredient;
     }
 }
