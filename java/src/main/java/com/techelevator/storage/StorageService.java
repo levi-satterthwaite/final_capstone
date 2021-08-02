@@ -10,7 +10,7 @@ public interface StorageService {
     // Initialization method
     void init();
     // Method to store files
-    void store(MultipartFile file);
+    String store(MultipartFile file);
     // Method to load all paths
     Stream<Path> loadAll();
     // Method to load single path

@@ -51,8 +51,7 @@ public class FileUploadController {
     @PostMapping("/files")
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
         // taking uploaded file and storing it in the storage service
-        storageService.store(file);
-        return "You successfully uploaded " + file.getOriginalFilename() + "!";
+        return storageService.store(file);
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

@@ -12,7 +12,9 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
+
 
 @Service // Annotation needed for Service classes on the server side to allow the class to be autowired into Spring
 public class FileSystemStorageService implements StorageService {
@@ -25,17 +27,30 @@ public class FileSystemStorageService implements StorageService {
         this.rootLocation = Paths.get(properties.getLocation());
     }
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
+        String outputFileName = "";
         try {
             // If user tries to upload an empty file throw an exception
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
+            // if user tries to upload file with an existing file name, we will
+            // generate a new file name by appending a random number to it
+            String[] fileNameParts = file.getOriginalFilename().split("\\.");
+            int randomNumber = ThreadLocalRandom.current().nextInt();
+            if(randomNumber < 0) {
+                randomNumber *= -1;
+            }
+            for(int i = 0; i <= fileNameParts.length - 2; i++) {
+                outputFileName += fileNameParts[i] + ".";
+            }
+            outputFileName += randomNumber + "." + fileNameParts[fileNameParts.length - 1];
             // Takes file from request and saves to the upload directory
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(outputFileName));
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
         }
+        return outputFileName;
     }
 
     @Override
