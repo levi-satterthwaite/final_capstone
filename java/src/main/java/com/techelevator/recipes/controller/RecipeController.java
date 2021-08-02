@@ -1,9 +1,11 @@
 package com.techelevator.recipes.controller;
 
 import com.techelevator.recipes.dao.RecipeDAO;
+import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +31,12 @@ public class RecipeController {
     public Recipe addRecipe(@RequestBody Recipe recipe) {
         recipe.setDateCreated(LocalDate.now());
         return recipeDAO.addRecipe(recipe);
+    }
+    @RequestMapping(path = "/recipes/{id}/ingredients", method = RequestMethod.POST)
+    public Recipe addIngredients(@PathVariable(name = "id") Long recipeId, @RequestBody List<Ingredient> ingredients) {
+        Recipe recipe = recipeDAO.getRecipeById(recipeId);
+        recipeDAO.addIngredientsToRecipe(recipe, ingredients);
+        return recipe;
     }
 
 }

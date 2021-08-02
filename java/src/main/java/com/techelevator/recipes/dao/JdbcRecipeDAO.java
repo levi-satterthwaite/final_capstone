@@ -67,6 +67,18 @@ public class JdbcRecipeDAO implements RecipeDAO {
         return recipe;
     }
 
+    @Override
+    public Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) {
+        for(Ingredient ingredient : ingredients) {
+            String sql = "INSERT INTO recipe_ingredient (recipe_id, ingredient_id, quantity, "
+                    + "unit_measurement) VALUES (?, ?, ?, ?) RETURNING recipe_id";
+            SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, recipe.getRecipeId(), ingredient.getIngredientId(),
+                    ingredient.getQuantity(), ingredient.getUnitMeasurement());
+            rows.next();
+        }
+        return getRecipeById(recipe.getRecipeId());
+    }
+
     private Recipe mapRecipe(SqlRowSet row) {
         Recipe recipe = new Recipe();
 

@@ -8,7 +8,7 @@ public interface IngredientDAO {
 
     Ingredient addIngredient(Ingredient ingredient);
     Ingredient getIngredientById(Long ingredientId);
-    Ingredient getIngredientByName(String name);
+    List<Ingredient> getIngredientsByName(String name);
     List<Ingredient> getIngredientsByRecipeId(Long recipeId);
 
 }

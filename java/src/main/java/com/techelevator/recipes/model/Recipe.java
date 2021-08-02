@@ -111,5 +111,8 @@ public class Recipe {
         this.ingredientList = ingredientList;
     }
 
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredientList.add(ingredient);
+    }
 
 }
