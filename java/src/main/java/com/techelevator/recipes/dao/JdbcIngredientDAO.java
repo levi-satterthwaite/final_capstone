@@ -22,7 +22,7 @@ public class JdbcIngredientDAO implements IngredientDAO {
     public Ingredient addIngredient(Ingredient ingredient) {
         String sql = "INSERT INTO ingredient (ingredient_id, name, category) "
                 + "VALUES (DEFAULT, ?, ?) RETURNING ingredient_id";
-        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, ingredient.getIngredientId(), ingredient.getName(), ingredient.getCategory());
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, ingredient.getName(), ingredient.getCategory());
         rows.next();
         ingredient.setIngredientId(rows.getLong("ingredient_id"));
         return ingredient;

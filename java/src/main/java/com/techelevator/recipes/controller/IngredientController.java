@@ -16,7 +16,7 @@ public class IngredientController {
         this.ingredientDAO = ingredientDAO;
     }
 
-    @RequestMapping(path = "/ingredient", method = RequestMethod.POST)
+    @RequestMapping(path = "/ingredients", method = RequestMethod.POST)
     public Ingredient add(@RequestBody Ingredient ingredient) {
         return ingredientDAO.addIngredient(ingredient);
     }
