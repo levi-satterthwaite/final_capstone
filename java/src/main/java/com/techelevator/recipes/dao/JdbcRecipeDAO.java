@@ -59,7 +59,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
                 "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                 "RETURNING recipe_id";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(
-                sql, recipe.getRecipeId(), recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
+                sql, recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
                 recipe.getPrepTimeMin(), recipe.getCookTimeMin(), recipe.getServingSize(), recipe.getInstructions(),
                 recipe.getDateCreated(), recipe.getImageFileName());
         rows.next();
@@ -78,7 +78,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
         recipe.setCookTimeMin(row.getInt("cook_time_min"));
         recipe.setServingSize(row.getInt("serving_size"));
         recipe.setInstructions(row.getString("instructions"));
-        recipe.setDateCreated(row.getDate("date_created"));
+        recipe.setDateCreated(row.getDate("date_created").toLocalDate());
         recipe.setImageFileName(row.getString("image_file_name"));
 
         return recipe;

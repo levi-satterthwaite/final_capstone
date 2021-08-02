@@ -1,5 +1,6 @@
 package com.techelevator.recipes.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class Recipe {
     private int cookTimeMin;
     private int servingSize;
     private String instructions;
-    private Date dateCreated;
+    private LocalDate dateCreated;
     private String imageFileName;
     private List<Ingredient> ingredientList;
 
@@ -86,11 +87,11 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public Date getDateCreated() {
+    public LocalDate getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
 

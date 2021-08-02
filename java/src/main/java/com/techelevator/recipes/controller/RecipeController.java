@@ -4,6 +4,8 @@ import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin
@@ -25,6 +27,7 @@ public class RecipeController {
     }
     @RequestMapping(path = "/recipes", method = RequestMethod.POST)
     public Recipe addRecipe(@RequestBody Recipe recipe) {
+        recipe.setDateCreated(LocalDate.now());
         return recipeDAO.addRecipe(recipe);
     }
 
