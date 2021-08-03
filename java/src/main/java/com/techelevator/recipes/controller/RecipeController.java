@@ -35,8 +35,7 @@ public class RecipeController {
     @RequestMapping(path = "/recipes/{id}/ingredients", method = RequestMethod.POST)
     public Recipe addIngredients(@PathVariable(name = "id") Long recipeId, @RequestBody List<Ingredient> ingredients) {
         Recipe recipe = recipeDAO.getRecipeById(recipeId);
-        recipeDAO.addIngredientsToRecipe(recipe, ingredients);
-        return recipe;
+        return recipeDAO.addIngredientsToRecipe(recipe, ingredients);
     }
 
 }
