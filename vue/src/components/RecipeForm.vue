@@ -178,6 +178,14 @@ export default {
       const submitData = {
         recipe: this.recipe,
         file: this.file,
+        // we need to parse the quantity from a string to a number so using
+        // map to transform each ingredient's quantity from a string to a number
+        ingredients: this.ingredients.map(ingredient => {
+          return {
+            ...ingredient,
+            quantity: parseFloat(ingredient.quantity)
+          }
+        })
       };
       this.$emit("submit", submitData);
     },
