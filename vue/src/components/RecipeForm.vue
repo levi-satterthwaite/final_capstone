@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe-form">
+  <div class="recipe-form card">
     <form v-on:submit.prevent="submitRecipe">
       <fieldset class="recipe-details">
         <legend>Recipe Details</legend>
@@ -310,4 +310,19 @@ export default {
 div.image-preview img {
   max-width: 200px;
 }
+div.recipe-form {
+  padding: 30px;
+  width: 50%;
+}
+div.recipe-form fieldset {
+  margin: 10px;
+  margin-bottom: 20px;
+}
+
+div.field {
+  margin: 10px;
+}
+/* div.form-controls {
+
+} */
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="add-recipe">
       <h1>Add Recipe</h1>
       <recipe-form v-on:submit="handleRecipeFormSubmit" />
   </div>
@@ -49,5 +49,10 @@ export default {
 </script>
 
 <style>
-
+div.add-recipe {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+}
 </style>

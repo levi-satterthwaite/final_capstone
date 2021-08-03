@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe-card">
+  <div class="recipe-card card">
       <div class="shadow"></div>
       <div class="image-wrapper">
           <img v-bind:src="'/files/'+ recipe.imageFileName" v-bind:alt="recipe.name" >
