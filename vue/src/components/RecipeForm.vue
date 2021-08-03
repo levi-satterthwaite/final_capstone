@@ -82,6 +82,7 @@
                 type="number"
                 v-bind:id="ingredient.id + '-quantity'"
                 v-model="ingredient.quantity"
+                required
               />
             </div>
             <div class="field">
@@ -92,6 +93,7 @@
                 type="text"
                 v-bind:id="ingredient.id + '-unit-measurement'"
                 v-model="ingredient.unitMeasurement"
+                required
               />
             </div>
             <div class="form-controls">
@@ -140,6 +142,7 @@
               type="text"
               id="newIngredientCategory"
               v-model="newIngredient.category"
+              required
             />
           </div>
           <div class="form-controls">
