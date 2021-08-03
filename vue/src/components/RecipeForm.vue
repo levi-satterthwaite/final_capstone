@@ -1,72 +1,82 @@
 <template>
-  <div>
+  <div class="recipe-form">
     <form v-on:submit.prevent="submitRecipe">
-      <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" v-model="recipe.name" required />
-      </div>
-      <div>
-        <label for="category">Category:</label>
-        <input type="text" id="category" v-model="recipe.category" required />
-      </div>
-      <div>
-        <label for="difficultyLevel">Difficulty Level:</label>
-        <input
-          type="text"
-          id="difficultyLevel"
-          v-model="recipe.difficultyLevel"
-          required
-        />
-      </div>
-      <div>
-        <label for="prepTimeMin">Total Prep Time:</label>
-        <input
-          type="number"
-          id="prepTimeMin"
-          v-model="recipe.prepTimeMin"
-          required
-        />
-      </div>
-      <div>
-        <label for="cookTimeMin">Total Cook Time:</label>
-        <input
-          type="number"
-          id="cookTimeMin"
-          v-model="recipe.cookTimeMin"
-          required
-        />
-      </div>
-      <div>
-        <label for="servingSize">Serving Size:</label>
-        <input
-          type="number"
-          id="servingSize"
-          v-model="recipe.servingSize"
-          required
-        />
-      </div>
-      <div>
-        <label for="instructions">Instructions:</label>
-        <input
-          type="text"
-          id="instructions"
-          v-model="recipe.instructions"
-          required
-        />
-      </div>
-      <div>
-        <div>Recipe Ingredients</div>
-        <ul>
-          <li v-if="!hasIngredients">Add some ingredients!</li>
+      <fieldset class="recipe-details">
+        <legend>Recipe Details</legend>
+        <div class="field">
+          <label for="name">Name:</label>
+          <input type="text" id="name" v-model="recipe.name" required />
+        </div>
+        <div class="field">
+          <label for="category">Category:</label>
+          <input type="text" id="category" v-model="recipe.category" required />
+        </div>
+        <div class="field">
+          <label for="difficultyLevel">Difficulty Level:</label>
+          <input
+            type="text"
+            id="difficultyLevel"
+            v-model="recipe.difficultyLevel"
+            required
+          />
+        </div>
+        <div class="field">
+          <label for="prepTimeMin">Total Prep Time:</label>
+          <input
+            type="number"
+            id="prepTimeMin"
+            v-model="recipe.prepTimeMin"
+            required
+          />
+        </div>
+        <div class="field">
+          <label for="cookTimeMin">Total Cook Time:</label>
+          <input
+            type="number"
+            id="cookTimeMin"
+            v-model="recipe.cookTimeMin"
+            required
+          />
+        </div>
+        <div class="field">
+          <label for="servingSize">Serving Size:</label>
+          <input
+            type="number"
+            id="servingSize"
+            v-model="recipe.servingSize"
+            required
+          />
+        </div>
+        <div class="field">
+          <label for="instructions">Instructions:</label>
+          <input
+            type="text"
+            id="instructions"
+            v-model="recipe.instructions"
+            required
+          />
+        </div>
+      </fieldset>
+      <fieldset class="recipe-ingredients">
+        <legend>Recipe Ingredients</legend>
+        <ul class="ingredients">
+          <li class="ingredient ingredient-empty" v-if="!hasIngredients">
+            Add some ingredients!
+          </li>
           <li
+            class="ingredient"
             v-else
             v-for="ingredient in ingredients"
             v-bind:key="ingredient.id"
             v-bind:ingredients="ingredients"
           >
-            <div>{{ ingredient.name }}</div>
-            <div>{{ ingredient.category }}</div>
-            <div>
+            <div class="field">
+              <span class="ingredient-name">{{ ingredient.name }}</span>
+            </div>
+            <div class="field">
+              <span class="ingredient-category">{{ ingredient.category }}</span>
+            </div>
+            <div class="field">
               <label v-bind:for="ingredient.id + '-quantity'">Quantity:</label>
               <input
                 type="number"
@@ -74,7 +84,7 @@
                 v-model="ingredient.quantity"
               />
             </div>
-            <div>
+            <div class="field">
               <label v-bind:for="ingredient.id + '-unit-measurement'">
                 Unit of Measurement:</label
               >
@@ -84,14 +94,14 @@
                 v-model="ingredient.unitMeasurement"
               />
             </div>
-            <div>
+            <div class="form-controls">
               <button v-on:click.prevent="removeIngredient(ingredient)">
                 Remove
               </button>
             </div>
           </li>
         </ul>
-        <div>
+        <div class="form-controls">
           <button
             v-show="!isAddIngredientOpen"
             v-on:click.prevent="openIngredientSearch"
@@ -99,50 +109,58 @@
             Add Ingredient
           </button>
         </div>
-      </div>
-      <div v-if="isAddIngredientOpen && !isAddNewIngredientOpen">
-        <label for="searchIngredient">Search Ingredients:</label>
-        <search-autocomplete
-          id="searchIngredient"
-          v-bind:search-value="searchTerm"
-          v-bind:get-data="getIngredients"
-          v-on:result="addIngredient"
-          v-on:change="setSearchTerm"
-          v-on:add="openAddNewIngredient"
-        />
-        <button v-on:click.prevent="closeIngredientSearch">Cancel</button>
-      </div>
-      <div v-show="isAddNewIngredientOpen">
-        <div>Add New Ingredient</div>
-        <div>
-          <label for="newIngredientName">Ingredient Name:</label>
-          <input
-            type="text"
-            id="newIngredientName"
-            v-model="newIngredient.name"
+        <div
+          class="field"
+          v-if="isAddIngredientOpen && !isAddNewIngredientOpen"
+        >
+          <label for="searchIngredient">Search Ingredients:</label>
+          <search-autocomplete
+            id="searchIngredient"
+            v-bind:search-value="searchTerm"
+            v-bind:get-data="getIngredients"
+            v-on:result="addIngredient"
+            v-on:change="setSearchTerm"
+            v-on:add="openAddNewIngredient"
           />
+          <button v-on:click.prevent="closeIngredientSearch">Cancel</button>
         </div>
-        <div>
-          <label for="newIngredientName">Ingredient Category:</label>
-          <input
-            type="text"
-            id="newIngredientCategory"
-            v-model="newIngredient.category"
-          />
+        <div class="add-new-ingredient" v-show="isAddNewIngredientOpen">
+          <div>Add New Ingredient</div>
+          <div class="field">
+            <label for="newIngredientName">Ingredient Name:</label>
+            <input
+              type="text"
+              id="newIngredientName"
+              v-model="newIngredient.name"
+            />
+          </div>
+          <div class="field">
+            <label for="newIngredientName">Ingredient Category:</label>
+            <input
+              type="text"
+              id="newIngredientCategory"
+              v-model="newIngredient.category"
+            />
+          </div>
+          <div class="form-controls">
+            <button v-on:click.prevent="saveNewIngredient">Save</button>
+            <button v-on:click.prevent="closeAddNewIngredient">Cancel</button>
+          </div>
         </div>
-        <div>
-          <button v-on:click.prevent="saveNewIngredient">Save</button>
-          <button v-on:click.prevent="closeAddNewIngredient">Cancel</button>
+      </fieldset>
+      <fieldset class="recipe-image">
+        <legend>Recipe Image</legend>
+        <div class="field">
+          <label for="image">Image:</label>
+          <input type="file" id="image" v-on:change="onFileChange" required />
         </div>
+        <div class="image-preview" v-if="image">
+          <img v-bind:src="image" />
+        </div>
+      </fieldset>
+      <div class="form-controls">
+        <button type="submit">Submit</button>
       </div>
-      <div>
-        <label for="image">Image:</label>
-        <input type="file" id="image" v-on:change="onFileChange" required />
-      </div>
-      <div class="image-preview" v-if="image">
-        <img v-bind:src="image" />
-      </div>
-      <button type="submit">Submit</button>
     </form>
   </div>
 </template>
@@ -178,12 +196,12 @@ export default {
         file: this.file,
         // we need to parse the quantity from a string to a number so using
         // map to transform each ingredient's quantity from a string to a number
-        ingredients: this.ingredients.map(ingredient => {
+        ingredients: this.ingredients.map((ingredient) => {
           return {
             ...ingredient,
-            quantity: parseFloat(ingredient.quantity)
-          }
-        })
+            quantity: parseFloat(ingredient.quantity),
+          };
+        }),
       };
       this.$emit("submit", submitData);
     },
@@ -205,7 +223,7 @@ export default {
     },
     createImage(file) {
       const reader = new FileReader();
-      // .onload is a function of the FileReader instance 
+      // .onload is a function of the FileReader instance
       // once the reader has finished loading, store the image data into
       // the property image
       reader.onload = (event) => {
@@ -219,12 +237,12 @@ export default {
     async getIngredients() {
       // await returns the value resolved by the promise (similar to .then())
       const response = await mealPlannerService.getIngredients();
-      // this line of code does not occur until the above promise is resolved or rejected 
+      // this line of code does not occur until the above promise is resolved or rejected
       // need to wrap all awaits around try / catches 1
       return response.data;
     },
     addIngredient(ingredient) {
-      // we want to create a new Array with the existing ingredients and the ingredient to add 
+      // we want to create a new Array with the existing ingredients and the ingredient to add
       this.ingredients = [...this.ingredients, ingredient];
       // after the ingredient is added, we close the add ingredient form
       this.closeIngredientSearch();
@@ -238,7 +256,7 @@ export default {
     openAddNewIngredient() {
       this.isAddNewIngredientOpen = true;
       // if the user searches for an ingredient that does not exist, they can clicks
-      // the add new ingredient button to add the ingredient and populates the new 
+      // the add new ingredient button to add the ingredient and populates the new
       // ingredient's name with the search term
       this.newIngredient.name = this.searchTerm;
     },
@@ -253,7 +271,7 @@ export default {
         const response = await mealPlannerService.addIngredient(
           this.newIngredient
         );
-        // the response contains the ingredient that was added to the database 
+        // the response contains the ingredient that was added to the database
         const ingredient = response.data;
         // this addIngredient() stores the ingredient into the form
         this.addIngredient(ingredient);
@@ -265,13 +283,13 @@ export default {
     },
     setSearchTerm(searchTerm) {
       // setting the search term so when the user clicks add new ingredient, the
-      // input for ingredient.name will be populated with their search term 
+      // input for ingredient.name will be populated with their search term
       this.searchTerm = searchTerm;
     },
     removeIngredient(ingredient) {
       // the candidate represents every ingredient in the list
       // this filter will filter out the candidate that matches the passed
-      // in ingredient 
+      // in ingredient
       this.ingredients = this.ingredients.filter((candidate) => {
         return candidate.ingredientId !== ingredient.ingredientId;
       });
