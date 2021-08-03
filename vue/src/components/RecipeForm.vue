@@ -108,11 +108,9 @@
           v-bind:get-data="getIngredients"
           v-on:result="addIngredient"
           v-on:change="setSearchTerm"
+          v-on:add="openAddNewIngredient"
         />
         <button v-on:click.prevent="closeIngredientSearch">Cancel</button>
-        <button v-on:click.prevent="openAddNewIngredient">
-          Add New Igredient
-        </button>
       </div>
       <div v-show="isAddNewIngredientOpen">
         <div>Add New Ingredient</div>
