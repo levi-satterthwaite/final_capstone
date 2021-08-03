@@ -12,6 +12,7 @@
     />
     <ul class="autocomplete-results" v-show="isOpen">
       <li class="loading" v-if="isLoading">Searching...</li>
+      <li class="notFound" v-if="isNotFound">No results match your search!</li>
       <li
         class="autocomplete-result"
         v-else
@@ -51,6 +52,14 @@ export default {
       isLoaded: false,
       error: null
     };
+  },
+  computed: {
+    isNotFound() {
+      if(!this.isLoading && this.results.length === 0) {
+        return true;
+      }
+      return false;
+    }
   },
   methods: {
     filterResults() {
