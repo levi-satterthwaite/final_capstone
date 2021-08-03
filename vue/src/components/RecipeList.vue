@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="recipe-list">
       <recipe-card v-for="recipe in $store.state.recipes" v-bind:key="recipe.id" v-bind:recipe="recipe" />
   </div>
 </template>
@@ -37,5 +37,8 @@ export default {
 </script>
 
 <style>
-
+div.recipe-list {
+    display:flex;
+    flex-wrap: wrap;
+}
 </style>
