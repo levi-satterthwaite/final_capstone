@@ -40,6 +40,10 @@ export default {
 
     addIngredient(ingredient) {
         return http.post('/ingredients', ingredient);
+    },
+
+    addIngredientsToRecipe(recipe, ingredients) {
+        return http.post(`/recipes/${recipe.recipeId}/ingredients`, ingredients);
     }
 
 }
