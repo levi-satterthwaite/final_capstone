@@ -12,7 +12,12 @@
     />
     <ul class="autocomplete-results" v-show="isOpen">
       <li class="loading" v-if="isLoading">Searching...</li>
-      <li class="notFound" v-if="isNotFound">No results match your search!</li>
+      <li class="notFound" v-if="isNotFound">
+        <span>
+          No results match your search!
+        </span>
+        <button v-on:click.prevent="onClickAdd">Add</button>
+      </li>
       <li
         class="autocomplete-result"
         v-else
@@ -141,6 +146,9 @@ export default {
       this.arrowCounter = -1;
       this.setResult(result);
     },
+    onClickAdd() {
+      this.$emit("add", this.searchTerm);
+    }
   },
   mounted() {
     // document is a global variable that represents/contains all the html element
