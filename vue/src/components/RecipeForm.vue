@@ -64,7 +64,8 @@
             v-bind:key="ingredient.id"
             v-bind:ingredients="ingredients"
           >
-            <span>{{ ingredient.name }}</span>
+            <div>{{ ingredient.name }}</div>
+            <div>{{ ingredient.category }}</div>
             <div>
               <label v-bind:for="ingredient.id + '-quantity'">Quantity:</label>
               <input
@@ -74,11 +75,11 @@
               />
             </div>
             <div>
-              <label v-bind:for="ingredient.id + '-unit-measurement'"
-                >Unit of Measurement:</label
+              <label v-bind:for="ingredient.id + '-unit-measurement'">
+                Unit of Measurement:</label
               >
               <input
-                type="number"
+                type="text"
                 v-bind:id="ingredient.id + '-unit-measurement'"
                 v-model="ingredient.unitMeasurement"
               />
@@ -91,14 +92,17 @@
           </li>
         </ul>
         <div>
-          <button v-on:click.prevent="openIngredientSearch">
+          <button
+            v-show="!isAddIngredientOpen"
+            v-on:click.prevent="openIngredientSearch"
+          >
             Add Ingredient
           </button>
         </div>
       </div>
       <div v-if="isAddIngredientOpen && !isAddNewIngredientOpen">
         <label for="searchIngredient">Search Ingredients:</label>
-        <SearchAutocomplete
+        <search-autocomplete
           id="searchIngredient"
           v-bind:search-value="searchTerm"
           v-bind:get-data="getIngredients"
@@ -170,16 +174,14 @@ export default {
   methods: {
     submitRecipe() {
       // $emit() triggers an event called "submit" and passes in recipe
-      // and image as its arguments
-      console.log(this.file);
+      // and file (image) as its arguments
       const submitData = {
         recipe: this.recipe,
         file: this.file,
       };
-      console.log("submitData", submitData);
       this.$emit("submit", submitData);
     },
-    // whenever we change an input value, this will trigger a change event
+    // whenever we change the file input value, this will trigger a change event
     // and call onFileChange
     onFileChange(event) {
       // .target is the input element (in this case the choose file button)
@@ -197,6 +199,7 @@ export default {
     },
     createImage(file) {
       const reader = new FileReader();
+      // .onload is a function of the FileReader instance 
       // once the reader has finished loading, store the image data into
       // the property image
       reader.onload = (event) => {
@@ -208,12 +211,17 @@ export default {
     // async/await handles the .then(), the .catch(), and the .finally()
     // instead we must use try/catches to handle error
     async getIngredients() {
+      // await returns the value resolved by the promise (similar to .then())
       const response = await mealPlannerService.getIngredients();
+      // this line of code does not occur until the above promise is resolved or rejected 
+      // need to wrap all awaits around try / catches 1
       return response.data;
     },
     addIngredient(ingredient) {
+      // we want to create a new Array with the existing ingredients and the ingredient to add 
       this.ingredients = [...this.ingredients, ingredient];
-      this.isAddIngredientOpen = false;
+      // after the ingredient is added, we close the add ingredient form
+      this.closeIngredientSearch();
     },
     openIngredientSearch() {
       this.isAddIngredientOpen = true;
@@ -223,33 +231,45 @@ export default {
     },
     openAddNewIngredient() {
       this.isAddNewIngredientOpen = true;
+      // if the user searches for an ingredient that does not exist, they can clicks
+      // the add new ingredient button to add the ingredient and populates the new 
+      // ingredient's name with the search term
       this.newIngredient.name = this.searchTerm;
     },
     closeAddNewIngredient() {
+      this.newIngredient = {};
       this.isAddNewIngredientOpen = false;
     },
     async saveNewIngredient() {
       try {
+        // first addIngredient() is the promise that adds the ingredient to the
+        // database
         const response = await mealPlannerService.addIngredient(
           this.newIngredient
         );
+        // the response contains the ingredient that was added to the database 
         const ingredient = response.data;
+        // this addIngredient() stores the ingredient into the form
         this.addIngredient(ingredient);
-        this.newIngredient = {};
-        this.isAddNewIngredientOpen = false;
+        this.closeAddNewIngredient();
       } catch (error) {
         console.error(error);
         this.error = error;
       }
     },
     setSearchTerm(searchTerm) {
+      // setting the search term so when the user clicks add new ingredient, the
+      // input for ingredient.name will be populated with their search term 
       this.searchTerm = searchTerm;
     },
     removeIngredient(ingredient) {
-      this.ingredients = this.ingredients.filter(candidate => {
+      // the candidate represents every ingredient in the list
+      // this filter will filter out the candidate that matches the passed
+      // in ingredient 
+      this.ingredients = this.ingredients.filter((candidate) => {
         return candidate.ingredientId !== ingredient.ingredientId;
       });
-    }
+    },
   },
   computed: {
     hasIngredients() {

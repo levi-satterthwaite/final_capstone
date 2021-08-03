@@ -2,11 +2,12 @@
   <div class="autocomplete">
     <input
       type="text"
+      autocomplete="off"
       v-model="searchTerm"
-      v-on:input.prevent="onChange"
       v-bind:id="id"
-      v-on:keydown.down="onArrowDown"
-      v-on:keydown.up="onArrowUp"
+      v-on:input.prevent="onInput"
+      v-on:keydown.down.prevent="onArrowDown"
+      v-on:keydown.up.prevent="onArrowUp"
       v-on:keydown.enter.prevent="onEnter"
     />
     <ul class="autocomplete-results" v-show="isOpen">
@@ -16,8 +17,8 @@
         v-else
         v-for="(result, i) in results"
         v-bind:key="i"
-        v-on:click.prevent="setResult(result)"
         v-bind:class="{ 'is-active': i === arrowCounter }"
+        v-on:click.prevent="setResult(result)"
       >
         {{ result.name }}
       </li>
@@ -27,7 +28,9 @@
 
 <script>
 export default {
-  name: "SearchAutocomplete",
+  name: "search-autocomplete",
+  // props are the arguments that get passed to the component when the 
+  // component is used in the template 
   props: {
     id: null,
     getData: {
@@ -35,12 +38,14 @@ export default {
       required: true,
     },
   },
+  // data() returns the component's state variables 
   data() {
     return {
       searchTerm: "",
       results: [],
       // toggle for deciding whether we display results on the screen or not
       isOpen: false,
+      // current highlighted result item 
       arrowCounter: -1,
       isLoading: false,
       isLoaded: false,
@@ -55,10 +60,12 @@ export default {
         return item.name.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
       });
     },
-    async onChange() {
+    async onInput() {
+      // triggers a change event that allows parent component(s) to track
+      // the search term
       this.$emit('change', this.searchTerm);
       // if we are already loading data from the getData function
-      // just return we still need to wait for the data
+      // just return, because we still need to wait for the data
       if (this.isLoading) {
         return; // stop the function
       }
@@ -95,6 +102,9 @@ export default {
       this.searchTerm = '';
       this.selectedResult = result;
       this.isOpen = false;
+      // emit (triggers any v-on:result properties set in the template) 
+      // the result so the parent component can do something
+      // with the result the user selected
       this.$emit('result', result);
     },
     handleClickOutside(event) {
@@ -116,16 +126,20 @@ export default {
       }
     },
     onEnter() {
+      // if the user hits enter, grab the result from where the arrowCounter is
+      // currently set
       const result = this.results[this.arrowCounter];
       this.arrowCounter = -1;
       this.setResult(result);
     },
   },
   mounted() {
-    // document is a global variable that represents all the html element
+    // document is a global variable that represents/contains all the html element
+    // when the component gets created we need to add the listener
     document.addEventListener("click", this.handleClickOutside);
   },
   destroyed() {
+    // when the component gets removed, we need to remove the listener
     document.removeEventListener("click", this.handleClickOutside);
   },
 };
