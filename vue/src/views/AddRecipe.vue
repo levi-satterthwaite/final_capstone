@@ -15,14 +15,15 @@ export default {
         RecipeForm
     },
     methods: {
-        // {recipe, file} is destructing the Object submitData 
+        // {recipe, file, ingredients} is destructing the Object submitData 
         // submitData is the value passed into $emit from RecipeForm
-        async handleRecipeFormSubmit({recipe, file}) {
+        async handleRecipeFormSubmit({recipe, file, ingredients}) {
             try {
                 //const {recipe, file} = submitData
                 const outputFileName = await this.addImage(file);
                 recipe.imageFileName = outputFileName;
-                await this.addRecipe(recipe);
+                const savedRecipe = await this.addRecipe(recipe);
+                await this.addRecipeIngredients(savedRecipe, ingredients)
                 this.$router.push({name: "recipes"});
             } catch(e) {
                 console.error(e);
@@ -35,7 +36,13 @@ export default {
         },
         async addRecipe(recipe) {
             console.log(recipe)
-            return await mealPlannerService.addRecipe(recipe);
+            const response = await mealPlannerService.addRecipe(recipe);
+            return response.data;
+        },
+        async addRecipeIngredients(recipe, ingredients) {
+            console.log(recipe, ingredients);
+            const response = await mealPlannerService.addIngredientsToRecipe(recipe, ingredients);
+            return response.data;
         }
     }
 }
