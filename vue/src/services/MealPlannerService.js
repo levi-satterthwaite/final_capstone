@@ -30,8 +30,16 @@ export default {
         });
     },
     
-    getIngredients(name) {
-        return http.get(`/ingredients?name=${name}}`)
+    getIngredients(ingredientName) {
+        let name = '';
+        if(typeof ingredientName === "string") {
+            name = ingredientName;
+        }
+        return http.get(`/ingredients?name=${name}`);
+    },
+
+    addIngredient(ingredient) {
+        return http.post('/ingredients', ingredient);
     }
 
 }
