@@ -27,8 +27,10 @@
             type="number"
             id="prepTimeMin"
             v-model="recipe.prepTimeMin"
+            xmin="0"
             required
           />
+          <div class="error" v-if="errors.prepTimeMin">{{errors.prepTimeMin}}</div>
         </div>
         <div class="field">
           <label for="cookTimeMin">Total Cook Time</label>
@@ -36,8 +38,10 @@
             type="number"
             id="cookTimeMin"
             v-model="recipe.cookTimeMin"
+            min="0"
             required
           />
+          <div class="error" v-if="errors.cookTimeMin">{{errors.cookTimeMin}}</div>
         </div>
         <div class="field">
           <label for="servingSize">Serving Size</label>
@@ -83,6 +87,7 @@
                 type="number"
                 v-bind:id="ingredient.id + '-quantity'"
                 v-model="ingredient.quantity"
+                min="0"
                 required
               />
             </div>
@@ -149,6 +154,9 @@
               required
             />
           </div>
+          <div class="error" v-if="saveNewIngredientError">
+            {{saveNewIngredientError.message}}
+          </div>
           <div class="form-controls">
             <button class="btn btn-sm" v-on:click.prevent="saveNewIngredient">Save</button>
             <button class="btn btn-sm" v-on:click.prevent="closeAddNewIngredient">Cancel</button>
@@ -168,6 +176,7 @@
           <img v-bind:src="image" />
         </div>
       </fieldset>
+      <div class="error" v-if="error">{{error.message}}</div>
       <div class="form-controls align-right">
         <button class="btn" type="submit">Submit</button>
       </div>
@@ -181,9 +190,16 @@ import mealPlannerService from "@/services/MealPlannerService";
 
 export default {
   name: "recipe-form",
+  props: {
+    error: {
+      type: Object,
+      required: false,
+      default: null
+    }
+  },
   data() {
     return {
-      error: null,
+      saveNewIngredientError: null,
       recipe: {},
       image: "",
       file: "",
@@ -192,15 +208,38 @@ export default {
       isAddNewIngredientOpen: false,
       searchTerm: "",
       newIngredient: {},
+      errors: {}
     };
   },
   components: {
     SearchAutocomplete,
   },
+    computed: {
+    hasIngredients() {
+      return this.ingredients.length > 0;
+    },
+    hasErrors() {
+      return Object(this.errors).keys().length > 0;
+    }
+  },
   methods: {
+    validateForm() {
+      const errors = {};
+      if(this.recipe.prepTimeMin < 0) {
+        errors.prepTimeMin = "Cannot be a negative value."
+      }
+      if(this.recipe.cookTimeMin < 0) {
+        errors.cookTimeMin = "Cannot be a negative value."
+      }
+      this.errors = errors;
+    },
     submitRecipe() {
       // $emit() triggers an event called "submit" and passes in recipe
       // and file (image) as its arguments
+      this.validateForm();
+      if(this.hasErrors) {
+        return;
+      }
       const submitData = {
         recipe: this.recipe,
         file: this.file,
@@ -286,9 +325,8 @@ export default {
         // this addIngredient() stores the ingredient into the form
         this.addIngredient(ingredient);
         this.closeAddNewIngredient();
-      } catch (error) {
-        console.error(error);
-        this.error = error;
+      } catch (e) {
+        this.saveNewIngredientError = mealPlannerService.getError(e);
       }
     },
     setSearchTerm(searchTerm) {
@@ -307,12 +345,8 @@ export default {
     chooseImage() {
       document.getElementById("image").click();
     }
-  },
-  computed: {
-    hasIngredients() {
-      return this.ingredients.length > 0;
-    },
-  },
+  }
+
 };
 </script>
 

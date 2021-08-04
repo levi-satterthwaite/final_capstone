@@ -4,6 +4,8 @@ import com.techelevator.recipes.dao.IngredientDAO;
 import com.techelevator.recipes.dao.JdbcIngredientDAO;
 import com.techelevator.recipes.dao.JdbcRecipeDAO;
 import com.techelevator.recipes.dao.RecipeDAO;
+import com.techelevator.recipes.exceptions.IngredientException;
+import com.techelevator.recipes.exceptions.NegativeValueException;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 import org.junit.Assert;
@@ -43,7 +45,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void retrieve_recipe_by_id() {
+    public void retrieve_recipe_by_id() throws NegativeValueException {
         Recipe recipeOne = getRecipe(-1L);
         recipeDAO.addRecipe(recipeOne);
 
@@ -54,7 +56,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void add_recipe() {
+    public void add_recipe() throws NegativeValueException {
         Recipe newRecipe = getRecipe(-1L);
 
         recipeDAO.addRecipe(newRecipe);
@@ -65,7 +67,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void add_ingredients_to_recipe() {
+    public void add_ingredients_to_recipe() throws IngredientException, NegativeValueException {
         Recipe recipeOne = getRecipe(-1L);
         recipeDAO.addRecipe(recipeOne);
         Ingredient ingredientOne = getIngredient(-1L);

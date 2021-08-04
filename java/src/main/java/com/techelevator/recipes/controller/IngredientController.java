@@ -1,6 +1,8 @@
 package com.techelevator.recipes.controller;
 
 import com.techelevator.recipes.dao.IngredientDAO;
+import com.techelevator.recipes.exceptions.IngredientException;
+import com.techelevator.recipes.exceptions.NegativeValueException;
 import com.techelevator.recipes.model.Ingredient;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +19,7 @@ public class IngredientController {
     }
 
     @RequestMapping(path = "/ingredients", method = RequestMethod.POST)
-    public Ingredient add(@RequestBody Ingredient ingredient) {
+    public Ingredient add(@RequestBody Ingredient ingredient) throws IngredientException {
         return ingredientDAO.addIngredient(ingredient);
     }
 

@@ -30,9 +30,9 @@ CREATE TABLE recipe (
         name varchar(255) not null,
         category varchar(255) not null,
         difficulty_level varchar(255) not null,
-        prep_time_min int not null,
-        cook_time_min int not null,
-        serving_size int not null,
+        prep_time_min int not null check (prep_time_min > 0),
+        cook_time_min int not null check (cook_time_min > 0),
+        serving_size int not null check (serving_size > 0),
         instructions text not null,
         date_created date not null,
         image_file_name text
@@ -40,14 +40,14 @@ CREATE TABLE recipe (
 
 CREATE TABLE ingredient (
         ingredient_id serial primary key,
-        name varchar(255) not null,
+        name varchar(255) not null unique,
         category varchar(255) not null
 );
 
 CREATE TABLE recipe_ingredient (
         recipe_id int not null,
         ingredient_id int not null,
-        quantity decimal(5,2) not null,
+        quantity decimal(5,2) not null check (quantity > 0),
         unit_measurement varchar(255) not null,
         
         CONSTRAINT pk_recipe_ingredient primary key(recipe_id, ingredient_id),

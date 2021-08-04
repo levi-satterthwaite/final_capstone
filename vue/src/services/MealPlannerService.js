@@ -29,10 +29,10 @@ export default {
             }
         });
     },
-    
+
     getIngredients(ingredientName) {
         let name = '';
-        if(typeof ingredientName === "string") {
+        if (typeof ingredientName === "string") {
             name = ingredientName;
         }
         return http.get(`/ingredients?name=${name}`);
@@ -44,6 +44,17 @@ export default {
 
     addIngredientsToRecipe(recipe, ingredients) {
         return http.post(`/recipes/${recipe.recipeId}/ingredients`, ingredients);
+    },
+
+    getError(e) {
+        if (!e) {
+            return "Internal error occurred";
+        } else if (e.response && e.response.data) {
+            return e.response.data;
+        } else if (e.request) {
+            return "Server did not respond";
+        } 
+        return e;
     }
 
 }

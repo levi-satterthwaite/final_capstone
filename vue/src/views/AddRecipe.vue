@@ -1,7 +1,7 @@
 <template>
   <div class="add-recipe">
     <h1>Create Recipe</h1>
-    <recipe-form v-on:submit="handleRecipeFormSubmit" />
+    <recipe-form v-on:submit="handleRecipeFormSubmit" v-bind:error="submitRecipeError" />
   </div>
 </template>
 
@@ -11,6 +11,11 @@ import mealPlannerService from "@/services/MealPlannerService";
 
 export default {
   name: "add-recipe",
+  data() {
+    return {
+      submitRecipeError: null
+    }
+  },
   components: {
     RecipeForm,
   },
@@ -26,19 +31,23 @@ export default {
         await this.addRecipeIngredients(savedRecipe, ingredients);
         this.$router.push({ name: "recipes" });
       } catch (e) {
+        this.submitRecipeError = mealPlannerService.getError(e);
         console.error(e);
       }
     },
+    // Error handling is done in handleRecipeFormSubmit
     async addImage(file) {
       console.log(file);
       const response = await mealPlannerService.addImage(file);
       return response.data;
     },
+    // Error handling is done in handleRecipeFormSubmit
     async addRecipe(recipe) {
       console.log(recipe);
       const response = await mealPlannerService.addRecipe(recipe);
       return response.data;
     },
+    // Error handling is done in handleRecipeFormSubmit
     async addRecipeIngredients(recipe, ingredients) {
       console.log(recipe, ingredients);
       const response = await mealPlannerService.addIngredientsToRecipe(
