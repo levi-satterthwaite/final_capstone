@@ -130,7 +130,7 @@
           </div>
           
         </div>
-        <div class="add-new-ingredient" v-show="isAddNewIngredientOpen">
+        <div class="add-new-ingredient" v-if="isAddNewIngredientOpen">
           <div>Add New Ingredient</div>
           <div class="field">
             <label for="newIngredientName">Ingredient Name</label>
@@ -141,7 +141,7 @@
             />
           </div>
           <div class="field">
-            <label for="newIngredientName">Ingredient Category</label>
+            <label for="newIngredientCategory">Ingredient Category</label>
             <input
               type="text"
               id="newIngredientCategory"
