@@ -246,7 +246,7 @@ export default {
       return this.ingredients.length > 0;
     },
     hasErrors() {
-      return Object(this.errors).keys().length > 0;
+      return Object.keys(this.errors).length > 0;
     },
   },
   methods: {
