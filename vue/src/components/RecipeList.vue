@@ -40,5 +40,6 @@ export default {
 div.recipe-list {
     display:flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 </style>

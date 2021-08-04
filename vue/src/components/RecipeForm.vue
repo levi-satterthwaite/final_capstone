@@ -4,15 +4,16 @@
       <fieldset class="recipe-details">
         <legend>Recipe Details</legend>
         <div class="field">
-          <label for="name">Name:</label>
+          <label for="name">Name</label>
           <input type="text" id="name" v-model="recipe.name" required />
+          <!-- title="Name" placeholder="Name" aria-placeholder="Name" -->
         </div>
         <div class="field">
-          <label for="category">Category:</label>
+          <label for="category">Category</label>
           <input type="text" id="category" v-model="recipe.category" required />
         </div>
         <div class="field">
-          <label for="difficultyLevel">Difficulty Level:</label>
+          <label for="difficultyLevel">Difficulty Level</label>
           <input
             type="text"
             id="difficultyLevel"
@@ -21,7 +22,7 @@
           />
         </div>
         <div class="field">
-          <label for="prepTimeMin">Total Prep Time:</label>
+          <label for="prepTimeMin">Total Prep Time</label>
           <input
             type="number"
             id="prepTimeMin"
@@ -30,7 +31,7 @@
           />
         </div>
         <div class="field">
-          <label for="cookTimeMin">Total Cook Time:</label>
+          <label for="cookTimeMin">Total Cook Time</label>
           <input
             type="number"
             id="cookTimeMin"
@@ -39,7 +40,7 @@
           />
         </div>
         <div class="field">
-          <label for="servingSize">Serving Size:</label>
+          <label for="servingSize">Serving Size</label>
           <input
             type="number"
             id="servingSize"
@@ -48,7 +49,7 @@
           />
         </div>
         <div class="field">
-          <label for="instructions">Instructions:</label>
+          <label for="instructions">Instructions</label>
           <input
             type="text"
             id="instructions"
@@ -77,7 +78,7 @@
               <span class="ingredient-category">{{ ingredient.category }}</span>
             </div>
             <div class="field">
-              <label v-bind:for="ingredient.id + '-quantity'">Quantity:</label>
+              <label v-bind:for="ingredient.id + '-quantity'">Quantity</label>
               <input
                 type="number"
                 v-bind:id="ingredient.id + '-quantity'"
@@ -87,7 +88,7 @@
             </div>
             <div class="field">
               <label v-bind:for="ingredient.id + '-unit-measurement'">
-                Unit of Measurement:</label
+                Unit of Measurement</label
               >
               <input
                 type="text"
@@ -96,15 +97,15 @@
                 required
               />
             </div>
-            <div class="form-controls">
-              <button v-on:click.prevent="removeIngredient(ingredient)">
+            <div class="form-controls align-right">
+              <button class="btn btn-sm" v-on:click.prevent="removeIngredient(ingredient)">
                 Remove
               </button>
             </div>
           </li>
         </ul>
         <div class="form-controls">
-          <button
+          <button class="btn btn-sm"
             v-show="!isAddIngredientOpen"
             v-on:click.prevent="openIngredientSearch"
           >
@@ -115,7 +116,7 @@
           class="field"
           v-if="isAddIngredientOpen && !isAddNewIngredientOpen"
         >
-          <label for="searchIngredient">Search Ingredients:</label>
+          <label for="searchIngredient">Search Ingredients</label>
           <search-autocomplete
             id="searchIngredient"
             v-bind:search-value="searchTerm"
@@ -124,12 +125,15 @@
             v-on:change="setSearchTerm"
             v-on:add="openAddNewIngredient"
           />
-          <button v-on:click.prevent="closeIngredientSearch">Cancel</button>
+          <div class="form-controls align-right">
+            <button class="btn btn-sm" v-on:click.prevent="closeIngredientSearch">Cancel</button>
+          </div>
+          
         </div>
         <div class="add-new-ingredient" v-show="isAddNewIngredientOpen">
           <div>Add New Ingredient</div>
           <div class="field">
-            <label for="newIngredientName">Ingredient Name:</label>
+            <label for="newIngredientName">Ingredient Name</label>
             <input
               type="text"
               id="newIngredientName"
@@ -137,7 +141,7 @@
             />
           </div>
           <div class="field">
-            <label for="newIngredientName">Ingredient Category:</label>
+            <label for="newIngredientName">Ingredient Category</label>
             <input
               type="text"
               id="newIngredientCategory"
@@ -146,23 +150,26 @@
             />
           </div>
           <div class="form-controls">
-            <button v-on:click.prevent="saveNewIngredient">Save</button>
-            <button v-on:click.prevent="closeAddNewIngredient">Cancel</button>
+            <button class="btn btn-sm" v-on:click.prevent="saveNewIngredient">Save</button>
+            <button class="btn btn-sm" v-on:click.prevent="closeAddNewIngredient">Cancel</button>
           </div>
         </div>
       </fieldset>
       <fieldset class="recipe-image">
         <legend>Recipe Image</legend>
         <div class="field">
-          <label for="image">Image:</label>
+          <label for="image">Image</label>
           <input type="file" id="image" v-on:change="onFileChange" required />
+        </div>
+        <div class="form-controls">
+          <button v-on:click.prevent="chooseImage" class="btn btn-sm">Choose File</button>
         </div>
         <div class="image-preview" v-if="image">
           <img v-bind:src="image" />
         </div>
       </fieldset>
-      <div class="form-controls">
-        <button type="submit">Submit</button>
+      <div class="form-controls align-right">
+        <button class="btn" type="submit">Submit</button>
       </div>
     </form>
   </div>
@@ -297,6 +304,9 @@ export default {
         return candidate.ingredientId !== ingredient.ingredientId;
       });
     },
+    chooseImage() {
+      document.getElementById("image").click();
+    }
   },
   computed: {
     hasIngredients() {
@@ -307,22 +317,78 @@ export default {
 </script>
 
 <style>
+div.field {
+  margin: 10px;
+  margin-bottom: 20px;
+}
+div.field label {
+  /* display: none; */
+  display: block;
+  /* width: 175px;
+  display: inline-block; */
+  margin-bottom: 5px;
+
+}
+div.field input {
+  width: 96%;
+  font-size: 16px;
+  line-height: 30px;
+  border: none;
+  border-color: black;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 1.5px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+div.field input:focus {
+  outline: none;
+  border-color: #4aae9b;
+
+}
 div.image-preview img {
   max-width: 200px;
+}
+input#image {
+  display: none;
 }
 div.recipe-form {
   padding: 30px;
   width: 50%;
+  background-color: white;
 }
 div.recipe-form fieldset {
   margin: 10px;
   margin-bottom: 20px;
 }
-
-div.field {
+ul.ingredients {
+  list-style: none;
+  padding: 0px;
   margin: 10px;
 }
-/* div.form-controls {
+div.recipe-form fieldset {
+  /* border-radius: 10px; */
+  border: none;
+  border-top: solid 1.5px #4aae9b;
+  position: relative;
+  margin-top: 50px;
+  padding-bottom: 30px;
+}
+div.recipe-form fieldset legend {
+  font-weight: bold;
+  position: absolute;
+  top: -35px;
+  left: 0px;
 
+}
+li.ingredient {
+  border-bottom: solid 1px #ccc;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+/* div.form-controls {
+  display: flex;
+  justify-content: flex-end;
 } */
 </style>

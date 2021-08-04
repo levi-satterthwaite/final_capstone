@@ -16,7 +16,7 @@
         <span>
           No results match your search!
         </span>
-        <button v-on:click.prevent="onClickAdd">Add</button>
+        <button class="btn btn-sm" v-on:click.prevent="onClickAdd">Add</button>
       </li>
       <li
         class="autocomplete-result"
@@ -160,6 +160,7 @@ export default {
     document.removeEventListener("click", this.handleClickOutside);
   },
 };
+
 </script>
 
 <style>

@@ -1,17 +1,22 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
-      <router-link v-bind:to="{ name: 'recipes' }">Recipes</router-link
-      >&nbsp;|&nbsp;
-      <router-link
-        v-bind:to="{ name: 'logout' }"
-        v-if="$store.state.token != ''"
-        >Logout</router-link
-      >
-      <router-link v-bind:to="{ name: 'login' }" v-if="$store.state.token == ''"
-        >Login</router-link
-      >
+      <div class="toolbar">
+        <router-link v-bind:to="{ name: 'home' }">Home</router-link
+        >&nbsp;|&nbsp;
+        <router-link v-bind:to="{ name: 'recipes' }">Recipes</router-link
+        >&nbsp;|&nbsp;
+        <router-link
+          v-bind:to="{ name: 'logout' }"
+          v-if="$store.state.token != ''"
+          >Logout</router-link
+        >
+        <router-link
+          v-bind:to="{ name: 'login' }"
+          v-if="$store.state.token == ''"
+          >Login</router-link
+        >
+      </div>
     </div>
     <router-view />
   </div>
@@ -19,11 +24,56 @@
 
 <style>
 * {
-  font-family: Rubik, 'Poppins', sans-serif;
+  font-family: Rubik, "Poppins", sans-serif;
+}
+#nav {
+  background-color: #4aae9b;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+div.toolbar {
+  display: flex;
+  margin-right: 20px;
+  color: white;
+}
+div.toolbar a {
+  margin-right: 10px;
+  margin-left: 10px;
+  color: white;
+}
+div.toolbar a:hover {
+  color: #cccccc;
+}
+/* div.toolbar a:last-child {
+  margin-right: 20px;
+} */
+body {
+  background-color: rgb(245, 245, 245);
 }
 .card {
   margin: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  
+  border-radius: 10px;
+}
+
+.btn {
+  background-color: #4aae9b;
+  color: white;
+  padding: 15px;
+  font-size: 15px;
+  border: none;
+  margin: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 10px;
+}
+.btn-sm {
+  font-size: 14px;
+  padding: 10px;
+}
+.align-right {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

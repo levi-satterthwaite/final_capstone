@@ -1,7 +1,9 @@
 <template>
   <div class="recipes-page">
-      <h2>Recipes</h2>
-      <router-link to="/recipes/add" tag="button" class="add-recipe">Add Recipe</router-link>
+      <h1>Recipes</h1> 
+      <div class="action-bar">
+          <router-link to="/recipes/add" tag="button" class="btn">Add Recipe</router-link>
+      </div>
       <div class="container">
           <recipe-list />
       </div>
@@ -20,22 +22,19 @@ export default {
 </script>
 
 <style>
-div.recipes-page {
-    font-family: Rubik, 'Poppins', sans-serif;
-    /* margin-left: auto;
-    margin-right: auto; */
-    /* display: flex; */
-    /* flex-direction: row-reverse;
-    order: -1;
-    align-content: flex-start; */
-
-    /* display: grid;
-    grid-template-columns: 1fr, 1fr, 1fr, 1fr;
-    grid-template-areas: ".recipe-card, .recipe-card, .recipe-card, .recipe-card"; */
+h1 {
+    text-align: center;
 }
-
 div.container {
     display: flex;
+    justify-items: center;
+
+}
+div.action-bar {
+    margin: 10px;
+    margin-right: 30px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 </style>
