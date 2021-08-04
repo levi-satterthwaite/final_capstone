@@ -63,28 +63,6 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
 
     }
 
-    @Test
-    public void retrieve_ingredients_by_recipeId() throws IngredientException, NegativeValueException {
-        //making and adding a recipe to the database
-        Recipe recipeOne = getRecipe(-1L);
-        recipeDAO.addRecipe(recipeOne);
-        //making and adding an ingredient to the database
-        Ingredient ingredientOne = getIngredient(-1L);
-        ingredientOne.setUnitMeasurement("unitMeasurement");
-        ingredientOne.setQuantity(1.5);
-        ingredientDAO.addIngredient(ingredientOne); //adding ingredient to database
-        //making a list to hold our ingredient
-        List<Ingredient> ingredients = new ArrayList<Ingredient>();
-        ingredients.add(ingredientOne);
-        //will now put those ingredients into our recipe
-        recipeDAO.addIngredientsToRecipe(recipeOne, ingredients);
-
-        //get a recipe's ingredients (assert True will tell us if we added because > 0 will be true.
-        List<Ingredient> testIngredientList = ingredientDAO.getIngredientsByRecipeId(recipeOne.getRecipeId());
-        Assert.assertTrue(testIngredientList.size() > 0);
-    }
-
-
     private Ingredient getIngredient(Long ingredientId) {
         Ingredient ingredient = new Ingredient();
         ingredient.setIngredientId(ingredientId);

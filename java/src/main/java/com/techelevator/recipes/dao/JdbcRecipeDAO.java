@@ -34,7 +34,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
             SqlRowSet rows = jdbcTemplate.queryForRowSet(sql);
             while (rows.next()) {
                 Recipe recipe = mapRecipe(rows);
-                recipe.setIngredientList(ingredientDAO.getIngredientsByRecipeId(recipe.getRecipeId()));
+                recipe.setIngredientList(getIngredientsByRecipeId(recipe.getRecipeId()));
                 recipes.add(recipe);
             }
             return recipes;
@@ -51,11 +51,11 @@ public class JdbcRecipeDAO implements RecipeDAO {
                 recipe = mapRecipe(rows);
             }
             if(recipe != null) {
-                recipe.setIngredientList(ingredientDAO.getIngredientsByRecipeId(recipeId));
+                recipe.setIngredientList(getIngredientsByRecipeId(recipeId));
             }
             return recipe;
-
     }
+
 
     @Override
     public Recipe addRecipe(Recipe recipe) throws NegativeValueException {
@@ -81,11 +81,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     public Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException {
         try {
             for(Ingredient ingredient : ingredients) {
-                String sql = "INSERT INTO recipe_ingredient (recipe_id, ingredient_id, quantity, "
-                        + "unit_measurement) VALUES (?, ?, ?, ?) RETURNING recipe_id";
-                SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, recipe.getRecipeId(), ingredient.getIngredientId(),
-                        ingredient.getQuantity(), ingredient.getUnitMeasurement());
-                rows.next();
+                addIngredientToRecipe(recipe, ingredient);
             }
             return getRecipeById(recipe.getRecipeId());
         } catch(DataIntegrityViolationException e) {
@@ -95,9 +91,32 @@ public class JdbcRecipeDAO implements RecipeDAO {
         }
     }
 
+    private void addIngredientToRecipe(Recipe recipe, Ingredient ingredient) {
+        String sql = "INSERT INTO recipe_ingredient (recipe_id, ingredient_id, quantity, "
+                + "unit_measurement) VALUES (?, ?, ?, ?) RETURNING recipe_id";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, recipe.getRecipeId(), ingredient.getIngredientId(),
+                ingredient.getQuantity(), ingredient.getUnitMeasurement());
+        rows.next();
+    }
+
+
+    private List<Ingredient> getIngredientsByRecipeId(Long recipeId)  {
+        List<Ingredient> ingredients = new ArrayList<Ingredient>();
+        String sql = "SELECT recipe.recipe_id, ingredient.ingredient_id AS ingredient_id, ingredient.name AS ingredient_name, "
+                + "ingredient.category AS ingredient_category, quantity, unit_measurement " +
+                "FROM recipe " +
+                "JOIN recipe_ingredient ON recipe_ingredient.recipe_id = recipe.recipe_id " +
+                "JOIN ingredient ON recipe_ingredient.ingredient_id = ingredient.ingredient_id " +
+                "WHERE recipe.recipe_id= ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, recipeId);
+        while(rows.next()) {
+            ingredients.add(mapRecipeIngredient(rows));
+        }
+        return ingredients;
+    }
+
     private Recipe mapRecipe(SqlRowSet row) {
         Recipe recipe = new Recipe();
-
         recipe.setRecipeId(row.getLong("recipe_id"));
         recipe.setName(row.getString("name"));
         recipe.setCategory(row.getString("category"));
@@ -110,10 +129,17 @@ public class JdbcRecipeDAO implements RecipeDAO {
         recipe.setImageFileName(row.getString("image_file_name"));
 
         return recipe;
-
-
-
     }
 
+    private Ingredient mapRecipeIngredient(SqlRowSet row) {
+        Ingredient ingredient = new Ingredient();
+        ingredient.setIngredientId(row.getLong("ingredient_id"));
+        ingredient.setName(row.getString("ingredient_name"));
+        ingredient.setCategory(row.getString("ingredient_category"));
+        ingredient.setQuantity(row.getDouble("quantity"));
+        ingredient.setUnitMeasurement(row.getString("unit_measurement"));
+
+        return ingredient;
+    }
 
 }

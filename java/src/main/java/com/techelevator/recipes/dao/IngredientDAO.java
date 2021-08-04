@@ -11,6 +11,5 @@ public interface IngredientDAO {
     Ingredient addIngredient(Ingredient ingredient) throws IngredientException;
     Ingredient getIngredientById(Long ingredientId);
     List<Ingredient> getIngredientsByName(String name);
-    List<Ingredient> getIngredientsByRecipeId(Long recipeId);
 
 }

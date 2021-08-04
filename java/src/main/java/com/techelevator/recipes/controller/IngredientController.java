@@ -33,10 +33,5 @@ public class IngredientController {
         return ingredientDAO.getIngredientsByName(name);
     }
 
-    @RequestMapping(path = "/recipe/{id}/ingredients", method = RequestMethod.GET)
-    public List<Ingredient> getByRecipeId(@PathVariable(name = "id") Long recipeId) {
-        return ingredientDAO.getIngredientsByRecipeId(recipeId);
-    }
-
 
 }

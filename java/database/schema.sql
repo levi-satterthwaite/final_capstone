@@ -21,9 +21,13 @@ CREATE TABLE users (
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
 
+
 DROP TABLE IF EXISTS recipe_ingredient;
+DROP TABLE IF EXISTS recipe_meal_plan;
 DROP TABLE IF EXISTS recipe;
 DROP TABLE IF EXISTS ingredient;
+DROP TABLE IF EXISTS meal_plan;
+
 
 CREATE TABLE recipe (
         recipe_id serial primary key,
@@ -50,9 +54,24 @@ CREATE TABLE recipe_ingredient (
         quantity decimal(5,2) not null check (quantity > 0),
         unit_measurement varchar(255) not null,
         
-        CONSTRAINT pk_recipe_ingredient primary key(recipe_id, ingredient_id),
-        CONSTRAINT fk_recipe_ingredient_recipe_id foreign key(recipe_id) references recipe(recipe_id),
-        CONSTRAINT fk_recipe_ingredient_ingredient_id foreign key(ingredient_id) references ingredient(ingredient_id)
+        CONSTRAINT pk_recipe_ingredient primary key (recipe_id, ingredient_id),
+        CONSTRAINT fk_recipe_ingredient_recipe_id foreign key (recipe_id) references recipe (recipe_id),
+        CONSTRAINT fk_recipe_ingredient_ingredient_id foreign key( ingredient_id) references ingredient (ingredient_id)
+);
+
+CREATE TABLE meal_plan (
+        meal_id serial primary key,
+        name varchar(255) not null unique,
+        description text 
+);
+
+CREATE TABLE recipe_meal_plan (
+        recipe_id int not null,
+        meal_id int not null,
+        
+        CONSTRAINT pk_recipe_meal_plan primary key (recipe_id, meal_id),
+        CONSTRAINT fk_recipe_meal_plan_recipe_id foreign key (recipe_id) references recipe (recipe_id),
+        CONSTRAINT fk_recipe_meal_plan_meal_id foreign key (meal_id) references meal_plan (meal_id)
 );
 
 INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Sourdough Bread', 'Bread');
