@@ -22,7 +22,7 @@ public class JdbcIngredientDAO implements IngredientDAO {
     }
 
     @Override
-    public Ingredient addIngredient(Ingredient ingredient) throws  IngredientException {
+    public Ingredient addIngredient(Ingredient ingredient) throws IngredientException {
         try {
             String sql = "INSERT INTO ingredient (ingredient_id, name, category) "
                     + "VALUES (DEFAULT, ?, ?) RETURNING ingredient_id";

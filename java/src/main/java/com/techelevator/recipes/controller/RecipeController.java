@@ -21,11 +21,11 @@ public class RecipeController {
         this.recipeDAO = recipeDAO;
     }
     @RequestMapping(path = "/recipes", method = RequestMethod.GET)
-    public List<Recipe> getList() throws NegativeValueException {
+    public List<Recipe> getList() {
         return recipeDAO.getListOfRecipes();
     }
     @RequestMapping(path = "/recipes/{id}", method = RequestMethod.GET)
-    public Recipe getById(@PathVariable(name = "id") Long recipeId) throws NegativeValueException {
+    public Recipe getById(@PathVariable(name = "id") Long recipeId) {
         return recipeDAO.getRecipeById(recipeId);
     }
     @RequestMapping(path = "/recipes", method = RequestMethod.POST)
