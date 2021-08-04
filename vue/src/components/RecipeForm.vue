@@ -27,10 +27,11 @@
             type="number"
             id="prepTimeMin"
             v-model="recipe.prepTimeMin"
-            xmin="0"
             required
           />
-          <div class="error" v-if="errors.prepTimeMin">{{errors.prepTimeMin}}</div>
+          <div class="error" v-if="errors.prepTimeMin">
+            {{ errors.prepTimeMin }}
+          </div>
         </div>
         <div class="field">
           <label for="cookTimeMin">Total Cook Time</label>
@@ -38,10 +39,11 @@
             type="number"
             id="cookTimeMin"
             v-model="recipe.cookTimeMin"
-            min="0"
             required
           />
-          <div class="error" v-if="errors.cookTimeMin">{{errors.cookTimeMin}}</div>
+          <div class="error" v-if="errors.cookTimeMin">
+            {{ errors.cookTimeMin }}
+          </div>
         </div>
         <div class="field">
           <label for="servingSize">Serving Size</label>
@@ -51,6 +53,9 @@
             v-model="recipe.servingSize"
             required
           />
+                <div class="error" v-if="errors.servingSize">
+            {{ errors.servingSize }}
+          </div>
         </div>
         <div class="field">
           <label for="instructions">Instructions</label>
@@ -72,7 +77,7 @@
             class="ingredient"
             v-else
             v-for="ingredient in ingredients"
-            v-bind:key="ingredient.id"
+            v-bind:key="ingredient.ingredientId"
             v-bind:ingredients="ingredients"
           >
             <div class="field">
@@ -82,35 +87,44 @@
               <span class="ingredient-category">{{ ingredient.category }}</span>
             </div>
             <div class="field">
-              <label v-bind:for="ingredient.id + '-quantity'">Quantity</label>
+              <label v-bind:for="ingredient.ingredientId + '-quantity'">Quantity</label>
               <input
                 type="number"
-                v-bind:id="ingredient.id + '-quantity'"
+                v-bind:id="ingredient.ingredientId + '-quantity'"
                 v-model="ingredient.quantity"
-                min="0"
                 required
               />
+              <div
+                class="error"
+                v-if="errors[ingredient.ingredientId] && errors[ingredient.ingredientId].quantity"
+              >
+                {{ errors[ingredient.ingredientId].quantity }}
+              </div>
             </div>
             <div class="field">
-              <label v-bind:for="ingredient.id + '-unit-measurement'">
+              <label v-bind:for="ingredient.ingredientId + '-unit-measurement'">
                 Unit of Measurement</label
               >
               <input
                 type="text"
-                v-bind:id="ingredient.id + '-unit-measurement'"
+                v-bind:id="ingredient.ingredientId + '-unit-measurement'"
                 v-model="ingredient.unitMeasurement"
                 required
               />
             </div>
             <div class="form-controls align-right">
-              <button class="btn btn-sm" v-on:click.prevent="removeIngredient(ingredient)">
+              <button
+                class="btn btn-sm"
+                v-on:click.prevent="removeIngredient(ingredient)"
+              >
                 Remove
               </button>
             </div>
           </li>
         </ul>
         <div class="form-controls">
-          <button class="btn btn-sm"
+          <button
+            class="btn btn-sm"
             v-show="!isAddIngredientOpen"
             v-on:click.prevent="openIngredientSearch"
           >
@@ -131,9 +145,13 @@
             v-on:add="openAddNewIngredient"
           />
           <div class="form-controls align-right">
-            <button class="btn btn-sm" v-on:click.prevent="closeIngredientSearch">Cancel</button>
+            <button
+              class="btn btn-sm"
+              v-on:click.prevent="closeIngredientSearch"
+            >
+              Cancel
+            </button>
           </div>
-          
         </div>
         <div class="add-new-ingredient" v-if="isAddNewIngredientOpen">
           <div>Add New Ingredient</div>
@@ -155,11 +173,18 @@
             />
           </div>
           <div class="error" v-if="saveNewIngredientError">
-            {{saveNewIngredientError.message}}
+            {{ saveNewIngredientError.message }}
           </div>
           <div class="form-controls">
-            <button class="btn btn-sm" v-on:click.prevent="saveNewIngredient">Save</button>
-            <button class="btn btn-sm" v-on:click.prevent="closeAddNewIngredient">Cancel</button>
+            <button class="btn btn-sm" v-on:click.prevent="saveNewIngredient">
+              Save
+            </button>
+            <button
+              class="btn btn-sm"
+              v-on:click.prevent="closeAddNewIngredient"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </fieldset>
@@ -170,13 +195,15 @@
           <input type="file" id="image" v-on:change="onFileChange" required />
         </div>
         <div class="form-controls">
-          <button v-on:click.prevent="chooseImage" class="btn btn-sm">Choose File</button>
+          <button v-on:click.prevent="chooseImage" class="btn btn-sm">
+            Choose File
+          </button>
         </div>
         <div class="image-preview" v-if="image">
           <img v-bind:src="image" />
         </div>
       </fieldset>
-      <div class="error" v-if="error">{{error.message}}</div>
+      <div class="error" v-if="error">{{ error.message }}</div>
       <div class="form-controls align-right">
         <button class="btn" type="submit">Submit</button>
       </div>
@@ -194,8 +221,8 @@ export default {
     error: {
       type: Object,
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -208,36 +235,47 @@ export default {
       isAddNewIngredientOpen: false,
       searchTerm: "",
       newIngredient: {},
-      errors: {}
+      errors: {},
     };
   },
   components: {
     SearchAutocomplete,
   },
-    computed: {
+  computed: {
     hasIngredients() {
       return this.ingredients.length > 0;
     },
     hasErrors() {
       return Object(this.errors).keys().length > 0;
-    }
+    },
   },
   methods: {
     validateForm() {
       const errors = {};
-      if(this.recipe.prepTimeMin < 0) {
-        errors.prepTimeMin = "Cannot be a negative value."
+      if (this.recipe.prepTimeMin < 0) {
+        errors.prepTimeMin = "Cannot be a negative value.";
       }
-      if(this.recipe.cookTimeMin < 0) {
-        errors.cookTimeMin = "Cannot be a negative value."
+      if (this.recipe.cookTimeMin < 0) {
+        errors.cookTimeMin = "Cannot be a negative value.";
       }
+      if (this.recipe.servingSize < 0) {
+        errors.servingSize = "Cannot be a negative value.";
+      }
+      for (const ingredient of this.ingredients) {
+        if (ingredient.quantity < 0) {
+          errors[ingredient.ingredientId] = {};
+          errors[ingredient.ingredientId].quantity =
+            "Cannot be a negative value.";
+        }
+      }
+
       this.errors = errors;
     },
     submitRecipe() {
       // $emit() triggers an event called "submit" and passes in recipe
       // and file (image) as its arguments
       this.validateForm();
-      if(this.hasErrors) {
+      if (this.hasErrors) {
         return;
       }
       const submitData = {
@@ -344,9 +382,8 @@ export default {
     },
     chooseImage() {
       document.getElementById("image").click();
-    }
-  }
-
+    },
+  },
 };
 </script>
 
@@ -361,7 +398,6 @@ div.field label {
   /* width: 175px;
   display: inline-block; */
   margin-bottom: 5px;
-
 }
 div.field input {
   width: 96%;
@@ -378,8 +414,7 @@ div.field input {
 }
 div.field input:focus {
   outline: none;
-  border-color: #9D7DDE;
-
+  border-color: #9d7dde;
 }
 div.image-preview img {
   max-width: 200px;
@@ -404,26 +439,24 @@ ul.ingredients {
 div.recipe-form fieldset {
   /* border-radius: 10px; */
   border: none;
-  border-top: solid 1.5px #9D7DDE;
+  border-top: solid 1.5px #9d7dde;
   position: relative;
   margin-top: 50px;
   padding-bottom: 30px;
 }
 div.recipe-form fieldset legend {
-  color: #4B3F72;
+  color: #4b3f72;
   font-weight: bold;
   position: absolute;
   top: -35px;
   left: 0px;
-
 }
 li.ingredient {
   border-bottom: solid 1px #ccc;
   padding-top: 10px;
   padding-bottom: 10px;
 }
-/* div.form-controls {
-  display: flex;
-  justify-content: flex-end;
-} */
+div.error {
+  color: red;
+}
 </style>
