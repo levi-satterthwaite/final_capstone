@@ -58,4 +58,8 @@ div.add-recipe {
   align-items: center;
 }
 
+h1 {
+  color: #4B3F72;
+}
+
 </style>

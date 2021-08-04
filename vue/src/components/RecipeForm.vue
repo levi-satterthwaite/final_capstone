@@ -344,7 +344,7 @@ div.field input {
 }
 div.field input:focus {
   outline: none;
-  border-color: #4aae9b;
+  border-color: #9D7DDE;
 
 }
 div.image-preview img {
@@ -370,12 +370,13 @@ ul.ingredients {
 div.recipe-form fieldset {
   /* border-radius: 10px; */
   border: none;
-  border-top: solid 1.5px #4aae9b;
+  border-top: solid 1.5px #9D7DDE;
   position: relative;
   margin-top: 50px;
   padding-bottom: 30px;
 }
 div.recipe-form fieldset legend {
+  color: #4B3F72;
   font-weight: bold;
   position: absolute;
   top: -35px;

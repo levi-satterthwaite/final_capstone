@@ -27,7 +27,7 @@
   font-family: Rubik, "Poppins", sans-serif;
 }
 #nav {
-  background-color: #4aae9b;
+  background-color: #4B3F72;
   height: 75px;
   display: flex;
   align-items: center;
@@ -59,7 +59,7 @@ body {
 }
 
 .btn {
-  background-color: #4aae9b;
+  background-color: #9D7DDE;
   color: white;
   padding: 15px;
   font-size: 15px;

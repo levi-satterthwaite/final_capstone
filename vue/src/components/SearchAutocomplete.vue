@@ -186,13 +186,13 @@ export default {
 }
 
 .autocomplete-result:hover {
-  background-color: #4aae9b;
+  background-color: #9D7DDE;
   color: white;
 }
 
 .autocomplete-result.is-active,
 .autocomplete-result:hover {
-  background-color: #4aae9b;
+  background-color: #9D7DDE;
   color: white;
 }
 </style>
