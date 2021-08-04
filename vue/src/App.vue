@@ -29,9 +29,13 @@
 #nav {
   background-color: #4B3F72;
   height: 75px;
+  z-index:1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 div.toolbar {
   display: flex;
