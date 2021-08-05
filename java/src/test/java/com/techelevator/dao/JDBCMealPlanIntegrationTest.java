@@ -99,6 +99,7 @@ public class JDBCMealPlanIntegrationTest extends DAOIntegrationTest {
         mealPlan.setMealId(mealId);
         mealPlan.setName("testName");
         mealPlan.setDescription("testDescription");
+        mealPlan.setImageFileName("testImage.jpg");
         mealPlan.setRecipeList(new ArrayList<>());
         return mealPlan;
     }
@@ -108,6 +109,7 @@ public class JDBCMealPlanIntegrationTest extends DAOIntegrationTest {
         mealPlan.setMealId(-1L);
         mealPlan.setName(name);
         mealPlan.setDescription("testDescription");
+        mealPlan.setImageFileName("testImage.jpg");
         mealPlan.setRecipeList(new ArrayList<>());
         return mealPlan;
     }
@@ -116,8 +118,8 @@ public class JDBCMealPlanIntegrationTest extends DAOIntegrationTest {
         Recipe recipe = new Recipe();
         recipe.setRecipeId(recipeId);
         recipe.setName("testName");
-        recipe.setCategory("testCategory");
-        recipe.setDifficultyLevel("testDifficulty");
+        recipe.setCategory("Appetizer");
+        recipe.setDifficultyLevel("Easy");
         recipe.setPrepTimeMin(5);
         recipe.setCookTimeMin(20);
         recipe.setServingSize(4);

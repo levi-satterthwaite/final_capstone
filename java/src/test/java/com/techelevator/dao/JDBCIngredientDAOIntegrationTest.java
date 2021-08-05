@@ -67,7 +67,7 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
         Ingredient ingredient = new Ingredient();
         ingredient.setIngredientId(ingredientId);
         ingredient.setName("testName");
-        ingredient.setCategory("testCategory");
+        ingredient.setCategory("Entree");
         return ingredient;
 
     }
@@ -76,7 +76,7 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
         Ingredient ingredient = new Ingredient();
         ingredient.setIngredientId(-1L);
         ingredient.setName(name);
-        ingredient.setCategory("testCategory");
+        ingredient.setCategory("Entree");
         return ingredient;
     }
 

@@ -10,16 +10,46 @@
         </div>
         <div class="field">
           <label for="category">Category</label>
-          <input type="text" id="category" v-model="recipe.category" required />
+          <select
+            name="category"
+            id="category"
+            v-model="recipe.category"
+            required
+          >
+            <option value=""></option>
+            <option
+              v-for="category in categories"
+              v-bind:key="category.name"
+              v-bind:value="category.name"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+          <!-- <input type="text" id="category" v-model="recipe.category" required /> -->
         </div>
         <div class="field">
           <label for="difficultyLevel">Difficulty Level</label>
-          <input
+          <select
+            name="difficultyLevel"
+            id="difficultyLevel"
+            v-model="recipe.difficultyLevel"
+            required
+          >
+            <option value=""></option>
+            <option
+              v-for="difficultyLevel in difficultyLevels"
+              v-bind:key="difficultyLevel.name"
+              v-bind:value="difficultyLevel.name"
+            >
+              {{ difficultyLevel.name }}
+            </option>
+          </select>
+          <!-- <input
             type="text"
             id="difficultyLevel"
             v-model="recipe.difficultyLevel"
             required
-          />
+          /> -->
         </div>
         <div class="field">
           <label for="prepTimeMin">Total Prep Time</label>
@@ -53,7 +83,7 @@
             v-model="recipe.servingSize"
             required
           />
-                <div class="error" v-if="errors.servingSize">
+          <div class="error" v-if="errors.servingSize">
             {{ errors.servingSize }}
           </div>
         </div>
@@ -70,8 +100,11 @@
       <fieldset class="recipe-ingredients">
         <legend>Recipe Ingredients</legend>
         <ul class="ingredients">
-          <li class="ingredient ingredient-empty" v-if="!hasIngredients">
-            Add some ingredients!
+          <li
+            class="ingredient ingredient-empty"
+            v-if="!hasIngredients && !isAddIngredientOpen"
+          >
+            Please Add Ingredients
           </li>
           <li
             class="ingredient"
@@ -87,16 +120,22 @@
               <span class="ingredient-category">{{ ingredient.category }}</span>
             </div>
             <div class="field">
-              <label v-bind:for="ingredient.ingredientId + '-quantity'">Quantity</label>
+              <label v-bind:for="ingredient.ingredientId + '-quantity'"
+                >Quantity</label
+              >
               <input
                 type="number"
+                step="0.01"
                 v-bind:id="ingredient.ingredientId + '-quantity'"
                 v-model="ingredient.quantity"
                 required
               />
               <div
                 class="error"
-                v-if="errors[ingredient.ingredientId] && errors[ingredient.ingredientId].quantity"
+                v-if="
+                  errors[ingredient.ingredientId] &&
+                  errors[ingredient.ingredientId].quantity
+                "
               >
                 {{ errors[ingredient.ingredientId].quantity }}
               </div>
@@ -236,6 +275,10 @@ export default {
       searchTerm: "",
       newIngredient: {},
       errors: {},
+      categories: [],
+      categoriesError: null,
+      difficultyLevels: [],
+      difficultyLevelsError: null,
     };
   },
   components: {
@@ -384,6 +427,23 @@ export default {
       document.getElementById("image").click();
     },
   },
+  async mounted() {
+    try {
+      const response = await mealPlannerService.getRecipeCategories();
+      this.categories = response.data;
+    } catch (e) {
+      console.log(e);
+      this.categoriesError = mealPlannerService.getError(e);
+    }
+
+    try {
+      const response = await mealPlannerService.getRecipeDifficultyLevels();
+      this.difficultyLevels = response.data;
+    } catch (e) {
+      console.log(e);
+      this.difficultyLevelsError = mealPlannerService.getError(e);
+    }
+  },
 };
 </script>
 
@@ -399,7 +459,8 @@ div.field label {
   display: inline-block; */
   margin-bottom: 5px;
 }
-div.field input {
+div.field input,
+div.field select {
   width: 96%;
   font-size: 16px;
   line-height: 30px;
@@ -412,10 +473,19 @@ div.field input {
   padding-left: 10px;
   padding-right: 10px;
 }
-div.field input:focus {
+div.field input:focus,
+div.field select:focus {
   outline: none;
   border-color: #9d7dde;
 }
+
+div.field select {
+  width: 100%;
+  font-size: 16px;
+
+  height: 43px;
+}
+
 div.image-preview img {
   max-width: 200px;
 }

@@ -8,6 +8,8 @@ import store from '../store/index'
 import Recipes from '../views/Recipes.vue'
 import AddRecipe from '../views/AddRecipe.vue'
 import RecipeDetails from '../views/RecipeDetails.vue'
+import MealPlans from '../views/MealPlans.vue'
+import AddMealPlan from '../views/AddMealPlan.vue'
 
 Vue.use(Router)
 
@@ -80,7 +82,23 @@ const router = new Router({
         requiresAuth: false
       }
     },  
-
+    {
+      path: "/mealplans",
+      name: "mealPlans",
+      component: MealPlans,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/mealplans/add",
+      name: "addMealPlan",
+      component: AddMealPlan,
+      meta: {
+        requiresAuth: false
+      }
+    }
+  
   ]
 })
 

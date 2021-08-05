@@ -112,8 +112,8 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         Recipe recipe = new Recipe();
         recipe.setRecipeId(recipeId);
         recipe.setName("testName");
-        recipe.setCategory("testCategory");
-        recipe.setDifficultyLevel("testDifficulty");
+        recipe.setCategory("Entree");
+        recipe.setDifficultyLevel("Easy");
         recipe.setPrepTimeMin(5);
         recipe.setCookTimeMin(6);
         recipe.setServingSize(4);
@@ -128,7 +128,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         Ingredient ingredient = new Ingredient();
         ingredient.setIngredientId(ingredientId);
         ingredient.setName("testName");
-        ingredient.setCategory("testCategory");
+        ingredient.setCategory("Entree");
         return ingredient;
     }
 
@@ -136,8 +136,8 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         Recipe recipe = new Recipe();
         recipe.setRecipeId(-1L);
         recipe.setName(name);
-        recipe.setCategory("testCategory");
-        recipe.setDifficultyLevel("testDifficulty");
+        recipe.setCategory("Entree");
+        recipe.setDifficultyLevel("Easy");
         recipe.setPrepTimeMin(5);
         recipe.setCookTimeMin(6);
         recipe.setServingSize(4);

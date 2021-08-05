@@ -4,6 +4,8 @@ import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.NegativeValueException;
 import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
+import com.techelevator.recipes.model.Category;
+import com.techelevator.recipes.model.DifficultyLevel;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,16 @@ public class RecipeController {
         return recipeDAO.getRecipesByName(name);
     }
 
+    @RequestMapping(path = "/recipes/categories", method = RequestMethod.GET)
+    public List<Category> getCategories() {
+        return Category.getCategories();
+    }
+
+    @RequestMapping(path = "/recipes/difficultylevels", method = RequestMethod.GET)
+    public List<DifficultyLevel> getDifficultyLevels() {
+        return DifficultyLevel.getDifficultyLevels();
+    }
+
     @RequestMapping(path = "/recipes/{id}", method = RequestMethod.GET)
     public Recipe getById(@PathVariable(name = "id") Long recipeId) throws RecipeNotFoundException {
         return recipeDAO.getRecipeById(recipeId);
@@ -48,5 +60,6 @@ public class RecipeController {
         Recipe recipe = recipeDAO.getRecipeById(recipeId);
         return recipeDAO.addIngredientsToRecipe(recipe, ingredients);
     }
+
 
 }

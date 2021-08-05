@@ -49,13 +49,23 @@ div.image-wrapper {
   max-height: 15em;
 }
 div.recipe-card img {
-  width: 100%;
+  /* width: 100%;
   height: 100%;
   min-height: 15em;
   max-height: 5px;
   display: flex;
   border-top-right-radius: 10px;
+  border-top-left-radius: 10px; */
+  min-height: 15em;
+  max-height: 5px;
+  display: flex;
+  border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+  float: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  object-fit: cover;
 
 }
 a {

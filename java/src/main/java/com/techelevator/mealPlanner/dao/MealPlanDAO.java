@@ -15,5 +15,6 @@ public interface MealPlanDAO {
     MealPlan getMealPlanById(Long mealId) throws MealPlanNotFoundException, RecipeNotFoundException;
     MealPlan addMealPlan(MealPlan mealPlan) throws MealPlanException;
     MealPlan addRecipesToMealPlan(MealPlan mealPlan, List<Recipe> recipes) throws MealPlanNotFoundException, RecipeNotFoundException;
+    MealPlan updateMealPlan(MealPlan mealPlan) throws MealPlanException, RecipeNotFoundException;
 
 }
