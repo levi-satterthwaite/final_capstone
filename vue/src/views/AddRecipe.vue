@@ -69,6 +69,7 @@ div.add-recipe {
 
 h1 {
   color: #4B3F72;
+  margin: 50px;
 }
 
 </style>
