@@ -20,10 +20,10 @@ public class MealPlanController {
         this.mealPlanDAO = mealPlanDAO;
     }
 
-    @RequestMapping(path = "/mealplans", method = RequestMethod.GET)
-    public List<MealPlan> getList() throws RecipeNotFoundException {
-        return mealPlanDAO.getListOfMealPlans();
-    }
+//    @RequestMapping(path = "/mealplans", method = RequestMethod.GET)
+//    public List<MealPlan> getList() throws RecipeNotFoundException {
+//        return mealPlanDAO.getListOfMealPlans();
+//    }
 
     @RequestMapping(path = "/mealplans", method = RequestMethod.GET)
     public List<MealPlan> getByName(@RequestParam String name) throws RecipeNotFoundException {
