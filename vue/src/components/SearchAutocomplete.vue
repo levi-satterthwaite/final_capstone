@@ -16,7 +16,7 @@
         <span>
           No results match your search!
         </span>
-        <button class="btn btn-sm" v-on:click.prevent="onClickAdd">Add</button>
+        <button class="btn btn-sm" v-if="useAdd" v-on:click.prevent="onClickAdd">Add</button>
       </li>
       <li
         class="autocomplete-result"
@@ -43,6 +43,11 @@ export default {
       type: Function,
       required: true,
     },
+    useAdd: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
   },
   // data() returns the component's state variables 
   data() {
