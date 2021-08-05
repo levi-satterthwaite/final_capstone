@@ -20,7 +20,8 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-    recipes: []
+    recipes: [],
+    mealPlans: []
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     SET_RECIPES(state, recipes) {
       state.recipes = recipes;
+    },
+    SET_MEAL_PLANS(state, mealPlans) {
+      state.mealPlans = mealPlans;
     }
   }
 })
