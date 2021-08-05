@@ -1,5 +1,6 @@
 package com.techelevator.recipes.dao;
 
+import com.techelevator.recipes.exceptions.IngredientAlreadyExistsException;
 import com.techelevator.recipes.exceptions.IngredientException;
 import com.techelevator.recipes.exceptions.IngredientNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
@@ -32,7 +33,7 @@ public class JdbcIngredientDAO implements IngredientDAO {
             return ingredient;
         } catch(DataIntegrityViolationException e) {
             if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23505"))
-                throw new IngredientException("This Ingredient Already Exists", e.getMostSpecificCause());
+                throw new IngredientAlreadyExistsException(e.getMostSpecificCause());
             throw e;
         }
     }
