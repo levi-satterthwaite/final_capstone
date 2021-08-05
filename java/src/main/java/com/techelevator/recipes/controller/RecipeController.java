@@ -2,6 +2,7 @@ package com.techelevator.recipes.controller;
 
 import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.NegativeValueException;
+import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class RecipeController {
     }
 
     @RequestMapping(path = "/recipes/{id}", method = RequestMethod.GET)
-    public Recipe getById(@PathVariable(name = "id") Long recipeId) {
+    public Recipe getById(@PathVariable(name = "id") Long recipeId) throws RecipeNotFoundException {
         return recipeDAO.getRecipeById(recipeId);
     }
 
@@ -42,7 +43,7 @@ public class RecipeController {
     }
 
     @RequestMapping(path = "/recipes/{id}/ingredients", method = RequestMethod.POST)
-    public Recipe addIngredients(@PathVariable(name = "id") Long recipeId, @RequestBody List<Ingredient> ingredients) throws NegativeValueException {
+    public Recipe addIngredients(@PathVariable(name = "id") Long recipeId, @RequestBody List<Ingredient> ingredients) throws NegativeValueException, RecipeNotFoundException {
         Recipe recipe = recipeDAO.getRecipeById(recipeId);
         return recipeDAO.addIngredientsToRecipe(recipe, ingredients);
     }

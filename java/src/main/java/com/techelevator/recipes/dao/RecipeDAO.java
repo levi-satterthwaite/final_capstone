@@ -1,6 +1,7 @@
 package com.techelevator.recipes.dao;
 
 import com.techelevator.recipes.exceptions.NegativeValueException;
+import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 
@@ -10,8 +11,8 @@ public interface RecipeDAO {
 
     List<Recipe> getListOfRecipes();
     List<Recipe> getRecipesByName(String name);
-    Recipe getRecipeById(Long recipeId);
+    Recipe getRecipeById(Long recipeId) throws RecipeNotFoundException;
     Recipe addRecipe(Recipe recipe) throws NegativeValueException;
-    Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException;
+    Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException, RecipeNotFoundException;
 
 }

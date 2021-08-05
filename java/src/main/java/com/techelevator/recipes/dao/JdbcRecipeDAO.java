@@ -1,6 +1,7 @@
 package com.techelevator.recipes.dao;
 
 import com.techelevator.recipes.exceptions.NegativeValueException;
+import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -50,7 +51,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public Recipe getRecipeById(Long recipeId) {
+    public Recipe getRecipeById(Long recipeId) throws RecipeNotFoundException {
             Recipe recipe = null;
             String sql = "SELECT recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                     "serving_size, instructions, date_created, image_file_name " +
@@ -61,6 +62,9 @@ public class JdbcRecipeDAO implements RecipeDAO {
             }
             if(recipe != null) {
                 recipe.setIngredientList(getIngredientsByRecipeId(recipeId));
+            }
+            if(recipe == null) {
+                throw new RecipeNotFoundException();
             }
             return recipe;
     }
@@ -86,7 +90,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException {
+    public Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException, RecipeNotFoundException {
         try {
             for(Ingredient ingredient : ingredients) {
                 addIngredientToRecipe(recipe, ingredient);
