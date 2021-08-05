@@ -1,5 +1,8 @@
 package com.techelevator.mealPlanner.model;
 
+import com.techelevator.mealPlanner.exceptions.InvalidMealPlanException;
+import com.techelevator.mealPlanner.exceptions.MealPlanException;
+import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +21,17 @@ public class MealPlan {
 
     public MealPlan() {
         this.recipeList = new ArrayList<>();
+    }
+
+    public void validate() throws MealPlanException {
+        try {
+            for(Recipe recipe : recipeList) {
+                recipe.validate();
+            }
+        } catch (RecipeException e) {
+            throw new InvalidMealPlanException("Invalid Recipe", e);
+        }
+
     }
 
     public Long getMealId() {

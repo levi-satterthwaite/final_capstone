@@ -54,7 +54,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
 
     @Override
     public MealPlan getMealPlanById(Long mealId) throws MealPlanNotFoundException, RecipeNotFoundException {
-        MealPlan mealPlan = new MealPlan();
+        MealPlan mealPlan = null;
         String sql = "SELECT meal_id, name, description, image_file_name FROM meal_plan WHERE meal_id = ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealId);
         if(rows.next()) {
@@ -72,12 +72,14 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         try {
             String sql = "INSERT INTO meal_plan (meal_id, name, description, image_file_name) VALUES " +
                     "(DEFAULT, ?, ?, ?) RETURNING meal_id";
-            SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlan.getName(), mealPlan.getDescription(), mealPlan.getImageFileName());
+            SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlan.getName(), mealPlan.getDescription(),
+                    mealPlan.getImageFileName());
             rows.next();
             mealPlan.setMealId(rows.getLong("meal_id"));
             return mealPlan;
         } catch(DataIntegrityViolationException e) {
-            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23505"))
+            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") &&
+                    ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23505"))
                 throw new MealPlanAlreadyExistsException(e.getMostSpecificCause());
             throw e;
         }
@@ -85,10 +87,23 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public MealPlan addRecipesToMealPlan(MealPlan mealPlan, List<Recipe> recipes) throws MealPlanNotFoundException, RecipeNotFoundException {
+    public MealPlan addRecipesToMealPlan(MealPlan mealPlan, List<Recipe> recipes) throws MealPlanNotFoundException,
+            RecipeNotFoundException {
         for(Recipe recipe : recipes) {
             addRecipeToMealPlan(mealPlan, recipe);
         }
+        return getMealPlanById(mealPlan.getMealId());
+    }
+
+    @Override
+    public MealPlan updateMealPlan(MealPlan mealPlan) throws MealPlanException, RecipeNotFoundException {
+        if(mealPlan.getMealId().equals(null)) {
+            throw new MealPlanNotFoundException();
+        }
+        mealPlan.validate();
+        String sql = "UPDATE meal_plan SET name = ?, description = ?, image_file_name = ? WHERE meal_id = ?";
+        jdbcTemplate.update(sql, mealPlan.getName(), mealPlan.getDescription(), mealPlan.getImageFileName(),
+            mealPlan.getMealId());
         return getMealPlanById(mealPlan.getMealId());
     }
 

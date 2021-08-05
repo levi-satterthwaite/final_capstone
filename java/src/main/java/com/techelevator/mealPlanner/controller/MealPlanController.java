@@ -46,6 +46,15 @@ public class MealPlanController {
         return mealPlanDAO.addRecipesToMealPlan(mealPlan, recipes);
     }
 
+    @RequestMapping(path = "/mealplans/{id}", method = RequestMethod.PUT)
+    public MealPlan updateMealPlan(@PathVariable(name = "id") Long mealId, @RequestBody MealPlan mealPlan) throws MealPlanException, RecipeNotFoundException {
+        if(!mealId.equals(mealPlan.getMealId())) {
+            throw new MealPlanException("Meal IDs do not match.");
+        }
+        mealPlanDAO.getMealPlanById(mealId);
+        return mealPlanDAO.updateMealPlan(mealPlan);
+    }
+
 
 
 }
