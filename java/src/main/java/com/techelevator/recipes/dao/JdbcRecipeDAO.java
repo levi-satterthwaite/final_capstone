@@ -24,7 +24,6 @@ public class JdbcRecipeDAO implements RecipeDAO {
         this.ingredientDAO = ingredientDAO;
     }
 
-
     @Override
     public List<Recipe> getListOfRecipes() {
             List<Recipe> recipes = new ArrayList<Recipe>();
@@ -38,6 +37,19 @@ public class JdbcRecipeDAO implements RecipeDAO {
                 recipes.add(recipe);
             }
             return recipes;
+    }
+
+    @Override
+    public List<Recipe> getRecipesByName(String name) {
+        List<Recipe> recipes = new ArrayList<Recipe>();
+        String sql = "SELECT recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
+                "serving_size, instructions, date_created, image_file_name " +
+                "FROM recipe WHERE rname ILIKE ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%");
+        while(rows.next()) {
+            recipes.add(mapRecipe(rows));
+        }
+        return recipes;
     }
 
     @Override
@@ -55,7 +67,6 @@ public class JdbcRecipeDAO implements RecipeDAO {
             }
             return recipe;
     }
-
 
     @Override
     public Recipe addRecipe(Recipe recipe) throws NegativeValueException {
@@ -98,8 +109,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
                 ingredient.getQuantity(), ingredient.getUnitMeasurement());
         rows.next();
     }
-
-
+    
     private List<Ingredient> getIngredientsByRecipeId(Long recipeId)  {
         List<Ingredient> ingredients = new ArrayList<Ingredient>();
         String sql = "SELECT recipe.recipe_id, ingredient.ingredient_id AS ingredient_id, ingredient.name AS ingredient_name, "
