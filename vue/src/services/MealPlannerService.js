@@ -6,8 +6,12 @@ const http = axios.create({
 
 export default {
 
-    getRecipes() {
-        return http.get('/recipes');
+    getRecipes(recipeName) {
+        let name = '';
+        if (typeof recipeName === "string") {
+            name = recipeName;
+        }
+        return http.get(`/recipes?name=${name}`);
     },
 
     getRecipeById(id) {
