@@ -24,10 +24,19 @@ export default {
 <style>
 h1 {
     text-align: center;
+    margin: 50px;
 }
-div.container {
+
+div.recipes-page {
+    display: flex;
+    flex-direction: column;
+}
+
+div.recipes-page div.container {
     display: flex;
     justify-items: center;
+    margin-left: 30px;
+    margin-right: 30px;
 
 }
 div.action-bar {
