@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS meal_plan;
 
 CREATE TABLE recipe (
         recipe_id serial primary key,
-        name varchar(255) not null,
+        name varchar(255) not null unique,
         category varchar(255) not null,
         difficulty_level varchar(255) not null,
         prep_time_min int not null check (prep_time_min > 0),
@@ -62,7 +62,8 @@ CREATE TABLE recipe_ingredient (
 CREATE TABLE meal_plan (
         meal_id serial primary key,
         name varchar(255) not null unique,
-        description text 
+        description text,
+        image_file_name text  
 );
 
 CREATE TABLE recipe_meal_plan (
