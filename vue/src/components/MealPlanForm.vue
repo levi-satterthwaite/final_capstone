@@ -1,6 +1,6 @@
 <template>
   <div class="meal-plan-form card">
-    <form v-on:submit.prevent="submitRecipe">
+    <form v-on:submit.prevent="submitMealPlan">
       <fieldset class="meal-plan-details">
         <legend>Meal Plan Details</legend>
         <div class="field">
@@ -235,6 +235,7 @@ ul.recipes {
   padding: 0px;
   margin: 10px;
 }
+
 div.meal-plan-form fieldset {
   /* border-radius: 10px; */
   border: none;

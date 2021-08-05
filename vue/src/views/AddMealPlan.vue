@@ -28,8 +28,8 @@ export default {
         const outputFileName = await this.addImage(file);
         mealPlan.imageFileName = outputFileName;
         const savedMealPlan = await this.addMealPlan(mealPlan);
-        await this.addMealPlanRecipes(savedMealPlan, recipes);
-        this.$router.push({ name: "meal-plans" });
+        await this.addRecipesToMealPlan(savedMealPlan, recipes);
+        this.$router.push({ name: "mealPlans" });
       } catch (e) {
         this.submitMealPlanError = mealPlannerService.getError(e);
         console.error(e);
@@ -43,8 +43,8 @@ export default {
       const response = await mealPlannerService.addMealPlan(mealPlan);
       return response.data;
     },
-    async addMealPlanRecipes(mealPlan, recipes) {
-      const response = await mealPlannerService.addMealPlanRecipes(
+    async addRecipesToMealPlan(mealPlan, recipes) {
+      const response = await mealPlannerService.addRecipesToMealPlan(
         mealPlan,
         recipes
       );
@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style>
-div.add-recipe {
+div.add-meal-plan {
   display: flex;
   flex-direction: column;
   align-items: center;

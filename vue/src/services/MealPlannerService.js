@@ -78,7 +78,15 @@ export default {
     },
 
     addRecipesToMealPlan(mealPlan, recipes) {
-        return http.post(`/mealplans/${mealPlan.getMealPlanById}/recipes`, recipes);
+        return http.post(`/mealplans/${mealPlan.mealId}/recipes`, recipes);
+    },
+
+    getRecipeCategories() {
+        return http.get('/recipes/categories');
+    },
+
+    getRecipeDifficultyLevels() {
+        return http.get('/recipes/difficultylevels');
     }
 
 }
