@@ -1,11 +1,14 @@
 package com.techelevator.dao;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.techelevator.recipes.dao.IngredientDAO;
 import com.techelevator.recipes.dao.JdbcIngredientDAO;
 import com.techelevator.recipes.dao.JdbcRecipeDAO;
 import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.IngredientException;
 import com.techelevator.recipes.exceptions.NegativeValueException;
+import com.techelevator.recipes.exceptions.RecipeException;
+import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 import org.junit.Assert;
@@ -29,7 +32,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     public void setup() {
         jdbcTemplate = new JdbcTemplate(getDataSource());
         ingredientDAO = new JdbcIngredientDAO(jdbcTemplate);
-        recipeDAO = new JdbcRecipeDAO(jdbcTemplate, ingredientDAO);
+        recipeDAO = new JdbcRecipeDAO(jdbcTemplate);
     }
 
     @Test
@@ -45,7 +48,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void retrieve_recipe_by_id() throws NegativeValueException {
+    public void retrieve_recipe_by_id() throws NegativeValueException, RecipeException {
         Recipe recipeOne = getRecipe(-1L);
         recipeDAO.addRecipe(recipeOne);
 
@@ -56,7 +59,18 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void add_recipe() throws NegativeValueException {
+    public void retrieve_recipes_by_name() throws NegativeValueException, RecipeException {
+        Recipe recipeOne = getByName("TestName1");
+        Recipe recipeTwo = getByName("TestName2");
+        recipeDAO.addRecipe(recipeOne);
+        recipeDAO.addRecipe(recipeTwo);
+
+        List<Recipe> testRecipeList = recipeDAO.getRecipesByName("TestName1");
+        Assert.assertTrue(testRecipeList.size() > 0);
+    }
+
+    @Test
+    public void add_recipe() throws NegativeValueException, RecipeException {
         Recipe newRecipe = getRecipe(-1L);
 
         recipeDAO.addRecipe(newRecipe);
@@ -67,7 +81,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void add_ingredients_to_recipe() throws IngredientException, NegativeValueException {
+    public void add_ingredients_to_recipe() throws IngredientException, NegativeValueException, RecipeException {
         Recipe recipeOne = getRecipe(-1L);
         recipeDAO.addRecipe(recipeOne);
         Ingredient ingredientOne = getIngredient(-1L);
@@ -116,5 +130,21 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         ingredient.setName("testName");
         ingredient.setCategory("testCategory");
         return ingredient;
+    }
+
+    private Recipe getByName(String name) {
+        Recipe recipe = new Recipe();
+        recipe.setRecipeId(-1L);
+        recipe.setName(name);
+        recipe.setCategory("testCategory");
+        recipe.setDifficultyLevel("testDifficulty");
+        recipe.setPrepTimeMin(5);
+        recipe.setCookTimeMin(6);
+        recipe.setServingSize(4);
+        recipe.setInstructions("testInstructions");
+        recipe.setDateCreated(LocalDate.of(2021, 8, 2));
+        recipe.setImageFileName("testImage.jpg");
+        recipe.setIngredientList(new ArrayList<>());
+        return recipe;
     }
 }

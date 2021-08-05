@@ -27,7 +27,7 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
     public void setup() {
         jdbcTemplate = new JdbcTemplate(getDataSource());
         ingredientDAO = new JdbcIngredientDAO(jdbcTemplate);
-        recipeDAO = new JdbcRecipeDAO(jdbcTemplate, ingredientDAO);
+        recipeDAO = new JdbcRecipeDAO(jdbcTemplate);
 
     }
 
@@ -63,28 +63,6 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
 
     }
 
-    @Test
-    public void retrieve_ingredients_by_recipeId() throws IngredientException, NegativeValueException {
-        //making and adding a recipe to the database
-        Recipe recipeOne = getRecipe(-1L);
-        recipeDAO.addRecipe(recipeOne);
-        //making and adding an ingredient to the database
-        Ingredient ingredientOne = getIngredient(-1L);
-        ingredientOne.setUnitMeasurement("unitMeasurement");
-        ingredientOne.setQuantity(1.5);
-        ingredientDAO.addIngredient(ingredientOne); //adding ingredient to database
-        //making a list to hold our ingredient
-        List<Ingredient> ingredients = new ArrayList<Ingredient>();
-        ingredients.add(ingredientOne);
-        //will now put those ingredients into our recipe
-        recipeDAO.addIngredientsToRecipe(recipeOne, ingredients);
-
-        //get a recipe's ingredients (assert True will tell us if we added because > 0 will be true.
-        List<Ingredient> testIngredientList = ingredientDAO.getIngredientsByRecipeId(recipeOne.getRecipeId());
-        Assert.assertTrue(testIngredientList.size() > 0);
-    }
-
-
     private Ingredient getIngredient(Long ingredientId) {
         Ingredient ingredient = new Ingredient();
         ingredient.setIngredientId(ingredientId);
@@ -100,22 +78,6 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
         ingredient.setName(name);
         ingredient.setCategory("testCategory");
         return ingredient;
-    }
-    
-    private Recipe getRecipe(Long recipeId) {
-        Recipe recipe = new Recipe();
-        recipe.setRecipeId(recipeId);
-        recipe.setName("testName");
-        recipe.setCategory("testCategory");
-        recipe.setDifficultyLevel("testDifficulty");
-        recipe.setPrepTimeMin(5);
-        recipe.setCookTimeMin(6);
-        recipe.setServingSize(4);
-        recipe.setInstructions("testInstructions");
-        recipe.setDateCreated(LocalDate.of(2021, 8, 2));
-        recipe.setImageFileName("testImage.jpg");
-        recipe.setIngredientList(new ArrayList<>());
-        return recipe;
     }
 
 }

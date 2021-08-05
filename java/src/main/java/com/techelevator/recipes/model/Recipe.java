@@ -1,6 +1,7 @@
 package com.techelevator.recipes.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +22,7 @@ public class Recipe {
 
 
     public Recipe() {
-
+        this.ingredientList = new ArrayList<>();
     }
 
     public Long getRecipeId() {
