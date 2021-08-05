@@ -1,8 +1,11 @@
 package com.techelevator.recipes.model;
 
+import com.techelevator.recipes.exceptions.InvalidRecipeCategoryException;
+import com.techelevator.recipes.exceptions.InvalidRecipeDifficultyLevelException;
+import com.techelevator.recipes.exceptions.RecipeException;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,9 +23,17 @@ public class Recipe {
     private String imageFileName;
     private List<Ingredient> ingredientList;
 
-
     public Recipe() {
         this.ingredientList = new ArrayList<>();
+    }
+
+    public void validate() throws RecipeException {
+        if(!Category.isValidCategory(getCategory())) {
+            throw new InvalidRecipeCategoryException();
+        }
+        if(!DifficultyLevel.isValidDifficulty(getDifficultyLevel())) {
+            throw new InvalidRecipeDifficultyLevelException();
+        }
     }
 
     public Long getRecipeId() {
