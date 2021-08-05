@@ -3,6 +3,7 @@ package com.techelevator.mealPlanner.model;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,7 +16,7 @@ public class MealPlan {
     private List<Recipe> recipeList;
 
     public MealPlan() {
-
+        this.recipeList = new ArrayList<>();
     }
 
     public Long getMealId() {

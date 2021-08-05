@@ -1,5 +1,6 @@
 package com.techelevator.mealPlanner.dao;
 
+import com.techelevator.mealPlanner.exceptions.MealPlanAlreadyExistsException;
 import com.techelevator.mealPlanner.exceptions.MealPlanException;
 import com.techelevator.mealPlanner.exceptions.MealPlanNotFoundException;
 import com.techelevator.mealPlanner.model.MealPlan;
@@ -77,7 +78,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
             return mealPlan;
         } catch(DataIntegrityViolationException e) {
             if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23505"))
-                throw new MealPlanException("This Meal Plan Already Exists", e.getMostSpecificCause());
+                throw new MealPlanAlreadyExistsException(e.getMostSpecificCause());
             throw e;
         }
 

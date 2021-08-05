@@ -26,7 +26,7 @@ public class MealPlanController {
 //    }
 
     @RequestMapping(path = "/mealplans", method = RequestMethod.GET)
-    public List<MealPlan> getByName(@RequestParam String name) throws RecipeNotFoundException {
+    public List<MealPlan> getByName(@RequestParam(required = false) String name) throws RecipeNotFoundException {
         return mealPlanDAO.getMealPlansByName(name);
     }
 

@@ -7,6 +7,7 @@ import com.techelevator.mealPlanner.model.MealPlan;
 import com.techelevator.recipes.dao.JdbcRecipeDAO;
 import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.NegativeValueException;
+import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Recipe;
 import org.junit.Assert;
@@ -77,7 +78,7 @@ public class JDBCMealPlanIntegrationTest extends DAOIntegrationTest {
     }
 
     @Test
-    public void add_recipes_to_meal_plan() throws NegativeValueException, MealPlanException, RecipeNotFoundException {
+    public void add_recipes_to_meal_plan() throws NegativeValueException, MealPlanException, RecipeException {
         Recipe newRecipe = getRecipe(-1L);
         recipeDAO.addRecipe(newRecipe);
 
