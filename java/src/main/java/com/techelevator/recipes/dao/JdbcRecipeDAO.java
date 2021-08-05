@@ -16,12 +16,9 @@ import java.util.List;
 public class JdbcRecipeDAO implements RecipeDAO {
 
     private JdbcTemplate jdbcTemplate;
-    private IngredientDAO ingredientDAO;
 
-
-    public JdbcRecipeDAO(JdbcTemplate jdbcTemplate, IngredientDAO ingredientDAO) {
+    public JdbcRecipeDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.ingredientDAO = ingredientDAO;
     }
 
     @Override

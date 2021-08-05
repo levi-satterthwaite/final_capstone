@@ -27,7 +27,7 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
     public void setup() {
         jdbcTemplate = new JdbcTemplate(getDataSource());
         ingredientDAO = new JdbcIngredientDAO(jdbcTemplate);
-        recipeDAO = new JdbcRecipeDAO(jdbcTemplate, ingredientDAO);
+        recipeDAO = new JdbcRecipeDAO(jdbcTemplate);
 
     }
 
