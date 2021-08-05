@@ -29,7 +29,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     @Override
     public List<MealPlan> getListOfMealPlans() throws RecipeNotFoundException {
         List<MealPlan> mealPlans = new ArrayList<MealPlan>();
-        String sql = "SELECT meal_id, name, description FROM meal_plan";
+        String sql = "SELECT meal_id, name, description, image_file_name FROM meal_plan";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql);
         while(rows.next()) {
             MealPlan mealPlan = mapMealPlan(rows);
@@ -42,7 +42,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     @Override
     public List<MealPlan> getMealPlansByName(String name) throws RecipeNotFoundException {
         List<MealPlan> mealPlans = new ArrayList<MealPlan>();
-        String sql = "SELECT meal_id, name, description FROM meal_plan WHERE name ILIKE ?";
+        String sql = "SELECT meal_id, name, description, image_file_name FROM meal_plan WHERE name ILIKE ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%");
         while(rows.next()) {
             MealPlan mealPlan = mapMealPlan(rows);
@@ -55,7 +55,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     @Override
     public MealPlan getMealPlanById(Long mealId) throws MealPlanNotFoundException, RecipeNotFoundException {
         MealPlan mealPlan = new MealPlan();
-        String sql = "SELECT meal_id, name, description FROM meal_plan WHERE meal_id = ?";
+        String sql = "SELECT meal_id, name, description, image_file_name FROM meal_plan WHERE meal_id = ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealId);
         if(rows.next()) {
             mealPlan = mapMealPlan(rows);
@@ -70,9 +70,9 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     @Override
     public MealPlan addMealPlan(MealPlan mealPlan) throws MealPlanException {
         try {
-            String sql = "INSERT INTO meal_plan (meal_id, name, description) VALUES " +
-                    "(DEFAULT, ?, ?) RETURNING meal_id";
-            SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlan.getName(), mealPlan.getDescription());
+            String sql = "INSERT INTO meal_plan (meal_id, name, description, image_file_name) VALUES " +
+                    "(DEFAULT, ?, ?, ?) RETURNING meal_id";
+            SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlan.getName(), mealPlan.getDescription(), mealPlan.getImageFileName());
             rows.next();
             mealPlan.setMealId(rows.getLong("meal_id"));
             return mealPlan;
@@ -118,6 +118,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         mealPlan.setMealId(row.getLong("meal_id"));
         mealPlan.setName(row.getString("name"));
         mealPlan.setDescription(row.getString("description"));
+        mealPlan.setImageFileName(row.getString("image_file_name"));
 
         return mealPlan;
     }

@@ -13,6 +13,7 @@ public class MealPlan {
     private Long mealId;
     private String name;
     private String description;
+    private String imageFileName;
     private List<Recipe> recipeList;
 
     public MealPlan() {
@@ -41,6 +42,14 @@ public class MealPlan {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
 
     public List<Recipe> getRecipeList() {
