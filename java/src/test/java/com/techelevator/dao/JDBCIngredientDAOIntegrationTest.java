@@ -79,21 +79,5 @@ public class JDBCIngredientDAOIntegrationTest extends DAOIntegrationTest{
         ingredient.setCategory("testCategory");
         return ingredient;
     }
-    
-    private Recipe getRecipe(Long recipeId) {
-        Recipe recipe = new Recipe();
-        recipe.setRecipeId(recipeId);
-        recipe.setName("testName");
-        recipe.setCategory("testCategory");
-        recipe.setDifficultyLevel("testDifficulty");
-        recipe.setPrepTimeMin(5);
-        recipe.setCookTimeMin(6);
-        recipe.setServingSize(4);
-        recipe.setInstructions("testInstructions");
-        recipe.setDateCreated(LocalDate.of(2021, 8, 2));
-        recipe.setImageFileName("testImage.jpg");
-        recipe.setIngredientList(new ArrayList<>());
-        return recipe;
-    }
 
 }

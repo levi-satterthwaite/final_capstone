@@ -44,7 +44,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
         List<Recipe> recipes = new ArrayList<Recipe>();
         String sql = "SELECT recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                 "serving_size, instructions, date_created, image_file_name " +
-                "FROM recipe WHERE rname ILIKE ?";
+                "FROM recipe WHERE name ILIKE ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%");
         while(rows.next()) {
             recipes.add(mapRecipe(rows));
@@ -109,7 +109,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
                 ingredient.getQuantity(), ingredient.getUnitMeasurement());
         rows.next();
     }
-    
+
     private List<Ingredient> getIngredientsByRecipeId(Long recipeId)  {
         List<Ingredient> ingredients = new ArrayList<Ingredient>();
         String sql = "SELECT recipe.recipe_id, ingredient.ingredient_id AS ingredient_id, ingredient.name AS ingredient_name, "
