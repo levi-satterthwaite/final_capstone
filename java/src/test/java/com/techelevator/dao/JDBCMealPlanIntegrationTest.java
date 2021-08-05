@@ -7,6 +7,7 @@ import com.techelevator.mealPlanner.model.MealPlan;
 import com.techelevator.recipes.dao.JdbcRecipeDAO;
 import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.NegativeValueException;
+import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Recipe;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,7 +32,7 @@ public class JDBCMealPlanIntegrationTest extends DAOIntegrationTest {
     }
 
     @Test
-    public void retrieve_all_meal_plans() throws MealPlanException {
+    public void retrieve_all_meal_plans() throws MealPlanException, RecipeNotFoundException {
         List<MealPlan> originalList = mealPlanDAO.getListOfMealPlans();
         MealPlan testMealPlan = getById(-1L);
         mealPlanDAO.addMealPlan(testMealPlan);
@@ -42,7 +43,7 @@ public class JDBCMealPlanIntegrationTest extends DAOIntegrationTest {
     }
 
     @Test
-    public void retrieve_meal_plans_by_name() throws MealPlanException {
+    public void retrieve_meal_plans_by_name() throws MealPlanException, RecipeNotFoundException {
         List<MealPlan> originalList = mealPlanDAO.getListOfMealPlans();
         MealPlan mealPlanOne = getByName("TestName1");
         MealPlan mealPlanTwo = getByName("TestName2");
@@ -55,7 +56,7 @@ public class JDBCMealPlanIntegrationTest extends DAOIntegrationTest {
     }
 
     @Test
-    public void retrieve_meal_plan_by_id() throws MealPlanException {
+    public void retrieve_meal_plan_by_id() throws MealPlanException, RecipeNotFoundException {
         MealPlan mealPlanOne = getById(-1L);
         mealPlanDAO.addMealPlan(mealPlanOne);
 
@@ -65,7 +66,7 @@ public class JDBCMealPlanIntegrationTest extends DAOIntegrationTest {
     }
 
     @Test
-    public void add_meal_plan() throws MealPlanException {
+    public void add_meal_plan() throws MealPlanException, RecipeNotFoundException {
         MealPlan newMealPlan = getById(-1L);
 
         mealPlanDAO.addMealPlan(newMealPlan);
@@ -76,7 +77,7 @@ public class JDBCMealPlanIntegrationTest extends DAOIntegrationTest {
     }
 
     @Test
-    public void add_recipes_to_meal_plan() throws NegativeValueException, MealPlanException {
+    public void add_recipes_to_meal_plan() throws NegativeValueException, MealPlanException, RecipeNotFoundException {
         Recipe newRecipe = getRecipe(-1L);
         recipeDAO.addRecipe(newRecipe);
 

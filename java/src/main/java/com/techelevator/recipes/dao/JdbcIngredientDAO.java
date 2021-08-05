@@ -1,6 +1,7 @@
 package com.techelevator.recipes.dao;
 
 import com.techelevator.recipes.exceptions.IngredientException;
+import com.techelevator.recipes.exceptions.IngredientNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -37,14 +38,17 @@ public class JdbcIngredientDAO implements IngredientDAO {
     }
 
     @Override
-    public Ingredient getIngredientById(Long ingredientId) {
-        Ingredient ingredient = null;
-        String sql = "SELECT ingredient_id, name, category FROM ingredient WHERE ingredient_id = ?";
-        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, ingredientId);
-        if(rows.next()) {
-            ingredient = mapIngredient(rows);
-        }
-        return ingredient;
+    public Ingredient getIngredientById(Long ingredientId) throws IngredientNotFoundException {
+            Ingredient ingredient = null;
+            String sql = "SELECT ingredient_id, name, category FROM ingredient WHERE ingredient_id = ?";
+            SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, ingredientId);
+            if(rows.next()) {
+                ingredient = mapIngredient(rows);
+            }
+            if(ingredient == null) {
+                throw new IngredientNotFoundException();
+            }
+            return ingredient;
     }
 
     @Override
