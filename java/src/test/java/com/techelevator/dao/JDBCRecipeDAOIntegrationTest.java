@@ -7,6 +7,7 @@ import com.techelevator.recipes.dao.JdbcRecipeDAO;
 import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.IngredientException;
 import com.techelevator.recipes.exceptions.NegativeValueException;
+import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
@@ -47,7 +48,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void retrieve_recipe_by_id() throws NegativeValueException, RecipeNotFoundException {
+    public void retrieve_recipe_by_id() throws NegativeValueException, RecipeException {
         Recipe recipeOne = getRecipe(-1L);
         recipeDAO.addRecipe(recipeOne);
 
@@ -58,7 +59,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void retrieve_recipes_by_name() throws NegativeValueException {
+    public void retrieve_recipes_by_name() throws NegativeValueException, RecipeException {
         Recipe recipeOne = getByName("TestName1");
         Recipe recipeTwo = getByName("TestName2");
         recipeDAO.addRecipe(recipeOne);
@@ -69,7 +70,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void add_recipe() throws NegativeValueException, RecipeNotFoundException {
+    public void add_recipe() throws NegativeValueException, RecipeException {
         Recipe newRecipe = getRecipe(-1L);
 
         recipeDAO.addRecipe(newRecipe);
@@ -80,7 +81,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     @Test
-    public void add_ingredients_to_recipe() throws IngredientException, NegativeValueException, RecipeNotFoundException {
+    public void add_ingredients_to_recipe() throws IngredientException, NegativeValueException, RecipeException {
         Recipe recipeOne = getRecipe(-1L);
         recipeDAO.addRecipe(recipeOne);
         Ingredient ingredientOne = getIngredient(-1L);

@@ -1,7 +1,6 @@
 package com.techelevator.recipes.dao;
 
-import com.techelevator.recipes.exceptions.NegativeValueException;
-import com.techelevator.recipes.exceptions.RecipeNotFoundException;
+import com.techelevator.recipes.exceptions.*;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -70,7 +69,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public Recipe addRecipe(Recipe recipe) throws NegativeValueException {
+    public Recipe addRecipe(Recipe recipe) throws NegativeValueException, RecipeException {
         try {
             String sql = "INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                     "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
@@ -85,6 +84,8 @@ public class JdbcRecipeDAO implements RecipeDAO {
         } catch(DataIntegrityViolationException e) {
             if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
                 throw new NegativeValueException("Negative Value Not Allowed", e.getMostSpecificCause());
+            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23505"))
+                throw new RecipeAlreadyExistsException(e.getMostSpecificCause());
             throw e;
         }
     }

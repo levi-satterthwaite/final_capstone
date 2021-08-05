@@ -2,6 +2,7 @@ package com.techelevator.recipes.controller;
 
 import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.NegativeValueException;
+import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
@@ -27,7 +28,7 @@ public class RecipeController {
 //    }
 
     @RequestMapping(path = "/recipes", method = RequestMethod.GET)
-    public List<Recipe> getByName(@RequestParam String name) {
+    public List<Recipe> getByName(@RequestParam(required = false) String name) {
         return recipeDAO.getRecipesByName(name);
     }
 
@@ -37,7 +38,7 @@ public class RecipeController {
     }
 
     @RequestMapping(path = "/recipes", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestBody Recipe recipe) throws NegativeValueException {
+    public Recipe addRecipe(@RequestBody Recipe recipe) throws NegativeValueException, RecipeException {
         recipe.setDateCreated(LocalDate.now());
         return recipeDAO.addRecipe(recipe);
     }
