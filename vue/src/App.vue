@@ -18,7 +18,9 @@
         >
       </div>
     </div>
-    <router-view />
+    <div class="router-view">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -49,6 +51,9 @@ div.toolbar a {
 }
 div.toolbar a:hover {
   color: #cccccc;
+}
+div.router-view {
+  margin-top: 75px;
 }
 /* div.toolbar a:last-child {
   margin-right: 20px;
