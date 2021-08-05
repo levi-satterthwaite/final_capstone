@@ -70,8 +70,8 @@
       <fieldset class="recipe-ingredients">
         <legend>Recipe Ingredients</legend>
         <ul class="ingredients">
-          <li class="ingredient ingredient-empty" v-if="!hasIngredients">
-            Add some ingredients!
+          <li class="ingredient ingredient-empty" v-if="!hasIngredients && !isAddIngredientOpen">
+            Please Add Ingredients
           </li>
           <li
             class="ingredient"
