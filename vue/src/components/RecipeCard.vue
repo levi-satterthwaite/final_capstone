@@ -1,5 +1,6 @@
 <template>
   <div class="recipe-card card">
+    <a href="">
     <div class="image-wrapper">
       <img
         v-bind:src="'/files/' + recipe.imageFileName"
@@ -12,6 +13,7 @@
           <p>{{ recipe.category }}  |  {{ recipe.difficultyLevel }}</p>
       </div>
     </div>
+    </a>
   </div>
 </template>
 
@@ -54,5 +56,10 @@ div.recipe-card img {
   display: flex;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+
+}
+a {
+  display: block;
+  text-decoration: none;
 }
 </style>
