@@ -1,9 +1,10 @@
 package com.techelevator.mealPlanner.dao;
 
 import com.techelevator.mealPlanner.exceptions.MealPlanException;
+import com.techelevator.mealPlanner.exceptions.MealPlanNotFoundException;
 import com.techelevator.mealPlanner.model.MealPlan;
 import com.techelevator.recipes.dao.RecipeDAO;
-import com.techelevator.recipes.exceptions.IngredientException;
+import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +26,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public List<MealPlan> getListOfMealPlans() {
+    public List<MealPlan> getListOfMealPlans() throws RecipeNotFoundException {
         List<MealPlan> mealPlans = new ArrayList<MealPlan>();
         String sql = "SELECT meal_id, name, description FROM meal_plan";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql);
@@ -38,7 +39,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public List<MealPlan> getMealPlansByName(String name) {
+    public List<MealPlan> getMealPlansByName(String name) throws RecipeNotFoundException {
         List<MealPlan> mealPlans = new ArrayList<MealPlan>();
         String sql = "SELECT meal_id, name, description FROM meal_plan WHERE name ILIKE ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%");
@@ -51,13 +52,16 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public MealPlan getMealPlanById(Long mealId) {
+    public MealPlan getMealPlanById(Long mealId) throws MealPlanNotFoundException, RecipeNotFoundException {
         MealPlan mealPlan = new MealPlan();
         String sql = "SELECT meal_id, name, description FROM meal_plan WHERE meal_id = ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealId);
         if(rows.next()) {
             mealPlan = mapMealPlan(rows);
             mealPlan.setRecipeList(getRecipesByMealId(mealPlan.getMealId()));
+        }
+        if(mealPlan == null) {
+            throw new MealPlanNotFoundException();
         }
         return mealPlan;
     }
@@ -80,7 +84,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public MealPlan addRecipesToMealPlan(MealPlan mealPlan, List<Recipe> recipes) {
+    public MealPlan addRecipesToMealPlan(MealPlan mealPlan, List<Recipe> recipes) throws MealPlanNotFoundException, RecipeNotFoundException {
         for(Recipe recipe : recipes) {
             addRecipeToMealPlan(mealPlan, recipe);
         }
@@ -94,7 +98,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         rows.next();
     }
 
-    private List<Recipe> getRecipesByMealId(Long mealId) {
+    private List<Recipe> getRecipesByMealId(Long mealId) throws RecipeNotFoundException {
         List<Recipe> recipes = new ArrayList<Recipe>();
         String sql = "SELECT recipe_id " +
                 "FROM recipe_meal_plan WHERE meal_id = ?";
