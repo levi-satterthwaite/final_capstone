@@ -59,6 +59,26 @@ export default {
             return "Server did not respond";
         } 
         return e;
+    },
+
+    getMealPlans(mealPlanName) {
+        let name = '';
+        if (typeof mealPlanName === "string") {
+            name = mealPlanName;
+        }
+        return http.get(`/mealplans?name=${name}`);
+    },
+
+    getMealPlanById(id) {
+        return http.get(`/mealplans/${id}`);
+    },
+
+    addMealPlan(mealPlan) {
+        return http.post('/mealplans', mealPlan);
+    },
+
+    addRecipesToMealPlan(mealPlan, recipes) {
+        return http.post(`/mealplans/${mealPlan.getMealPlanById}/recipes`, recipes);
     }
 
 }

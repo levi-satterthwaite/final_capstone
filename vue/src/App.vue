@@ -6,6 +6,8 @@
         >&nbsp;|&nbsp;
         <router-link v-bind:to="{ name: 'recipes' }">Recipes</router-link
         >&nbsp;|&nbsp;
+         <router-link v-bind:to="{ name: 'mealPlans' }">Meal Plans</router-link
+        >&nbsp;|&nbsp;
         <router-link
           v-bind:to="{ name: 'logout' }"
           v-if="$store.state.token != ''"

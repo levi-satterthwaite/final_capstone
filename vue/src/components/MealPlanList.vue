@@ -1,5 +1,7 @@
 <template>
-  
+  <div class="meal-plan-list">
+    
+  </div>
 </template>
 
 <script>
