@@ -88,23 +88,27 @@ public class JdbcRecipeDAO implements RecipeDAO {
             recipe.setRecipeId(rows.getLong("recipe_id"));
             return recipe;
         } catch(DataIntegrityViolationException e) {
-            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
+            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") &&
+                    ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
                 throw new NegativeValueException("Negative Value Not Allowed", e.getMostSpecificCause());
-            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23505"))
+            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") &&
+                    ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23505"))
                 throw new RecipeAlreadyExistsException(e.getMostSpecificCause());
             throw e;
         }
     }
 
     @Override
-    public Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException, RecipeNotFoundException {
+    public Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException,
+            RecipeNotFoundException {
         try {
             for(Ingredient ingredient : ingredients) {
                 addIngredientToRecipe(recipe, ingredient);
             }
             return getRecipeById(recipe.getRecipeId());
         } catch(DataIntegrityViolationException e) {
-            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
+            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") &&
+                    ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
                 throw new NegativeValueException("Negative Value Not Allowed", e.getMostSpecificCause());
             throw e;
         }
@@ -193,7 +197,8 @@ public class JdbcRecipeDAO implements RecipeDAO {
             jdbcTemplate.update(sql, ingredient.getQuantity(), ingredient.getUnitMeasurement(),
                     recipe.getRecipeId(), ingredient.getIngredientId());
         } catch(DataIntegrityViolationException e) {
-            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
+            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") &&
+                    ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
                 throw new NegativeValueException("Negative Value Not Allowed", e.getMostSpecificCause());
         }
     }

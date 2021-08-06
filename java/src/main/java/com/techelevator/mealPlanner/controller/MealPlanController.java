@@ -4,6 +4,7 @@ import com.techelevator.mealPlanner.dao.MealPlanDAO;
 import com.techelevator.mealPlanner.exceptions.MealPlanException;
 import com.techelevator.mealPlanner.exceptions.MealPlanNotFoundException;
 import com.techelevator.mealPlanner.model.MealPlan;
+import com.techelevator.recipes.exceptions.NegativeValueException;
 import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Message;
@@ -28,12 +29,14 @@ public class MealPlanController {
 //    }
 
     @RequestMapping(path = "/mealplans", method = RequestMethod.GET)
-    public List<MealPlan> getByName(@RequestParam(required = false, defaultValue = "") String name) throws RecipeNotFoundException {
+    public List<MealPlan> getByName(@RequestParam(required = false, defaultValue = "") String name) throws
+            RecipeNotFoundException {
         return mealPlanDAO.getMealPlansByName(name);
     }
 
     @RequestMapping(path = "/mealplans/{id}", method = RequestMethod.GET)
-    public MealPlan getById(@PathVariable(name = "id") Long mealId) throws MealPlanNotFoundException, RecipeNotFoundException {
+    public MealPlan getById(@PathVariable(name = "id") Long mealId) throws MealPlanNotFoundException,
+            RecipeNotFoundException {
         return mealPlanDAO.getMealPlanById(mealId);
     }
 
@@ -43,13 +46,15 @@ public class MealPlanController {
     }
 
     @RequestMapping(path = "/mealplans/{id}/recipes", method = RequestMethod.POST)
-    public MealPlan addRecipes(@PathVariable(name = "id") Long mealId, @RequestBody List<Recipe> recipes) throws MealPlanNotFoundException, RecipeNotFoundException {
+    public MealPlan addRecipes(@PathVariable(name = "id") Long mealId, @RequestBody List<Recipe> recipes) throws
+            MealPlanNotFoundException, RecipeNotFoundException {
         MealPlan mealPlan = mealPlanDAO.getMealPlanById(mealId);
         return mealPlanDAO.addRecipesToMealPlan(mealPlan, recipes);
     }
 
     @RequestMapping(path = "/mealplans/{id}", method = RequestMethod.PUT)
-    public MealPlan updateMealPlan(@PathVariable(name = "id") Long mealId, @RequestBody MealPlan mealPlan) throws MealPlanException, RecipeNotFoundException {
+    public MealPlan updateMealPlan(@PathVariable(name = "id") Long mealId, @RequestBody MealPlan mealPlan) throws
+            MealPlanException, RecipeException, NegativeValueException {
         if(!mealId.equals(mealPlan.getMealId())) {
             throw new MealPlanException("Meal IDs do not match.");
         }
@@ -58,7 +63,7 @@ public class MealPlanController {
     }
 
     @RequestMapping(path = "/mealplans/{id}", method = RequestMethod.DELETE)
-    public Message delete(@PathVariable(name = "id") Long mealId) throws MealPlanNotFoundException, RecipeException {
+    public Message deleteMealPlan(@PathVariable(name = "id") Long mealId) throws MealPlanNotFoundException, RecipeException {
         mealPlanDAO.deleteMealPlan(mealPlanDAO.getMealPlanById(mealId));
         return new Message("The meal plan has been deleted.");
     }

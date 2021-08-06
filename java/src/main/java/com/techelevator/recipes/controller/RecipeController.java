@@ -51,19 +51,21 @@ public class RecipeController {
     }
 
     @RequestMapping(path = "/recipes/{id}/ingredients", method = RequestMethod.POST)
-    public Recipe addIngredients(@PathVariable(name = "id") Long recipeId, @RequestBody List<Ingredient> ingredients) throws NegativeValueException, RecipeNotFoundException {
+    public Recipe addIngredients(@PathVariable(name = "id") Long recipeId, @RequestBody List<Ingredient> ingredients)
+            throws NegativeValueException, RecipeNotFoundException {
         Recipe recipe = recipeDAO.getRecipeById(recipeId);
         return recipeDAO.addIngredientsToRecipe(recipe, ingredients);
     }
 
     @RequestMapping(path = "/recipes/{id}", method = RequestMethod.DELETE)
-    public Message delete(@PathVariable(name = "id") Long recipeId) throws RecipeException {
+    public Message deleteRecipe(@PathVariable(name = "id") Long recipeId) throws RecipeException {
         recipeDAO.deleteRecipe(recipeDAO.getRecipeById(recipeId));
         return new Message("The recipe has been deleted.");
     }
 
     @RequestMapping(path = "/recipes/{id}", method = RequestMethod.PUT)
-    public Recipe updateRecipe(@PathVariable(name = "id") Long recipeId, @RequestBody Recipe recipe) throws RecipeException, NegativeValueException {
+    public Recipe updateRecipe(@PathVariable(name = "id") Long recipeId, @RequestBody Recipe recipe) throws
+            RecipeException, NegativeValueException {
         if(!recipeId.equals(recipe.getRecipeId())) {
             throw new RecipeException("Recipe IDs do not match.");
         }

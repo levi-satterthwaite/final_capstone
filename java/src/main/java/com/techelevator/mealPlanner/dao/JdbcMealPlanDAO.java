@@ -5,6 +5,7 @@ import com.techelevator.mealPlanner.exceptions.MealPlanException;
 import com.techelevator.mealPlanner.exceptions.MealPlanNotFoundException;
 import com.techelevator.mealPlanner.model.MealPlan;
 import com.techelevator.recipes.dao.RecipeDAO;
+import com.techelevator.recipes.exceptions.NegativeValueException;
 import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class JdbcMealPlanDAO implements MealPlanDAO {
@@ -98,17 +101,36 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public MealPlan updateMealPlan(MealPlan mealPlan) throws MealPlanException, RecipeNotFoundException {
+    public MealPlan updateMealPlan(MealPlan mealPlan) throws MealPlanException, RecipeException, NegativeValueException {
         if(mealPlan.getMealId().equals(null)) {
             throw new MealPlanNotFoundException();
         }
         mealPlan.validate();
+
+        List<Recipe> existingRecipeList = getRecipesByMealId(mealPlan.getMealId());
+        Map<Long, Recipe> existingRecipesMap = new HashMap<Long, Recipe>();
+        for(Recipe existingRecipe : existingRecipeList) {
+            existingRecipesMap.put(existingRecipe.getRecipeId(), existingRecipe);
+        }
+
+        for(Recipe mealPlanRecipe : mealPlan.getRecipeList()) {
+            if(!existingRecipesMap.containsKey(mealPlanRecipe.getRecipeId())) {
+                addRecipeToMealPlan(mealPlan, mealPlanRecipe);
+            }
+            else if(existingRecipesMap.containsKey(mealPlanRecipe.getRecipeId())) {
+                Recipe existingRecipe = existingRecipesMap.get(mealPlanRecipe.getRecipeId());
+                if(!existingRecipe.equals(mealPlanRecipe)) {
+                    updateMealPlanRecipe(mealPlan, mealPlanRecipe);
+                }
+                existingRecipesMap.remove(mealPlanRecipe.getRecipeId());
+            }
+        }
+        List<Recipe> mealPlanRecipesToRemove = new ArrayList<>(existingRecipesMap.values());
+        deleteRecipesFromMealPlan(mealPlan, mealPlanRecipesToRemove);
+
         String sql = "UPDATE meal_plan SET name = ?, description = ?, image_file_name = ? WHERE meal_id = ?";
         jdbcTemplate.update(sql, mealPlan.getName(), mealPlan.getDescription(), mealPlan.getImageFileName(),
             mealPlan.getMealId());
-
-        // TODO need to handle adding / removing recipes in the update
-
         return getMealPlanById(mealPlan.getMealId());
     }
 
@@ -130,6 +152,17 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
                 // if it does delete call deleteIngredientFromRecipe
                 deleteRecipeFromMealPlan(mealPlan, recipe);
             }
+        }
+    }
+
+    private void updateMealPlanRecipe(MealPlan mealPlan, Recipe recipe) throws NegativeValueException {
+        try {
+            String sql = "UPDATE recipe_meal_plan WHERE meal_id = ? AND recipe_id = ?";
+            jdbcTemplate.update(sql, mealPlan.getMealId(), recipe.getRecipeId());
+        } catch(DataIntegrityViolationException e) {
+            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") &&
+                    ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
+                throw new NegativeValueException("Negative Value Not Allowed", e.getMostSpecificCause());
         }
     }
 
