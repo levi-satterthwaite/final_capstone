@@ -23,7 +23,7 @@ public class RecipeController {
     }
 
     @RequestMapping(path = "/recipes", method = RequestMethod.GET)
-    public List<Recipe> getByName(@RequestParam(required = false) String name) {
+    public List<Recipe> getByName(@RequestParam(required = false, defaultValue = "") String name) {
         return recipeDAO.getRecipesByName(name);
     }
 
