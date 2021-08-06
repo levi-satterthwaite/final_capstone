@@ -22,11 +22,6 @@ public class RecipeController {
         this.recipeDAO = recipeDAO;
     }
 
-//    @RequestMapping(path = "/recipes", method = RequestMethod.GET)
-//    public List<Recipe> getList() {
-//        return recipeDAO.getListOfRecipes();
-//    }
-
     @RequestMapping(path = "/recipes", method = RequestMethod.GET)
     public List<Recipe> getByName(@RequestParam(required = false) String name) {
         return recipeDAO.getRecipesByName(name);
