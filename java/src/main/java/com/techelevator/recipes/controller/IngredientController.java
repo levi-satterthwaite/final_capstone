@@ -30,7 +30,7 @@ public class IngredientController {
     }
 
     @RequestMapping(path = "/ingredients", method = RequestMethod.GET)
-    public List<Ingredient> getByName(@RequestParam(required = false) String name) {
+    public List<Ingredient> getByName(@RequestParam(required = false, defaultValue = "") String name) {
         return ingredientDAO.getIngredientsByName(name);
     }
 
