@@ -56,7 +56,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
             String sql = "SELECT recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                     "serving_size, instructions, date_created, image_file_name " +
                     "FROM recipe WHERE recipe_id = ?";
-            SqlRowSet rows =  jdbcTemplate.queryForRowSet(sql,recipeId);
+            SqlRowSet rows =  jdbcTemplate.queryForRowSet(sql, recipeId);
             if (rows.next()) {
                 recipe = mapRecipe(rows);
             }
@@ -105,6 +105,56 @@ public class JdbcRecipeDAO implements RecipeDAO {
             throw e;
         }
     }
+
+    @Override
+    public void deleteRecipe(Recipe recipe) throws RecipeException {
+        // check to see if recipe is being used in a meal plan
+        makeSureRecipeIsNotInAMealPlan(recipe);
+        // delete all recipe ingredients first
+        deleteIngredientsFromRecipe(recipe, recipe.getIngredientList());
+        // delete the recipe (use the sql statement here)
+        String sql = "DELETE FROM recipe WHERE recipe_id = ?";
+        jdbcTemplate.update(sql, recipe.getRecipeId());
+    }
+
+    @Override
+    public void deleteIngredientsFromRecipe(Recipe recipe, List<Ingredient> ingredients) throws RecipeException {
+        // loop over list of ingredients
+        for(Ingredient ingredient : ingredients) {
+            // check to see if the ingredient is being used in a recipe
+            if(doesRecipeHaveIngredient(recipe, ingredient)) {
+                // if it does delete call deleteIngredientFromRecipe
+                deleteIngredientFromRecipe(recipe, ingredient);
+            }
+        }
+    }
+
+    private void makeSureRecipeIsNotInAMealPlan(Recipe recipe) throws RecipeException {
+        // check the database to make sure there are no meal plans using this recipe
+        // if there are any rows, throw an Error stating that the recipe is in use
+        String sql = "SELECT recipe_id, meal_id FROM recipe_meal_plan WHERE recipe_id = ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, recipe.getRecipeId());
+        if(rows.next()) {
+            throw new RecipeInUseException();
+        }
+    }
+
+    private boolean doesRecipeHaveIngredient(Recipe recipe, Ingredient ingredient) {
+        // check database to see if a recipe is using the ingredient
+        String sql = "SELECT recipe_id, ingredient_id FROM recipe_ingredient WHERE recipe_id = ? AND ingredient_id = ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, recipe.getRecipeId(), ingredient.getIngredientId());
+        if(rows.next()) {
+            return true;
+        }
+        return false;
+    }
+
+    private void deleteIngredientFromRecipe(Recipe recipe, Ingredient ingredient) {
+        // execute sql statement to remove the record from the join table
+        String sql = "DELETE FROM recipe_ingredient WHERE recipe_id = ? AND ingredient_id = ?";
+        jdbcTemplate.update(sql, recipe.getRecipeId(), ingredient.getIngredientId());
+    }
+
 
     private void addIngredientToRecipe(Recipe recipe, Ingredient ingredient) {
         String sql = "INSERT INTO recipe_ingredient (recipe_id, ingredient_id, quantity, "

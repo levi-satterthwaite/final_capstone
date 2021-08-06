@@ -4,7 +4,9 @@ import com.techelevator.mealPlanner.dao.MealPlanDAO;
 import com.techelevator.mealPlanner.exceptions.MealPlanException;
 import com.techelevator.mealPlanner.exceptions.MealPlanNotFoundException;
 import com.techelevator.mealPlanner.model.MealPlan;
+import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
+import com.techelevator.recipes.model.Message;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +55,12 @@ public class MealPlanController {
         }
         mealPlanDAO.getMealPlanById(mealId);
         return mealPlanDAO.updateMealPlan(mealPlan);
+    }
+
+    @RequestMapping(path = "/mealplans/{id}", method = RequestMethod.DELETE)
+    public Message delete(@PathVariable(name = "id") Long mealId) throws MealPlanNotFoundException, RecipeException {
+        mealPlanDAO.deleteMealPlan(mealPlanDAO.getMealPlanById(mealId));
+        return new Message("The meal plan has been deleted.");
     }
 
 

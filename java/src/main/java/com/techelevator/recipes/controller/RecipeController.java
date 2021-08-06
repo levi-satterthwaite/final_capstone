@@ -1,13 +1,11 @@
 package com.techelevator.recipes.controller;
 
 import com.techelevator.recipes.dao.RecipeDAO;
+import com.techelevator.recipes.exceptions.IngredientException;
 import com.techelevator.recipes.exceptions.NegativeValueException;
 import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
-import com.techelevator.recipes.model.Category;
-import com.techelevator.recipes.model.DifficultyLevel;
-import com.techelevator.recipes.model.Ingredient;
-import com.techelevator.recipes.model.Recipe;
+import com.techelevator.recipes.model.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -59,6 +57,12 @@ public class RecipeController {
     public Recipe addIngredients(@PathVariable(name = "id") Long recipeId, @RequestBody List<Ingredient> ingredients) throws NegativeValueException, RecipeNotFoundException {
         Recipe recipe = recipeDAO.getRecipeById(recipeId);
         return recipeDAO.addIngredientsToRecipe(recipe, ingredients);
+    }
+
+    @RequestMapping(path = "/recipes/{id}", method = RequestMethod.DELETE)
+    public Message delete(@PathVariable(name = "id") Long recipeId) throws RecipeException {
+        recipeDAO.deleteRecipe(recipeDAO.getRecipeById(recipeId));
+        return new Message("The recipe has been deleted.");
     }
 
 

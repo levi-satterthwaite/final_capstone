@@ -2,6 +2,7 @@ package com.techelevator.recipes.dao;
 
 import com.techelevator.recipes.exceptions.IngredientAlreadyExistsException;
 import com.techelevator.recipes.exceptions.IngredientException;
+import com.techelevator.recipes.exceptions.IngredientIsInUseException;
 import com.techelevator.recipes.exceptions.IngredientNotFoundException;
 import com.techelevator.recipes.model.Ingredient;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -61,6 +62,25 @@ public class JdbcIngredientDAO implements IngredientDAO {
             ingredients.add(mapIngredient(rows));
         }
         return ingredients;
+    }
+
+    @Override
+    public void deleteIngredient(Ingredient ingredient) throws IngredientException {
+        //check to make sure the ingredient isn't being used in a recipe
+        makeSureIngredientIsNotInARecipe(ingredient);
+        //delete the ingredient in the database
+        String sql = "DELETE FROM ingredient WHERE ingredient_id = ?";
+        jdbcTemplate.update(sql, ingredient.getIngredientId());
+    }
+
+    private void makeSureIngredientIsNotInARecipe(Ingredient ingredient) throws IngredientException {
+        // check the database to make sure there are no recipes using this ingredient
+        // if there are any rows throw an Error stating that the ingredient is in use
+        String sql = "SELECT recipe_id, ingredient_id FROM recipe_ingredient WHERE ingredient_id = ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, ingredient.getIngredientId());
+        if(rows.next()) {
+            throw new IngredientIsInUseException();
+        }
     }
 
     private Ingredient mapIngredient(SqlRowSet row) {

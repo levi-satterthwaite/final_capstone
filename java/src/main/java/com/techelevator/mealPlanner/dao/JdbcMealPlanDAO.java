@@ -5,7 +5,9 @@ import com.techelevator.mealPlanner.exceptions.MealPlanException;
 import com.techelevator.mealPlanner.exceptions.MealPlanNotFoundException;
 import com.techelevator.mealPlanner.model.MealPlan;
 import com.techelevator.recipes.dao.RecipeDAO;
+import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
+import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -104,7 +106,47 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         String sql = "UPDATE meal_plan SET name = ?, description = ?, image_file_name = ? WHERE meal_id = ?";
         jdbcTemplate.update(sql, mealPlan.getName(), mealPlan.getDescription(), mealPlan.getImageFileName(),
             mealPlan.getMealId());
+
+        // TODO need to handle adding / removing recipes in the update
+
         return getMealPlanById(mealPlan.getMealId());
+    }
+
+    @Override
+    public void deleteMealPlan(MealPlan mealPlan) throws RecipeException {
+        deleteRecipesFromMealPlan(mealPlan, mealPlan.getRecipeList());
+
+        // delete the meal plan
+        String sql = "DELETE FROM meal_plan WHERE meal_id = ?";
+        jdbcTemplate.update(sql, mealPlan.getMealId());
+    }
+
+    @Override
+    public void deleteRecipesFromMealPlan(MealPlan mealPlan, List<Recipe> recipes) throws RecipeException {
+        // loop over list of ingredients
+        for(Recipe recipe : recipes) {
+            // check to see if the ingredient is being used in a recipe
+            if(doesMealPlanHaveRecipe(mealPlan, recipe)) {
+                // if it does delete call deleteIngredientFromRecipe
+                deleteRecipeFromMealPlan(mealPlan, recipe);
+            }
+        }
+    }
+
+    private boolean doesMealPlanHaveRecipe(MealPlan mealPlan, Recipe recipe) {
+        // check database to see if a recipe is using the ingredient
+        String sql = "SELECT meal_id, recipe_id FROM recipe_meal_plan WHERE meal_id = ? AND recipe_id = ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlan.getMealId(), recipe.getRecipeId());
+        if(rows.next()) {
+            return true;
+        }
+        return false;
+    }
+
+    private void deleteRecipeFromMealPlan(MealPlan mealPlan, Recipe recipe) {
+        // execute sql statement to remove the record from the join table
+        String sql = "DELETE FROM recipe_meal_plan WHERE meal_id = ? AND recipe_id = ?";
+        jdbcTemplate.update(sql, mealPlan.getMealId(), recipe.getRecipeId());
     }
 
     private void addRecipeToMealPlan(MealPlan mealPlan, Recipe recipe) {
