@@ -1,6 +1,6 @@
 <template>
   <div class="recipe-card card">
-    <router-link v-bind:to="{name: 'recipeDetails', params: { id: recipe.id} }">
+    <router-link v-bind:to="{name: 'recipeDetails', params: { id: recipe.recipeId} }">
     <div class="image-wrapper">
       <img
         v-bind:src="'/files/' + recipe.imageFileName"
