@@ -18,4 +18,5 @@ public interface RecipeDAO {
     Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException, RecipeNotFoundException;
     void deleteRecipe (Recipe recipe) throws RecipeException;
     void deleteIngredientsFromRecipe(Recipe recipe, List<Ingredient> ingredients) throws RecipeException;
+    Recipe updateRecipe(Recipe recipe) throws NegativeValueException, RecipeException;
 }

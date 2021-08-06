@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class JdbcRecipeDAO implements RecipeDAO {
@@ -45,7 +47,9 @@ public class JdbcRecipeDAO implements RecipeDAO {
                 "FROM recipe WHERE name ILIKE ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%");
         while(rows.next()) {
-            recipes.add(mapRecipe(rows));
+            Recipe recipe = mapRecipe(rows);
+            recipe.setIngredientList(getIngredientsByRecipeId(recipe.getRecipeId()));
+            recipes.add(recipe);
         }
         return recipes;
     }
@@ -126,6 +130,71 @@ public class JdbcRecipeDAO implements RecipeDAO {
                 // if it does delete call deleteIngredientFromRecipe
                 deleteIngredientFromRecipe(recipe, ingredient);
             }
+        }
+    }
+
+    @Override
+    public Recipe updateRecipe(Recipe recipe) throws NegativeValueException, RecipeException {
+        if (recipe.getRecipeId().equals(null)) {
+            throw new RecipeNotFoundException();
+        }
+        recipe.validate();
+
+        // we want to get a list of the existing ingredients (recipe_ingredients) that are in database
+        // and compare them to what is in the recipe object.
+        List<Ingredient> existingIngredientsList = getIngredientsByRecipeId(recipe.getRecipeId());
+        Map<Long, Ingredient> existingIngredientsMap = new HashMap<Long, Ingredient>();
+        for(Ingredient existingIngredient : existingIngredientsList) {
+            // placing into Map to make it easier to do look-ups rather than array searches
+            existingIngredientsMap.put(existingIngredient.getIngredientId(), existingIngredient);
+        }
+
+        for(Ingredient recipeIngredient : recipe.getIngredientList()) {
+
+            // if the ingredient in the recipe is not in the existing list of ingredients,
+            //  we want to add it.
+            if(!existingIngredientsMap.containsKey(recipeIngredient.getIngredientId())) {
+                addIngredientToRecipe(recipe, recipeIngredient);
+            }
+
+            // if the ingredient in the recipe is already in the existing map of ingredients,
+            //  we want to update the recipe_ingredient with the quantity and unit of measurement,
+            // only if the values have changed
+            else if(existingIngredientsMap.containsKey(recipeIngredient.getIngredientId())) {
+                Ingredient existingIngredient = existingIngredientsMap.get(recipeIngredient.getIngredientId());
+                if(!existingIngredient.equals(recipeIngredient)) {
+                    updateRecipeIngredient(recipe, recipeIngredient);
+                }
+                // note we are removing the key from the map since we've already handle that ingredient
+                // reason why is if we have any more items in our map after this for loop we are going
+                // to remove them
+                existingIngredientsMap.remove(recipeIngredient.getIngredientId());
+            }
+        }
+        // if there are existing recipes that are not in the recipe's list of ingredients, we
+        //  we want to remove them
+        List<Ingredient> recipeIngredientsToRemove = new ArrayList<>(existingIngredientsMap.values());
+        deleteIngredientsFromRecipe(recipe, recipeIngredientsToRemove);
+
+        // finally update the recipe record in the database
+        String sql = "UPDATE recipe SET name = ?, category = ?, difficulty_level = ?, " +
+                "prep_time_min = ?, cook_time_min = ?, serving_size = ?, instructions = ?, date_created = ?, " +
+                "image_file_name = ? WHERE recipe_id = ?";
+        jdbcTemplate.update(sql, recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
+                recipe.getPrepTimeMin(), recipe.getCookTimeMin(), recipe.getServingSize(),
+                recipe.getInstructions(), recipe.getDateCreated(), recipe.getImageFileName(), recipe.getRecipeId());
+        return getRecipeById(recipe.getRecipeId());
+    }
+
+    private void updateRecipeIngredient(Recipe recipe, Ingredient ingredient) throws NegativeValueException {
+        try {
+            String sql = "UPDATE recipe_ingredient SET quantity = ?, unit_measurement = ? " +
+                    "WHERE recipe_id = ? AND ingredient_id = ?";
+            jdbcTemplate.update(sql, ingredient.getQuantity(), ingredient.getUnitMeasurement(),
+                    recipe.getRecipeId(), ingredient.getIngredientId());
+        } catch(DataIntegrityViolationException e) {
+            if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") && ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
+                throw new NegativeValueException("Negative Value Not Allowed", e.getMostSpecificCause());
         }
     }
 

@@ -1,5 +1,7 @@
 package com.techelevator.recipes.controller;
 
+import com.techelevator.mealPlanner.exceptions.MealPlanException;
+import com.techelevator.mealPlanner.model.MealPlan;
 import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.IngredientException;
 import com.techelevator.recipes.exceptions.NegativeValueException;
@@ -58,6 +60,15 @@ public class RecipeController {
     public Message delete(@PathVariable(name = "id") Long recipeId) throws RecipeException {
         recipeDAO.deleteRecipe(recipeDAO.getRecipeById(recipeId));
         return new Message("The recipe has been deleted.");
+    }
+
+    @RequestMapping(path = "/recipes/{id}", method = RequestMethod.PUT)
+    public Recipe updateRecipe(@PathVariable(name = "id") Long recipeId, @RequestBody Recipe recipe) throws RecipeException, NegativeValueException {
+        if(!recipeId.equals(recipe.getRecipeId())) {
+            throw new RecipeException("Recipe IDs do not match.");
+        }
+        recipeDAO.getRecipeById(recipeId);
+        return recipeDAO.updateRecipe(recipe);
     }
 
 
