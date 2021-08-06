@@ -39,7 +39,7 @@
             </div>
           </li>
         </ul>
-        <div class="form-controls">
+        <div class="form-controls align-right">
           <button
             class="btn btn-sm"
             v-show="!isAddRecipeOpen"
@@ -250,6 +250,9 @@ div.meal-plan-form fieldset legend {
   position: absolute;
   top: -35px;
   left: 0px;
+}
+ul.recipes {
+  margin: 0px;
 }
 li.recipe {
   border-bottom: solid 1px #ccc;

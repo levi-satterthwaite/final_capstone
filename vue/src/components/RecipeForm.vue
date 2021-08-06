@@ -161,7 +161,7 @@
             </div>
           </li>
         </ul>
-        <div class="form-controls">
+        <div class="form-controls align-right">
           <button
             class="btn btn-sm"
             v-show="!isAddIngredientOpen"
@@ -504,7 +504,7 @@ div.recipe-form fieldset {
 ul.ingredients {
   list-style: none;
   padding: 0px;
-  margin: 10px;
+  margin: 0px;
 }
 div.recipe-form fieldset {
   /* border-radius: 10px; */
