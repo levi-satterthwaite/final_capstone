@@ -1,36 +1,90 @@
 <template>
   <div class="meal-details">
-    <h1>{{meal.name}}</h1>
-    <meal-card v-if="meal" v-bind:meal="meal" />
-    <p v-else>Meal not found!</p>
-       <div class="action-bar">
-          <router-link v-bind:to="{name: 'updateMeal', params: { id: meal.mealId} }" tag="button" class="btn">Edit Meal</router-link>
+    <h1>{{ meal.name }}</h1>
+    <h2>{{ meal.category }}</h2>
+    <!-- <meal-card v-if="meal" v-bind:meal="meal" /> -->
+    <div class="recipes-by-category" v-if="meal">
+      <div
+        class="recipe-category"
+        v-for="category in mealRecipesByCategory.keys()"
+        v-bind:key="category"
+      >
+        <h3>
+          {{ category }}
+        </h3>
+        <div class="recipe-list">
+          <recipe-card
+            v-for="recipe in mealRecipesByCategory.get(category)"
+            v-bind:key="recipe.id"
+            v-bind:recipe="recipe"
+          />
+        </div>
       </div>
+    </div>
+    <p v-else>Meal not found!</p>
+    <div class="action-bar">
+      <router-link
+        v-bind:to="{ name: 'updateMeal', params: { id: meal.mealId } }"
+        tag="button"
+        class="btn"
+        >Edit Meal</router-link
+      >
+    </div>
   </div>
 </template>
 
 <script>
-import MealCard from "@/components/MealCard";
+// import MealCard from "@/components/MealCard";
+import RecipeCard from "@/components/RecipeCard"
 
 export default {
   name: "meal-details",
   data() {
     return {
-      meal: null
-    }
+      meal: null,
+    };
   },
   components: {
-    MealCard
+    // MealCard,
+    RecipeCard
   },
-  created () {
+  computed: {
+    mealRecipesByCategory() {
+      // key is the category name and the value is a list of recipes
+      const recipesByCategory = new Map();
+      // for each loop
+      for (const recipe of this.meal.recipeList) {
+        if (!recipesByCategory.has(recipe.category)) {
+          recipesByCategory.set(recipe.category, []);
+        }
+        recipesByCategory.get(recipe.category).push(recipe);
+      }
+      return recipesByCategory;
+    },
+  },
+  created() {
     const mealId = this.$route.params.id;
     this.meal = this.$store.state.meals.find((meal) => {
       return meal.mealId == mealId;
     });
-  }
-}
+  },
+};
 </script>
 
 <style>
+div.meal-details h1 {
+  text-align: center;
+  margin-top: 50px;
+  color: #4b3f72;
+}
+div.meal-details h2 {
+  text-align: center;
+  margin-bottom: 50px;
+  color: #4b3f72;
+}
 
+div.meal-details {
+  display: flex;
+  flex-direction: column;
+}
 </style>
