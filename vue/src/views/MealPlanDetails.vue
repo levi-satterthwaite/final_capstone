@@ -32,5 +32,9 @@ export default {
 </script>
 
 <style>
+div.meal-plan-details h1 {
+  text-align: center;
+  margin-top: 50px;
+}
 
 </style>

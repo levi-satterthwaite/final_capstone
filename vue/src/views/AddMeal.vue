@@ -61,8 +61,8 @@ div.add-meal {
   align-items: center;
 }
 
-h1 {
+div.add-meal h1 {
   color: #4B3F72;
-  margin: 50px;
+  margin-top: 50px;
 }
 </style>

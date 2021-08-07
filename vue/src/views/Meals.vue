@@ -24,16 +24,17 @@ export default {
 </script>
 
 <style>
-h1 {
-  text-align: center;
-  margin: 50px;
-}
-
 div.meal-page {
   display: flex;
   flex-direction: column;
+  margin-left: 50px;
+  margin-right: 50px;
 }
-
+div.meal-page h1 {
+  text-align: left;
+  margin-top: 50px;
+  color: #4b3f72
+}
 div.meal-page div.container {
   display: flex;
   justify-items: center;
@@ -41,8 +42,6 @@ div.meal-page div.container {
   margin-right: 30px;
 }
 div.action-bar {
-  margin: 10px;
-  margin-right: 30px;
   display: flex;
   justify-content: flex-end;
 }

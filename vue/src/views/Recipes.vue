@@ -22,9 +22,9 @@ export default {
 </script>
 
 <style>
-h1 {
+div.recipes h1 {
     text-align: center;
-    margin: 50px;
+    margin-top: 50px;
 }
 
 div.recipes-page {

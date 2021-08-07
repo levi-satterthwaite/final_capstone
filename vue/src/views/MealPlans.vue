@@ -24,9 +24,9 @@ export default {
 </script>
 
 <style>
-h1 {
+div.meal-plans h1 {
   text-align: center;
-  margin: 50px;
+  margin-top: 50px;
 }
 
 div.meal-plan-page {
