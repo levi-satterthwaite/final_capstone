@@ -89,4 +89,29 @@ body {
   display: flex;
   justify-content: flex-end;
 }
+
+div.page {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+div.page h1 {
+  text-align: left;
+  margin-top: 50px;
+  color: #4b3f72
+}
+
+div.page div.container {
+  display: flex;
+  justify-items: center;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+div.action-bar {
+  display: flex;
+  justify-content: flex-end;
+}
 </style>
