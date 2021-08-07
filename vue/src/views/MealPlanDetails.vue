@@ -37,4 +37,8 @@ div.meal-plan-details h1 {
   margin-top: 50px;
 }
 
+div.meal-plan-details {
+  display: flex;
+  flex-direction: column;
+}
 </style>
