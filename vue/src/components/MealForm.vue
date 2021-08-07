@@ -45,7 +45,6 @@
             <div class="field">
               <span class="recipe-name">{{ recipe.name }}</span>
             </div>
-
             <div class="form-controls align-right">
               <button
                 class="btn btn-sm"
@@ -84,7 +83,7 @@
         <legend>Meal Image</legend>
         <div class="field">
           <label for="image">Image</label>
-          <input type="file" id="image" v-on:change="onFileChange" required />
+          <input type="file" id="image" v-on:change="onFileChange" />
         </div>
         <div class="form-controls">
           <button v-on:click.prevent="chooseImage" class="btn btn-sm">
@@ -93,6 +92,12 @@
         </div>
         <div class="image-preview" v-if="image">
           <img v-bind:src="image" />
+        </div>
+        <div class="image-preview" v-if="data && data.imageFileName && !image">
+          <img
+            v-bind:src="'/files/' + data.imageFileName"
+            v-bind:alt="meal.name"
+          />
         </div>
       </fieldset>
       <div class="error" v-if="error">{{ error.message }}</div>
@@ -111,6 +116,11 @@ export default {
   name: "meal-form",
   props: {
     error: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    data: {
       type: Object,
       required: false,
       default: null,
@@ -207,10 +217,15 @@ export default {
       const response = await mealPlannerService.getMealCategories();
       this.categories = response.data;
     } catch (e) {
-      console.log(e);
       this.categoriesError = mealPlannerService.getError(e);
     }
-  }
+  },
+  created() {
+    if (this.data) {
+      this.meal = this.data;
+      this.recipes = this.data.recipeList;
+    }
+  },
 };
 </script>
 

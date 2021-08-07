@@ -77,6 +77,10 @@ export default {
         return http.post('/meals', meal);
     },
 
+    updateMeal(meal) {
+        return http.put(`/meals/${meal.mealId}`, meal);
+    },
+
     addRecipesToMeal(meal, recipes) {
         return http.post(`/meals/${meal.mealId}/recipes`, recipes);
     },

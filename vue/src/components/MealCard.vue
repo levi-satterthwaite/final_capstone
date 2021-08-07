@@ -1,6 +1,6 @@
 <template>
   <div class="meal-card card">
-    <a href="">
+    <router-link v-bind:to="{name: 'mealDetails', params: {id: meal.mealId}}">
       <div class="image-wrapper">
         <img
           v-bind:src="'/files/' + meal.imageFileName"
@@ -9,10 +9,8 @@
       </div>
       <div class="content-wrapper">
         <h2>{{ meal.name }}</h2>
-        <!-- <div class="category">
-        </div> -->
       </div>
-    </a>
+    </router-link>
   </div>
 </template>
 

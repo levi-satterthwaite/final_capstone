@@ -15,10 +15,7 @@
       <fieldset class="meal-plan-meals">
         <legend>Meal Plan Meals</legend>
         <ul class="meals">
-          <li
-            class="meal meal-empty"
-            v-if="!hasMeals && !isAddMealOpen"
-          >
+          <li class="meal meal-empty" v-if="!hasMeals && !isAddMealOpen">
             Please Add Meals
           </li>
           <li
@@ -32,10 +29,7 @@
               <span class="meal-name">{{ meal.name }}</span>
             </div>
             <div class="form-controls align-right">
-              <button
-                class="btn btn-sm"
-                v-on:click.prevent="removeMeal(meal)"
-              >
+              <button class="btn btn-sm" v-on:click.prevent="removeMeal(meal)">
                 Remove
               </button>
             </div>
@@ -80,7 +74,10 @@
           <img v-bind:src="image" />
         </div>
         <div class="image-preview" v-if="data && data.imageFileName && !image">
-          <img v-bind:src="'/files/' + data.imageFileName" v-bind:alt="mealPlan.name" />
+          <img
+            v-bind:src="'/files/' + data.imageFileName"
+            v-bind:alt="mealPlan.name"
+          />
         </div>
       </fieldset>
       <div class="error" v-if="error">{{ error.message }}</div>
@@ -106,8 +103,8 @@ export default {
     data: {
       type: Object,
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -208,7 +205,7 @@ export default {
       this.mealPlan = this.data;
       this.meals = this.data.mealList;
     }
-  }
+  },
 };
 </script>
 

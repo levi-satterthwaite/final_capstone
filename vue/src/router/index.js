@@ -11,9 +11,11 @@ import RecipeDetails from '../views/RecipeDetails.vue'
 import Meals from '../views/Meals.vue'
 import AddMeal from '../views/AddMeal.vue'
 import MealPlans from '../views/MealPlans.vue'
+import MealDetails from '../views/MealDetails.vue'
 import AddMealPlan from '../views/AddMealPlan.vue'
 import MealPlanDetails from '../views/MealPlanDetails.vue'
 import UpdateMealPlan from '../views/UpdateMealPlan.vue'
+import UpdateMeal from '../views/UpdateMeal.vue'
 
 Vue.use(Router)
 
@@ -103,6 +105,22 @@ const router = new Router({
       }
     },
     {
+      path: "/meals/:id/edit",
+      name: "updateMeal",
+      component: UpdateMeal,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/meals/:id",
+      name: "mealDetails",
+      component: MealDetails,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
       path: "/mealplans",
       name: "mealPlans",
       component: MealPlans,
@@ -119,7 +137,7 @@ const router = new Router({
       }
     },
     {
-      path: "/mealsplans/:id/edit",
+      path: "/mealplans/:id/edit",
       name: "updateMealPlan",
       component: UpdateMealPlan,
       meta: {
