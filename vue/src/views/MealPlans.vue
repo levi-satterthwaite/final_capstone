@@ -29,12 +29,12 @@ div.meal-plans h1 {
   margin-top: 50px;
 }
 
-div.meal-plan-page {
+div.meal-plans-page {
   display: flex;
   flex-direction: column;
 }
 
-div.meal-plan-page div.container {
+div.meal-plans-page div.container {
   display: flex;
   justify-items: center;
   margin-left: 30px;
