@@ -41,8 +41,6 @@ div.meal-plans-page div.container {
   margin-right: 30px;
 }
 div.action-bar {
-  margin: 10px;
-  margin-right: 30px;
   display: flex;
   justify-content: flex-end;
 }

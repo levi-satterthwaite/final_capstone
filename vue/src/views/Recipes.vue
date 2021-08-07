@@ -40,8 +40,6 @@ div.recipes-page div.container {
 
 }
 div.action-bar {
-    margin: 10px;
-    margin-right: 30px;
     display: flex;
     justify-content: flex-end;
 }
