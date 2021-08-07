@@ -97,6 +97,10 @@ export default {
         return http.post('/mealplans', mealPlan);
     },
 
+    updateMealPlan(mealPlan) {
+        return http.put(`/mealplans/${mealPlan.mealPlanId}`, mealPlan);
+    },
+
     addMealsToMealPlan(mealPlan, meals) {
         return http.post(`/mealplans/${mealPlan.mealPlanId}/meals`, meals);
     },
