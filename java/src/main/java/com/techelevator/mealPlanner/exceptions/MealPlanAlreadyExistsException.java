@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Meal plan already exists.")
 public class MealPlanAlreadyExistsException extends MealPlanException {
-
     public MealPlanAlreadyExistsException() {
         super("The meal plan you are trying to add already exists.");
     }

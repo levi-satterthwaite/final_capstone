@@ -23,13 +23,13 @@ export default {
     MealPlanForm,
   },
   methods: {
-    async handleMealPlanFormSubmit({ mealPlan, recipes, file }) {
+    async handleMealPlanFormSubmit({ mealPlan, meals, file }) {
       try {
         const outputFileName = await this.addImage(file);
         mealPlan.imageFileName = outputFileName;
         const savedMealPlan = await this.addMealPlan(mealPlan);
-        await this.addRecipesToMealPlan(savedMealPlan, recipes);
-        this.$router.push({ name: "mealPlans" });
+        await this.addMealsToMealPlan(savedMealPlan, meals);
+        this.$router.push({ name: "mealplans" });
       } catch (e) {
         this.submitMealPlanError = mealPlannerService.getError(e);
         console.error(e);
@@ -43,10 +43,10 @@ export default {
       const response = await mealPlannerService.addMealPlan(mealPlan);
       return response.data;
     },
-    async addRecipesToMealPlan(mealPlan, recipes) {
-      const response = await mealPlannerService.addRecipesToMealPlan(
+    async addMealsToMealPlan(mealPlan, meals) {
+      const response = await mealPlannerService.addMealsToMealPlan(
         mealPlan,
-        recipes
+        meals
       );
       return response.data;
     },
@@ -66,3 +66,4 @@ h1 {
   margin: 50px;
 }
 </style>
+

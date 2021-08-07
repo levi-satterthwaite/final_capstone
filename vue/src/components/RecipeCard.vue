@@ -9,7 +9,7 @@
     </div>
     <div class="content-wrapper">
       <h2>{{ recipe.name }}</h2>
-      <div class="description">
+      <div class="category">
           <p>{{ recipe.category }}  |  {{ recipe.difficultyLevel }}</p>
       </div>
     </div>
@@ -42,7 +42,7 @@ h2 {
     font-size: 27px;
     margin: 0px;
 }
-div.description {
+div.category {
     font-size: 20px;
 }
 div.image-wrapper {

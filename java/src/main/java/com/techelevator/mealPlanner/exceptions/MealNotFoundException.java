@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Meal not found.")
-public class MealPlanNotFoundException extends MealPlanException{
+public class MealNotFoundException extends MealException {
 
-    public MealPlanNotFoundException() {
-        super("The meal plan you are searching for cannot be found.");
+    public MealNotFoundException() {
+        super("The meal you are searching for cannot be found.");
     }
 }

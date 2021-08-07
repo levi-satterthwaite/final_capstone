@@ -1,45 +1,40 @@
 package com.techelevator.mealPlanner.model;
 
-import com.techelevator.mealPlanner.exceptions.InvalidMealPlanException;
-import com.techelevator.mealPlanner.exceptions.MealPlanException;
-import com.techelevator.recipes.exceptions.RecipeException;
-import com.techelevator.recipes.model.Recipe;
-import org.springframework.stereotype.Component;
+import com.techelevator.mealPlanner.exceptions.InvalidMealException;
+import com.techelevator.mealPlanner.exceptions.MealException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Component
 public class MealPlan {
 
-    private Long mealId;
+    private Long mealPlanId;
     private String name;
     private String description;
     private String imageFileName;
-    private List<Recipe> recipeList;
+    private List<Meal> mealList;
 
     public MealPlan() {
-        this.recipeList = new ArrayList<>();
+        this.mealList = new ArrayList<>();
     }
 
-    public void validate() throws MealPlanException {
+    public void validateMeal() throws InvalidMealException {
         try {
-            for(Recipe recipe : recipeList) {
-                recipe.validate();
+            for(Meal meal : mealList) {
+                meal.validate();
             }
-        } catch (RecipeException e) {
-            throw new InvalidMealPlanException("Invalid Recipe", e);
+        } catch (MealException e) {
+            throw new InvalidMealException("Invalid Meal", e);
         }
-
     }
 
-    public Long getMealId() {
-        return mealId;
+    public Long getMealPlanId() {
+        return mealPlanId;
     }
 
-    public void setMealId(Long mealId) {
-        this.mealId = mealId;
+    public void setMealPlanId(Long mealPlanId) {
+        this.mealPlanId = mealPlanId;
     }
 
     public String getName() {
@@ -66,12 +61,12 @@ public class MealPlan {
         this.imageFileName = imageFileName;
     }
 
-    public List<Recipe> getRecipeList() {
-        return recipeList;
+    public List<Meal> getMealList() {
+        return mealList;
     }
 
-    public void setRecipeList(List<Recipe> recipeList) {
-        this.recipeList = recipeList;
+    public void setMealList(List<Meal> mealList) {
+        this.mealList = mealList;
     }
 
     @Override
@@ -79,11 +74,11 @@ public class MealPlan {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MealPlan mealPlan = (MealPlan) o;
-        return Objects.equals(mealId, mealPlan.mealId) && Objects.equals(name, mealPlan.name) && Objects.equals(description, mealPlan.description) && Objects.equals(recipeList, mealPlan.recipeList);
+        return Objects.equals(mealPlanId, mealPlan.mealPlanId) && Objects.equals(name, mealPlan.name) && Objects.equals(description, mealPlan.description) && Objects.equals(imageFileName, mealPlan.imageFileName) && Objects.equals(mealList, mealPlan.mealList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mealId, name, description, recipeList);
+        return Objects.hash(mealPlanId, name, description, imageFileName, mealList);
     }
 }

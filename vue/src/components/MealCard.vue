@@ -1,14 +1,14 @@
 <template>
-  <div class="meal-plan-card card">
+  <div class="meal-card card">
     <a href="">
       <div class="image-wrapper">
         <img
-          v-bind:src="'/files/' + mealPlan.imageFileName"
-          v-bind:alt="mealPlan.name"
+          v-bind:src="'/files/' + meal.imageFileName"
+          v-bind:alt="meal.name"
         />
       </div>
       <div class="content-wrapper">
-        <h2>{{ mealPlan.name }}</h2>
+        <h2>{{ meal.name }}</h2>
         <!-- <div class="category">
         </div> -->
       </div>
@@ -18,14 +18,14 @@
 
 <script>
 export default {
-  name: "meal-plan-card",
-  props: ["mealPlan"],
+  name: "meal-card",
+  props: ["meal"],
   methods: {},
 };
 </script>
 
 <style>
-div.meal-plan-card {
+div.meal-card {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -46,7 +46,7 @@ div.category {
 div.image-wrapper {
   max-height: 15em;
 }
-div.meal-plan-card img {
+div.meal-card img {
   min-height: 15em;
   max-height: 5px;
   display: flex;

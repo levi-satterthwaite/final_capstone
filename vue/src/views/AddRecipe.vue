@@ -6,6 +6,7 @@
 </template>
 
 <script>
+
 import RecipeForm from "@/components/RecipeForm";
 import mealPlannerService from "@/services/MealPlannerService";
 

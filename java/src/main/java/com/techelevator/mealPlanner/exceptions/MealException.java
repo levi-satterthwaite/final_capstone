@@ -4,25 +4,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class MealPlanException extends  Exception {
+public class MealException extends Exception {
 
-    public MealPlanException() {
+    public MealException() {
         super();
     }
 
-    public MealPlanException(String message) {
+    public MealException(String message) {
         super(message);
     }
 
-    public MealPlanException(String message, Throwable cause) {
+    public MealException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MealPlanException(Throwable cause) {
+    public MealException(Throwable cause) {
         super(cause);
     }
 
-    public MealPlanException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public MealException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

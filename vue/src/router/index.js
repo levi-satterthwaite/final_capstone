@@ -8,6 +8,8 @@ import store from '../store/index'
 import Recipes from '../views/Recipes.vue'
 import AddRecipe from '../views/AddRecipe.vue'
 import RecipeDetails from '../views/RecipeDetails.vue'
+import Meals from '../views/Meals.vue'
+import AddMeal from '../views/AddMeal.vue'
 import MealPlans from '../views/MealPlans.vue'
 import AddMealPlan from '../views/AddMealPlan.vue'
 
@@ -83,6 +85,22 @@ const router = new Router({
       }
     },  
     {
+      path: "/meals",
+      name: "meals",
+      component: Meals,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/meals/add",
+      name: "addMeal",
+      component: AddMeal,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
       path: "/mealplans",
       name: "mealPlans",
       component: MealPlans,
@@ -98,7 +116,6 @@ const router = new Router({
         requiresAuth: false
       }
     }
-  
   ]
 })
 

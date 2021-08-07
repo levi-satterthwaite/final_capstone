@@ -1,9 +1,6 @@
 package com.techelevator.recipes.controller;
 
-import com.techelevator.mealPlanner.exceptions.MealPlanException;
-import com.techelevator.mealPlanner.model.MealPlan;
 import com.techelevator.recipes.dao.RecipeDAO;
-import com.techelevator.recipes.exceptions.IngredientException;
 import com.techelevator.recipes.exceptions.NegativeValueException;
 import com.techelevator.recipes.exceptions.RecipeException;
 import com.techelevator.recipes.exceptions.RecipeNotFoundException;
@@ -30,8 +27,8 @@ public class RecipeController {
     }
 
     @RequestMapping(path = "/recipes/categories", method = RequestMethod.GET)
-    public List<Category> getCategories() {
-        return Category.getCategories();
+    public List<RecipeCategory> getCategories() {
+        return RecipeCategory.getCategories();
     }
 
     @RequestMapping(path = "/recipes/difficultylevels", method = RequestMethod.GET)

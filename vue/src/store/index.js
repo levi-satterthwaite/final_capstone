@@ -21,6 +21,7 @@ export default new Vuex.Store({
     token: currentToken || '',
     user: currentUser || {},
     recipes: [],
+    meals: [],
     mealPlans: []
   },
   mutations: {
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     },
     SET_RECIPES(state, recipes) {
       state.recipes = recipes;
+    },
+    SET_MEALS(state, meals) {
+      state.meals = meals;
     },
     SET_MEAL_PLANS(state, mealPlans) {
       state.mealPlans = mealPlans;

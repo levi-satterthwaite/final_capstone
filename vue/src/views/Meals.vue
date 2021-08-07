@@ -1,24 +1,24 @@
 <template>
-  <div class="meal-plans-page">
-    <h1>Meal Plans</h1>
+  <div class="meal-page">
+    <h1>Meals</h1>
     <div class="action-bar">
-      <router-link to="/mealplans/add" tag="button" class="btn">
-        Add Meal Plan</router-link
+      <router-link to="/meals/add" tag="button" class="btn">
+        Add Meal</router-link
       >
     </div>
     <div class="container">
-      <meal-plan-list />
+      <meal-list />
     </div>
   </div>
 </template>
 
 <script>
-import MealPlanList from "@/components/MealPlanList";
+import MealList from "@/components/MealList";
 
 export default {
-  name: "meal-plans",
+  name: "meals",
   components: {
-    MealPlanList,
+    MealList,
   },
 };
 </script>
@@ -29,12 +29,12 @@ h1 {
   margin: 50px;
 }
 
-div.meal-plan-page {
+div.meal-page {
   display: flex;
   flex-direction: column;
 }
 
-div.meal-plan-page div.container {
+div.meal-page div.container {
   display: flex;
   justify-items: center;
   margin-left: 30px;

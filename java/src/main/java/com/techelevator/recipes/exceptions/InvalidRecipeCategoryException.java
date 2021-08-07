@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class InvalidRecipeCategoryException extends RecipeException {
 
     public InvalidRecipeCategoryException() {
-        super("Invalid Category Selection");
+        super("Invalid MealCategory Selection");
     }
 
     public InvalidRecipeCategoryException(String message) {

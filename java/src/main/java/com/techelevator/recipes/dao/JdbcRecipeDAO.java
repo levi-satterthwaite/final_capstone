@@ -1,7 +1,6 @@
 package com.techelevator.recipes.dao;
 
 import com.techelevator.recipes.exceptions.*;
-import com.techelevator.recipes.model.Category;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.dao.DataIntegrityViolationException;

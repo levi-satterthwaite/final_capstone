@@ -61,6 +61,26 @@ export default {
         return e;
     },
 
+    getMeals(mealName) {
+        let name = '';
+        if (typeof mealName === "string") {
+            name = mealName;
+        }
+        return http.get(`/meals?name=${name}`);
+    },
+
+    getMealById(id) {
+        return http.get(`/meals/${id}`);
+    },
+
+    addMeal(meal) {
+        return http.post('/meals', meal);
+    },
+
+    addRecipesToMeal(meal, recipes) {
+        return http.post(`/meals/${meal.mealId}/recipes`, recipes);
+    },
+
     getMealPlans(mealPlanName) {
         let name = '';
         if (typeof mealPlanName === "string") {
@@ -77,8 +97,8 @@ export default {
         return http.post('/mealplans', mealPlan);
     },
 
-    addRecipesToMealPlan(mealPlan, recipes) {
-        return http.post(`/mealplans/${mealPlan.mealId}/recipes`, recipes);
+    addMealsToMealPlan(mealPlan, meals) {
+        return http.post(`/mealplans/${mealPlan.mealPlanId}/meals`, meals);
     },
 
     getRecipeCategories() {
@@ -87,6 +107,10 @@ export default {
 
     getRecipeDifficultyLevels() {
         return http.get('/recipes/difficultylevels');
+    },
+
+    getMealCategories() {
+        return http.get('/meals/categories');
     }
 
 }

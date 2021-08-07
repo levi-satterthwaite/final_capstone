@@ -1,27 +1,30 @@
 <template>
-  <div class="meal-plan-list">
-    <meal-plan-card
-      v-for="mealPlan in $store.state.mealPlans"
-      v-bind:key="mealPlan.id"
-      v-bind:mealPlan="mealPlan"
+  <div class="meal-list">
+    <meal-card
+      v-for="meal in $store.state.meals"
+      v-bind:key="meal.id"
+      v-bind:meal="meal"
     />
   </div>
 </template>
 
 <script>
 import mealPlannerService from "@/services/MealPlannerService";
-import MealPlanCard from "@/components/MealPlanCard";
+import MealCard from "@/components/MealCard";
 
 export default {
-  name: "meal-plan-list",
+  name: "meal-list",
   components: {
-    MealPlanCard,
+    MealCard,
   },
   methods: {
-    getAllMealPlans() {
-      mealPlannerService.getMealPlans().then((response) => {
-          this.$store.commit("SET_MEAL_PLANS", response.data);
-        }).catch((error) => {
+    getAllmeals() {
+      mealPlannerService
+        .getMeals()
+        .then((response) => {
+          this.$store.commit("SET_MEALS", response.data);
+        })
+        .catch((error) => {
           if (error.response) {
             this.errorMsg =
               "Error Status " +
@@ -38,13 +41,13 @@ export default {
     },
   },
   created() {
-    this.getAllMealPlans();
+    this.getAllmeals();
   }
 };
 </script>
 
 <style>
-div.meal-plan-list {
+div.meal-list {
     display:flex;
     flex-wrap: wrap;
     justify-content: center;

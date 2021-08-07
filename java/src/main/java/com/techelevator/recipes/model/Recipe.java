@@ -28,7 +28,7 @@ public class Recipe {
     }
 
     public void validate() throws RecipeException {
-        if(!Category.isValidCategory(getCategory())) {
+        if(!RecipeCategory.isValidCategory(getCategory())) {
             throw new InvalidRecipeCategoryException();
         }
         if(!DifficultyLevel.isValidDifficulty(getDifficultyLevel())) {

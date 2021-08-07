@@ -6,7 +6,9 @@
         >&nbsp;|&nbsp;
         <router-link v-bind:to="{ name: 'recipes' }">Recipes</router-link
         >&nbsp;|&nbsp;
-         <router-link v-bind:to="{ name: 'mealPlans' }">Meal Plans</router-link
+        <router-link v-bind:to="{ name: 'meals' }">Meals</router-link
+        >&nbsp;|&nbsp;
+        <router-link v-bind:to="{ name: 'mealPlans' }">Meal Plans</router-link
         >&nbsp;|&nbsp;
         <router-link
           v-bind:to="{ name: 'logout' }"
@@ -31,9 +33,9 @@
   font-family: Rubik, "Poppins", sans-serif;
 }
 #nav {
-  background-color: #4B3F72;
+  background-color: #4b3f72;
   height: 75px;
-  z-index:1;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -70,7 +72,7 @@ body {
 }
 
 .btn {
-  background-color: #9D7DDE;
+  background-color: #9d7dde;
   color: white;
   padding: 15px;
   font-size: 15px;

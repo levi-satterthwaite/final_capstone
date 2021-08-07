@@ -57,6 +57,7 @@
             type="number"
             id="prepTimeMin"
             v-model="recipe.prepTimeMin"
+            min="0"
             required
           />
           <div class="error" v-if="errors.prepTimeMin">
@@ -69,6 +70,7 @@
             type="number"
             id="cookTimeMin"
             v-model="recipe.cookTimeMin"
+            min="0"
             required
           />
           <div class="error" v-if="errors.cookTimeMin">
