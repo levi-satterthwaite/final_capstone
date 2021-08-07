@@ -23,9 +23,11 @@ INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpUL
 
 
 DROP TABLE IF EXISTS recipe_ingredient;
-DROP TABLE IF EXISTS recipe_meal_plan;
+DROP TABLE IF EXISTS recipe_meal;
+DROP TABLE IF EXISTS meal_plan_meal;
 DROP TABLE IF EXISTS recipe;
 DROP TABLE IF EXISTS ingredient;
+DROP TABLE IF EXISTS meal;
 DROP TABLE IF EXISTS meal_plan;
 
 
@@ -34,8 +36,8 @@ CREATE TABLE recipe (
         name varchar(255) not null unique,
         category varchar(255) not null,
         difficulty_level varchar(255) not null,
-        prep_time_min int not null check (prep_time_min > 0),
-        cook_time_min int not null check (cook_time_min > 0),
+        prep_time_min int not null check (prep_time_min >= 0),
+        cook_time_min int not null check (cook_time_min >= 0),
         serving_size int not null check (serving_size > 0),
         instructions text not null,
         date_created date not null,
@@ -59,20 +61,36 @@ CREATE TABLE recipe_ingredient (
         CONSTRAINT fk_recipe_ingredient_ingredient_id foreign key( ingredient_id) references ingredient (ingredient_id)
 );
 
-CREATE TABLE meal_plan (
+CREATE TABLE meal (
         meal_id serial primary key,
+        name varchar(255) not null unique,
+        category varchar(255) not null,
+        image_file_name text  
+);
+
+CREATE TABLE recipe_meal (
+        recipe_id int not null,
+        meal_id int not null,
+        
+        CONSTRAINT pk_recipe_meal primary key (recipe_id, meal_id),
+        CONSTRAINT fk_recipe_meal_recipe_id foreign key (recipe_id) references recipe (recipe_id),
+        CONSTRAINT fk_recipe_meal_meal_id foreign key (meal_id) references meal (meal_id)
+);
+
+CREATE TABLE meal_plan (
+        meal_plan_id serial primary key,
         name varchar(255) not null unique,
         description text,
         image_file_name text  
 );
 
-CREATE TABLE recipe_meal_plan (
-        recipe_id int not null,
+CREATE TABLE meal_plan_meal (
+        meal_plan_id int not null,
         meal_id int not null,
         
-        CONSTRAINT pk_recipe_meal_plan primary key (recipe_id, meal_id),
-        CONSTRAINT fk_recipe_meal_plan_recipe_id foreign key (recipe_id) references recipe (recipe_id),
-        CONSTRAINT fk_recipe_meal_plan_meal_id foreign key (meal_id) references meal_plan (meal_id)
+        CONSTRAINT pk_meal_plan_meal primary key (meal_plan_id, meal_id),
+        CONSTRAINT fk_meal_plan_meal_meal_plan_id foreign key (meal_plan_id) references meal_plan (meal_plan_id),
+        CONSTRAINT fk_meal_plan_meal_meal_id foreign key (meal_id) references meal (meal_id)
 );
 
 INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Sourdough Bread', 'Bread');
@@ -81,7 +99,7 @@ INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Mayonna
 INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Cheddar Cheese', 'Dairy');
 
 INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, serving_size, instructions, date_created, image_file_name) 
-VALUES (DEFAULT, 'Grilled Cheese', 'Comfort Food', 'Easy', 5, 7, 1, 'On a cutting board, butter each piece of bread with butter on one side. 
+VALUES (DEFAULT, 'Grilled Cheese', 'Entree', 'Easy', 5, 7, 1, 'On a cutting board, butter each piece of bread with butter on one side. 
 Flip the bread over and spread each piece of bread with mayonnaise. 
 Place the cheese on the buttered side of one piece of bread. Top it with the second piece of bread, mayonnaise side out. 
 Heat a nonstick pan over medium low heat. 
