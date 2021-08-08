@@ -191,6 +191,9 @@ export default {
       return response.data;
     },
     addRecipe(recipe) {
+      if (!receipe) {
+        return;
+      }
       this.recipes = [...this.recipes, recipe];
       this.closeRecipeSearch();
     },
