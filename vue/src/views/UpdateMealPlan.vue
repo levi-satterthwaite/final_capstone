@@ -1,6 +1,7 @@
 <template>
   <div class="page update-meal-plan">
-    <h1>Update Meal Plan</h1>
+    <div class="error" v-if="error">{{ error.message }}</div>
+    <h1 v-if="mealPlan">Update Meal Plan</h1>
     <p v-if="!mealPlan">Meal plan not found!</p>
     <meal-plan-form
       v-else
@@ -54,11 +55,19 @@ export default {
       return response.data;
     },
   },
-  created() {
+  async created() {
     const mealPlanId = this.$route.params.id;
     this.mealPlan = this.$store.state.mealPlans.find((mealPlan) => {
       return mealPlan.mealPlanId == mealPlanId;
     });
+    if (!this.mealPlan) {
+      try {
+        const response = await mealPlannerService.getMealPlanById(mealPlanId);
+        this.mealPlan = response.data;
+      } catch (e) {
+        this.error = mealPlannerService.getError(e);
+      }
+    }
   },
 };
 </script>
