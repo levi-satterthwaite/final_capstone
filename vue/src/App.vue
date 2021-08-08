@@ -58,7 +58,7 @@ div.toolbar a:hover {
 }
 div.router-view {
   margin-top: 75px;
-  margin-bottom: 75px;
+  margin-bottom: 80px;
 }
 /* div.toolbar a:last-child {
   margin-right: 20px;
@@ -99,7 +99,7 @@ div.page {
 }
 
 div.page h1 {
-  text-align: left;
+  text-align: center;
   margin-top: 50px;
   color: #4b3f72
 }
