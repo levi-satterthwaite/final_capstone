@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       mealPlan: null,
+      error: null
     };
   },
   components: {

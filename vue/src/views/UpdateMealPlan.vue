@@ -22,6 +22,7 @@ export default {
     return {
       submitMealPlanError: null,
       mealPlan: null,
+      error: null
     };
   },
   components: {

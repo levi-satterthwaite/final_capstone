@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       meal: null,
+      error: null
     };
   },
   components: {
