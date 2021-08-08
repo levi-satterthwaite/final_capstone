@@ -13,7 +13,7 @@
         <div class="recipe-list">
           <recipe-card
             v-for="recipe in mealRecipesByCategory.get(category)"
-            v-bind:key="recipe.id"
+            v-bind:key="recipe.recipeId"
             v-bind:recipe="recipe"
           />
         </div>
