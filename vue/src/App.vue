@@ -106,8 +106,8 @@ div.page h1 {
 div.page div.container {
   display: flex;
   justify-items: center;
-  margin-left: 30px;
-  margin-right: 30px;
+  /* margin-left: 10px;
+  margin-right: 10px; */
 }
 
 div.action-bar {
