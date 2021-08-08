@@ -1,6 +1,7 @@
 <template>
   <div class="page meal-plan-details">
-    <h1>{{ mealPlan.name }}</h1>
+    <div class="error" v-if="error">{{ error.message }}</div>
+    <h1 v-if="mealPlan">{{ mealPlan.name }}</h1>
     <div class="meals-by-category" v-if="mealPlan">
       <div
         class="meal-category"
@@ -11,10 +12,11 @@
           {{ category }}
         </h3>
         <div class="meal-list">
-          <meal-card 
-            v-for="meal in mealPlanMealsByCategory.get(category)" 
+          <meal-card
+            v-for="meal in mealPlanMealsByCategory.get(category)"
             v-bind:key="meal.mealId"
-            v-bind:meal="meal" />
+            v-bind:meal="meal"
+          />
         </div>
       </div>
     </div>
@@ -34,6 +36,7 @@
 </template>
 
 <script>
+import mealPlannerService from "@/services/MealPlannerService"
 import MealCard from "@/components/MealCard";
 
 export default {
@@ -49,20 +52,28 @@ export default {
   computed: {
     mealPlanMealsByCategory() {
       const mealsByCategory = new Map();
-      for(const meal of this.mealPlan.mealList) {
-        if(!mealsByCategory.has(meal.category)) {
+      for (const meal of this.mealPlan.mealList) {
+        if (!mealsByCategory.has(meal.category)) {
           mealsByCategory.set(meal.category, []);
         }
         mealsByCategory.get(meal.category).push(meal);
       }
       return mealsByCategory;
-    }
+    },
   },
-  created() {
+  async created() {
     const mealPlanId = this.$route.params.id;
     this.mealPlan = this.$store.state.mealPlans.find((mealPlan) => {
       return mealPlan.mealPlanId == mealPlanId;
     });
+    if (!this.mealPlan) {
+      try {
+        const response = await mealPlannerService.getMealPlanById(mealPlanId);
+        this.mealPlan = response.data;
+      } catch (e) {
+        this.error = mealPlannerService.getError(e);
+      }
+    }
   },
 };
 </script>
@@ -82,6 +93,6 @@ div.meal-plan-details {
 div.meal-category h3 {
   text-align: center;
   font-size: 20pt;
-   color: #4b3f72;
+  color: #4b3f72;
 }
 </style>

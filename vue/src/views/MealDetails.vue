@@ -1,6 +1,9 @@
 <template>
   <div class="page meal-details">
-    <h1 class="meal-name-category">{{ meal.name }} | {{ meal.category }}</h1>
+    <div class="error" v-if="error">{{ error.message }}</div>
+    <h1 class="meal-name-category" v-if="meal">
+      {{ meal.name }} | {{ meal.category }}
+    </h1>
     <div class="recipes-by-category" v-if="meal">
       <div
         class="recipe-category"
@@ -32,8 +35,8 @@
 </template>
 
 <script>
-// import MealCard from "@/components/MealCard";
-import RecipeCard from "@/components/RecipeCard"
+import mealPlannerService from "@/services/MealPlannerService"
+import RecipeCard from "@/components/RecipeCard";
 
 export default {
   name: "meal-details",
@@ -43,8 +46,7 @@ export default {
     };
   },
   components: {
-    // MealCard,
-    RecipeCard
+    RecipeCard,
   },
   computed: {
     mealRecipesByCategory() {
@@ -60,11 +62,19 @@ export default {
       return recipesByCategory;
     },
   },
-  created() {
+  async created() {
     const mealId = this.$route.params.id;
     this.meal = this.$store.state.meals.find((meal) => {
       return meal.mealId == mealId;
     });
+    if(!this.meal) {
+      try {
+        const response = await mealPlannerService.getMealById(mealId);
+        this.meal = response.data;
+      } catch(e) {
+        this.error = mealPlannerService.getError(e);
+      }
+    }
   },
 };
 </script>
@@ -83,6 +93,6 @@ div.meal-details {
 div.recipe-category h3 {
   text-align: center;
   font-size: 20pt;
-   color: #4b3f72;
+  color: #4b3f72;
 }
 </style>
