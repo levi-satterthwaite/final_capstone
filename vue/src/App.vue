@@ -32,6 +32,16 @@
 * {
   font-family: Rubik, "Poppins", sans-serif;
 }
+a {
+  display: block;
+  text-decoration: none;
+  color: #4b3f72;
+}
+
+a:hover {
+  color: #9d7dde;
+}
+
 #nav {
   background-color: #4b3f72;
   height: 75px;
