@@ -1,5 +1,5 @@
 <template>
-  <div class="update-meal-plan">
+  <div class="page update-meal-plan">
     <h1>Update Meal Plan</h1>
     <p v-if="!mealPlan">Meal plan not found!</p>
     <meal-plan-form

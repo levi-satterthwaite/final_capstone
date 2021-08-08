@@ -1,5 +1,5 @@
 <template>
-  <div class="update-meal">
+  <div class="page update-meal">
     <h1>Update Meal</h1>
     <p v-if="!meal">Meal not found!</p>
     <meal-form
