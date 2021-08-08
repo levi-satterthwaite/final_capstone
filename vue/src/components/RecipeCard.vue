@@ -32,9 +32,7 @@ div.recipe-card {
   flex-grow: 1;
   width: 20em;
   max-width: 20em;
-  margin-right: 50px;
-  margin-bottom: 40px;
- 
+  margin: 20px;
 }
 div.content-wrapper {
   margin: 20px;

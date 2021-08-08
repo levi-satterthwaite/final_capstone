@@ -34,7 +34,7 @@ div.meal-card {
   flex-grow: 1;
   width: 20em;
   max-width: 20em;
-  margin: 30px;
+  margin: 20px;
 }
 div.content-wrapper {
   margin: 20px;
