@@ -58,6 +58,7 @@ div.toolbar a:hover {
 }
 div.router-view {
   margin-top: 75px;
+  margin-bottom: 75px;
 }
 /* div.toolbar a:last-child {
   margin-right: 20px;
@@ -106,12 +107,18 @@ div.page h1 {
 div.page div.container {
   display: flex;
   justify-items: center;
-  /* margin-left: 10px;
-  margin-right: 10px; */
 }
 
 div.action-bar {
   display: flex;
   justify-content: flex-end;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width:  calc(100% - 100px);
+  text-align: center;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 25px
 }
 </style>
