@@ -1,5 +1,5 @@
 <template>
-  <div class="meal-details">
+  <div class="page meal-details">
     <h1>{{ meal.name }}</h1>
     <h2>{{ meal.category }}</h2>
     <!-- <meal-card v-if="meal" v-bind:meal="meal" /> -->
@@ -86,5 +86,9 @@ div.meal-details h2 {
 div.meal-details {
   display: flex;
   flex-direction: column;
+}
+div.recipe-category h3 {
+  font-size: 16pt;
+   color: #4b3f72;
 }
 </style>
