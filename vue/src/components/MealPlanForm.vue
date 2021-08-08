@@ -171,6 +171,9 @@ export default {
       return response.data;
     },
     addMeal(meal) {
+      if(!meal) {
+        return;
+      }
       this.meals = [...this.meals, meal];
       this.closeMealSearch();
     },
