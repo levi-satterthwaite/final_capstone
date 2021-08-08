@@ -191,7 +191,7 @@ export default {
       return response.data;
     },
     addRecipe(recipe) {
-      if (!receipe) {
+      if (!recipe) {
         return;
       }
       this.recipes = [...this.recipes, recipe];
