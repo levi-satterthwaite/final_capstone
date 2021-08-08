@@ -82,7 +82,7 @@ div.meal-details {
 }
 div.recipe-category h3 {
   text-align: center;
-  font-size: 16pt;
+  font-size: 20pt;
    color: #4b3f72;
 }
 </style>
