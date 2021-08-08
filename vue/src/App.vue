@@ -106,6 +106,7 @@ div.page {
   flex-direction: column;
   margin-left: 50px;
   margin-right: 50px;
+  align-items: center;
 }
 
 div.page h1 {
