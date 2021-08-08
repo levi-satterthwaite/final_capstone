@@ -1,8 +1,6 @@
 <template>
   <div class="page meal-details">
-    <h1>{{ meal.name }}</h1>
-    <h2>{{ meal.category }}</h2>
-    <!-- <meal-card v-if="meal" v-bind:meal="meal" /> -->
+    <h1 class="meal-name-category">{{ meal.name }} | {{ meal.category }}</h1>
     <div class="recipes-by-category" v-if="meal">
       <div
         class="recipe-category"
@@ -72,22 +70,18 @@ export default {
 </script>
 
 <style>
-div.meal-details h1 {
+div.meal-details h1.meal-name-category {
   text-align: center;
   margin-top: 50px;
-  color: #4b3f72;
-}
-div.meal-details h2 {
-  text-align: center;
   margin-bottom: 50px;
   color: #4b3f72;
 }
-
 div.meal-details {
   display: flex;
   flex-direction: column;
 }
 div.recipe-category h3 {
+  text-align: center;
   font-size: 16pt;
    color: #4b3f72;
 }
