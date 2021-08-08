@@ -29,7 +29,7 @@ export default {
         mealPlan.imageFileName = outputFileName;
         const savedMealPlan = await this.addMealPlan(mealPlan);
         await this.addMealsToMealPlan(savedMealPlan, meals);
-        this.$router.push({ name: "mealplans" });
+        this.$router.push({ name: "mealPlans" });
       } catch (e) {
         this.submitMealPlanError = mealPlannerService.getError(e);
         console.error(e);
