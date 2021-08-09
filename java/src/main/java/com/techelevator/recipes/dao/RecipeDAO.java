@@ -1,5 +1,6 @@
 package com.techelevator.recipes.dao;
 
+import com.techelevator.model.User;
 import com.techelevator.recipes.exceptions.NegativeValueException;
 import com.techelevator.recipes.exceptions.RecipeAlreadyExistsException;
 import com.techelevator.recipes.exceptions.RecipeException;
@@ -12,8 +13,8 @@ import java.util.List;
 public interface RecipeDAO {
 
     List<Recipe> getListOfRecipes();
-    List<Recipe> getRecipesByName(String name);
-    Recipe getRecipeById(Long recipeId) throws RecipeNotFoundException;
+    List<Recipe> getRecipesByName(String name, Long userId);
+    Recipe getRecipeById(Long recipeId, Long userId) throws RecipeNotFoundException;
     Recipe addRecipe(Recipe recipe) throws NegativeValueException, RecipeException;
     Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException,
             RecipeNotFoundException;

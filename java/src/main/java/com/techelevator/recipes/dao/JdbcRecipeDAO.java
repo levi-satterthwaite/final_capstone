@@ -1,5 +1,6 @@
 package com.techelevator.recipes.dao;
 
+import com.techelevator.model.User;
 import com.techelevator.recipes.exceptions.*;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
@@ -26,7 +27,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     @Override
     public List<Recipe> getListOfRecipes() {
             List<Recipe> recipes = new ArrayList<Recipe>();
-            String sql = "SELECT recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
+            String sql = "SELECT recipe_id, user_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                     "serving_size, instructions, date_created, image_file_name " +
                     "FROM recipe";
             SqlRowSet rows = jdbcTemplate.queryForRowSet(sql);
@@ -39,12 +40,12 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public List<Recipe> getRecipesByName(String name) {
+    public List<Recipe> getRecipesByName(String name, Long userId) {
         List<Recipe> recipes = new ArrayList<Recipe>();
-        String sql = "SELECT recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
+        String sql = "SELECT recipe_id, user_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                 "serving_size, instructions, date_created, image_file_name " +
-                "FROM recipe WHERE name ILIKE ?";
-        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%");
+                "FROM recipe WHERE name ILIKE ? AND user_id = ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%", userId);
         while(rows.next()) {
             Recipe recipe = mapRecipe(rows);
             recipe.setIngredientList(getIngredientsByRecipeId(recipe.getRecipeId()));
@@ -54,12 +55,12 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public Recipe getRecipeById(Long recipeId) throws RecipeNotFoundException {
+    public Recipe getRecipeById(Long recipeId, Long userId) throws RecipeNotFoundException {
             Recipe recipe = null;
-            String sql = "SELECT recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
+            String sql = "SELECT recipe_id, user_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                     "serving_size, instructions, date_created, image_file_name " +
-                    "FROM recipe WHERE recipe_id = ?";
-            SqlRowSet rows =  jdbcTemplate.queryForRowSet(sql, recipeId);
+                    "FROM recipe WHERE recipe_id = ? AND user_id = ?";
+            SqlRowSet rows =  jdbcTemplate.queryForRowSet(sql, recipeId, userId);
             if (rows.next()) {
                 recipe = mapRecipe(rows);
             }
@@ -76,11 +77,11 @@ public class JdbcRecipeDAO implements RecipeDAO {
     public Recipe addRecipe(Recipe recipe) throws NegativeValueException, RecipeException {
         try {
             recipe.validate();
-            String sql = "INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
-                    "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+            String sql = "INSERT INTO recipe (recipe_id, user_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
+                    "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                     "RETURNING recipe_id";
             SqlRowSet rows = jdbcTemplate.queryForRowSet(
-                    sql, recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
+                    sql, recipe.getUserId(), recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
                     recipe.getPrepTimeMin(), recipe.getCookTimeMin(), recipe.getServingSize(), recipe.getInstructions(),
                     recipe.getDateCreated(), recipe.getImageFileName());
             rows.next();
@@ -104,7 +105,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
             for(Ingredient ingredient : ingredients) {
                 addIngredientToRecipe(recipe, ingredient);
             }
-            return getRecipeById(recipe.getRecipeId());
+            return getRecipeById(recipe.getRecipeId(), recipe.getUserId());
         } catch(DataIntegrityViolationException e) {
             if (e.getMostSpecificCause().getClass().getName().equals("org.postgresql.util.PSQLException") &&
                     ((SQLException) e.getMostSpecificCause()).getSQLState().equals("23514"))
@@ -120,7 +121,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
         // delete all recipe ingredients first
         deleteIngredientsFromRecipe(recipe, recipe.getIngredientList());
         // delete the recipe (use the sql statement here)
-        String sql = "DELETE FROM recipe WHERE recipe_id = ?";
+        String sql = "DELETE FROM recipe WHERE recipe_id = ? AND user_id = ?";
         jdbcTemplate.update(sql, recipe.getRecipeId());
     }
 
@@ -182,11 +183,11 @@ public class JdbcRecipeDAO implements RecipeDAO {
         // finally update the recipe record in the database
         String sql = "UPDATE recipe SET name = ?, category = ?, difficulty_level = ?, " +
                 "prep_time_min = ?, cook_time_min = ?, serving_size = ?, instructions = ?, date_created = ?, " +
-                "image_file_name = ? WHERE recipe_id = ?";
+                "image_file_name = ? WHERE recipe_id = ? AND user_id = ?";
         jdbcTemplate.update(sql, recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
                 recipe.getPrepTimeMin(), recipe.getCookTimeMin(), recipe.getServingSize(),
                 recipe.getInstructions(), recipe.getDateCreated(), recipe.getImageFileName(), recipe.getRecipeId());
-        return getRecipeById(recipe.getRecipeId());
+        return getRecipeById(recipe.getRecipeId(), recipe.getUserId());
     }
 
     private void updateRecipeIngredient(Recipe recipe, Ingredient ingredient) throws NegativeValueException {
@@ -205,7 +206,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     private void makeSureRecipeIsNotInAMealPlan(Recipe recipe) throws RecipeException {
         // check the database to make sure there are no meal plans using this recipe
         // if there are any rows, throw an Error stating that the recipe is in use
-        String sql = "SELECT recipe_id, meal_id FROM recipe_meal_plan WHERE recipe_id = ?";
+        String sql = "SELECT recipe_id, meal_id FROM recipe_meal WHERE recipe_id = ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, recipe.getRecipeId());
         if(rows.next()) {
             throw new RecipeInUseException();
@@ -255,6 +256,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     private Recipe mapRecipe(SqlRowSet row) {
         Recipe recipe = new Recipe();
         recipe.setRecipeId(row.getLong("recipe_id"));
+        recipe.setUserId(row.getLong("user_id"));
         recipe.setName(row.getString("name"));
         recipe.setCategory(row.getString("category"));
         recipe.setDifficultyLevel(row.getString("difficulty_level"));

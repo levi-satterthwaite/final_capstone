@@ -197,7 +197,8 @@ public class JdbcMealDAO implements MealDAO {
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealId);
         while(rows.next()) {
             Long recipeId = rows.getLong("recipe_id");
-            Recipe recipe = recipeDAO.getRecipeById(recipeId);
+            Long userId = rows.getLong("user_id");
+            Recipe recipe = recipeDAO.getRecipeById(recipeId, userId);
             recipes.add(recipe);
         }
         return recipes;

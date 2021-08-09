@@ -11,7 +11,6 @@ public class Ingredient {
     private String unitMeasurement;
 
     public Ingredient() {
-
     }
 
     public Long getIngredientId() {

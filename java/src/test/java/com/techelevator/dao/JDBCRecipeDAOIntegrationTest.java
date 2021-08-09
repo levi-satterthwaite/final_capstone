@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.techelevator.model.User;
 import com.techelevator.recipes.dao.IngredientDAO;
 import com.techelevator.recipes.dao.JdbcIngredientDAO;
 import com.techelevator.recipes.dao.JdbcRecipeDAO;
@@ -53,7 +54,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         recipeDAO.addRecipe(recipeOne);
 
         //Test
-        Recipe testRecipe = recipeDAO.getRecipeById(recipeOne.getRecipeId());
+        Recipe testRecipe = recipeDAO.getRecipeById(recipeOne.getRecipeId(), recipeOne.getUserId());
         //Assert
         Assert.assertEquals(recipeOne, testRecipe);
     }
@@ -65,7 +66,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         recipeDAO.addRecipe(recipeOne);
         recipeDAO.addRecipe(recipeTwo);
 
-        List<Recipe> testRecipeList = recipeDAO.getRecipesByName("TestName1");
+        List<Recipe> testRecipeList = recipeDAO.getRecipesByName("TestName1", recipeOne.getUserId());
         Assert.assertTrue(testRecipeList.size() > 0);
     }
 
@@ -76,7 +77,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         recipeDAO.addRecipe(newRecipe);
 
         Assert.assertTrue(newRecipe.getRecipeId() > 0);
-        Recipe expectedRecipe = recipeDAO.getRecipeById(newRecipe.getRecipeId());
+        Recipe expectedRecipe = recipeDAO.getRecipeById(newRecipe.getRecipeId(), newRecipe.getUserId());
         Assert.assertEquals(newRecipe, expectedRecipe);
     }
 
@@ -97,11 +98,11 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     }
 
     private void createNewTestRecipe(Recipe recipe) {
-        String sql = "INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
-                "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+        String sql = "INSERT INTO recipe (recipe_id, user_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
+                "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                 "RETURNING recipe_id";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(
-                sql, recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
+                sql, recipe.getUserId(), recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
                 recipe.getPrepTimeMin(), recipe.getCookTimeMin(), recipe.getServingSize(), recipe.getInstructions(),
                 recipe.getDateCreated(), recipe.getImageFileName());
         rows.next();
@@ -111,6 +112,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     private Recipe getRecipe(Long recipeId) {
         Recipe recipe = new Recipe();
         recipe.setRecipeId(recipeId);
+        recipe.setUserId(1L);
         recipe.setName("testName");
         recipe.setCategory("Entree");
         recipe.setDifficultyLevel("Easy");
@@ -135,6 +137,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     private Recipe getByName(String name) {
         Recipe recipe = new Recipe();
         recipe.setRecipeId(-1L);
+        recipe.setUserId(1L);
         recipe.setName(name);
         recipe.setCategory("Entree");
         recipe.setDifficultyLevel("Easy");

@@ -12,6 +12,7 @@ import java.util.Objects;
 public class Recipe {
 
     private Long recipeId;
+    private Long userId;
     private String name;
     private String category;
     private String difficultyLevel;
@@ -42,6 +43,14 @@ public class Recipe {
 
     public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -133,11 +142,11 @@ public class Recipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return prepTimeMin == recipe.prepTimeMin && cookTimeMin == recipe.cookTimeMin && servingSize == recipe.servingSize && Objects.equals(recipeId, recipe.recipeId) && Objects.equals(name, recipe.name) && Objects.equals(category, recipe.category) && Objects.equals(difficultyLevel, recipe.difficultyLevel) && Objects.equals(instructions, recipe.instructions) && Objects.equals(dateCreated, recipe.dateCreated) && Objects.equals(imageFileName, recipe.imageFileName) && Objects.equals(ingredientList, recipe.ingredientList);
+        return prepTimeMin == recipe.prepTimeMin && cookTimeMin == recipe.cookTimeMin && servingSize == recipe.servingSize && Objects.equals(recipeId, recipe.recipeId) && Objects.equals(userId, recipe.userId) && Objects.equals(name, recipe.name) && Objects.equals(category, recipe.category) && Objects.equals(difficultyLevel, recipe.difficultyLevel) && Objects.equals(instructions, recipe.instructions) && Objects.equals(dateCreated, recipe.dateCreated) && Objects.equals(imageFileName, recipe.imageFileName) && Objects.equals(ingredientList, recipe.ingredientList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(recipeId, name, category, difficultyLevel, prepTimeMin, cookTimeMin, servingSize, instructions, dateCreated, imageFileName, ingredientList);
+        return Objects.hash(recipeId, userId, name, category, difficultyLevel, prepTimeMin, cookTimeMin, servingSize, instructions, dateCreated, imageFileName, ingredientList);
     }
 }
