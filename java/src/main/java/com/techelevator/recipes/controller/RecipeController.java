@@ -51,8 +51,9 @@ public class RecipeController {
     @RequestMapping(path = "/recipes", method = RequestMethod.POST)
     public Recipe addRecipe(@RequestBody Recipe recipe, Principal principal) throws NegativeValueException, RecipeException {
         User user = userDAO.findByUsername(principal.getName());
+        recipe.setUserId(user.getId());
         recipe.setDateCreated(LocalDate.now());
-        return recipeDAO.addRecipe(recipe, user.getId());
+        return recipeDAO.addRecipe(recipe);
     }
 
     @RequestMapping(path = "/recipes/{id}/ingredients", method = RequestMethod.POST)

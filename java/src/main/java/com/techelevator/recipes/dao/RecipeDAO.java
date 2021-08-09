@@ -15,7 +15,7 @@ public interface RecipeDAO {
     List<Recipe> getListOfRecipes();
     List<Recipe> getRecipesByName(String name, Long userId);
     Recipe getRecipeById(Long recipeId, Long userId) throws RecipeNotFoundException;
-    Recipe addRecipe(Recipe recipe, Long userId) throws NegativeValueException, RecipeException;
+    Recipe addRecipe(Recipe recipe) throws NegativeValueException, RecipeException;
     Recipe addIngredientsToRecipe(Recipe recipe, List<Ingredient> ingredients) throws NegativeValueException,
             RecipeNotFoundException;
     void deleteRecipe (Recipe recipe, Long userId) throws RecipeException;

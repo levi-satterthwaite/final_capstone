@@ -74,7 +74,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public Recipe addRecipe(Recipe recipe, Long userId) throws NegativeValueException, RecipeException {
+    public Recipe addRecipe(Recipe recipe) throws NegativeValueException, RecipeException {
         try {
             recipe.validate();
             String sql = "INSERT INTO recipe (recipe_id, user_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +

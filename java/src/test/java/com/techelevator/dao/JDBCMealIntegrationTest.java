@@ -81,7 +81,7 @@ public class JDBCMealIntegrationTest extends DAOIntegrationTest {
     @Test
     public void add_recipes_to_meal() throws NegativeValueException, MealException, RecipeException {
         Recipe newRecipe = getRecipe(-1L);
-        recipeDAO.addRecipe(newRecipe, newRecipe.getUserId());
+        recipeDAO.addRecipe(newRecipe);
 
         Meal newMeal = getById(-1L);
         mealDAO.addMeal(newMeal, newMeal.getUserId());
