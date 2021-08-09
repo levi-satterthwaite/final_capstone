@@ -5,6 +5,7 @@
       {{ meal.name }} | {{ meal.category }}
     </h1>
     <div class="recipes-by-category" v-if="meal">
+      <p  v-if="!hasRecipes">Add some recipes to your meal.</p>
       <div
         class="recipe-category"
         v-for="category in mealRecipesByCategory.keys()"
@@ -50,6 +51,9 @@ export default {
     RecipeCard,
   },
   computed: {
+    hasRecipes() {
+      return Array.from(this.mealRecipesByCategory.keys()).length;
+    },
     mealRecipesByCategory() {
       // key is the category name and the value is a list of recipes
       const recipesByCategory = new Map();
