@@ -67,7 +67,7 @@ public class RecipeController {
     @RequestMapping(path = "/recipes/{id}", method = RequestMethod.DELETE)
     public Message deleteRecipe(@PathVariable(name = "id") Long recipeId, Principal principal) throws RecipeException {
         User user = userDAO.findByUsername(principal.getName());
-        recipeDAO.deleteRecipe(recipeDAO.getRecipeById(recipeId, user.getId()), user.getId());
+        recipeDAO.deleteRecipe(recipeDAO.getRecipeById(recipeId, user.getId()));
         return new Message("The recipe has been deleted.");
     }
 

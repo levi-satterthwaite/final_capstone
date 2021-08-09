@@ -56,7 +56,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public MealPlan addMealPlan(MealPlan mealPlan, Long userId) throws MealPlanException {
+    public MealPlan addMealPlan(MealPlan mealPlan) throws MealPlanException {
         try {
             String sql = "INSERT INTO meal_plan (meal_plan_id, user_id, name, description, image_file_name) VALUES " +
                     "(DEFAULT, ?, ?, ?, ?) RETURNING meal_plan_id";
@@ -74,7 +74,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public MealPlan addMealsToMealPlan(MealPlan mealPlan, List<Meal> meals, Long userId) throws MealPlanNotFoundException, RecipeNotFoundException, MealNotFoundException {
+    public MealPlan addMealsToMealPlan(MealPlan mealPlan, List<Meal> meals) throws MealPlanNotFoundException, RecipeNotFoundException, MealNotFoundException {
         for(Meal meal : meals) {
             addMealToMealPlan(mealPlan, meal);
         }
@@ -116,11 +116,11 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public void deleteMealPlan(MealPlan mealPlan, Long userId) {
+    public void deleteMealPlan(MealPlan mealPlan) {
         deleteMealsFromMealPlan(mealPlan, mealPlan.getMealList());
 
         String sql = "DELETE FROM meal_plan WHERE meal_plan_id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, mealPlan.getMealPlanId());
+        jdbcTemplate.update(sql, mealPlan.getMealPlanId(), mealPlan.getUserId());
     }
 
     @Override

@@ -37,7 +37,7 @@ public class JDBCMealIntegrationTest extends DAOIntegrationTest {
     public void retrieve_all_meals() throws MealException, RecipeNotFoundException {
         List<Meal> originalList = mealDAO.getListOfMeal();
         Meal testMeal = getById(-1L);
-        mealDAO.addMeal(testMeal, testMeal.getUserId());
+        mealDAO.addMeal(testMeal);
 
         List<Meal> mealFromDataBase = mealDAO.getListOfMeal();
 
@@ -49,8 +49,8 @@ public class JDBCMealIntegrationTest extends DAOIntegrationTest {
         List<Meal> originalList = mealDAO.getListOfMeal();
         Meal mealOne = getByName("TestName1");
         Meal mealTwo = getByName("TestName2");
-        mealDAO.addMeal(mealOne, mealOne.getUserId());
-        mealDAO.addMeal(mealTwo, mealTwo.getUserId());
+        mealDAO.addMeal(mealOne);
+        mealDAO.addMeal(mealTwo);
 
         List<Meal> testMealList = mealDAO.getMealByName("TestName1", mealOne.getUserId());
 
@@ -60,7 +60,7 @@ public class JDBCMealIntegrationTest extends DAOIntegrationTest {
     @Test
     public void retrieve_meal_by_id() throws MealException, RecipeNotFoundException {
         Meal mealOne = getById(-1L);
-        mealDAO.addMeal(mealOne, mealOne.getUserId());
+        mealDAO.addMeal(mealOne);
 
         Meal testMeal = mealDAO.getMealById(mealOne.getMealId(), mealOne.getUserId());
 
@@ -71,7 +71,7 @@ public class JDBCMealIntegrationTest extends DAOIntegrationTest {
     public void add_meal() throws MealException, RecipeNotFoundException {
         Meal newMeal = getById(-1L);
 
-        mealDAO.addMeal(newMeal, newMeal.getUserId());
+        mealDAO.addMeal(newMeal);
 
         Assert.assertTrue(newMeal.getMealId() > 0);
         Meal expectedMeal = mealDAO.getMealById(newMeal.getMealId(), newMeal.getUserId());
@@ -84,12 +84,12 @@ public class JDBCMealIntegrationTest extends DAOIntegrationTest {
         recipeDAO.addRecipe(newRecipe);
 
         Meal newMeal = getById(-1L);
-        mealDAO.addMeal(newMeal, newMeal.getUserId());
+        mealDAO.addMeal(newMeal);
 
         List<Recipe> recipes = new ArrayList<>();
         recipes.add(newRecipe);
 
-        Meal testMeal = mealDAO.addRecipesToMeal(newMeal, recipes, newMeal.getUserId());
+        Meal testMeal = mealDAO.addRecipesToMeal(newMeal, recipes);
 
         Assert.assertTrue(testMeal.getRecipeList().size() > 0);
         Assert.assertEquals(testMeal.getRecipeList().get(0), newRecipe);

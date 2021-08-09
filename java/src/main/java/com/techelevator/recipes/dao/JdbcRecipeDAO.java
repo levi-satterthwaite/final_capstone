@@ -115,14 +115,14 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public void deleteRecipe(Recipe recipe, Long userId) throws RecipeException {
+    public void deleteRecipe(Recipe recipe) throws RecipeException {
         // check to see if recipe is being used in a meal plan
         makeSureRecipeIsNotInAMealPlan(recipe);
         // delete all recipe ingredients first
         deleteIngredientsFromRecipe(recipe, recipe.getIngredientList());
         // delete the recipe (use the sql statement here)
         String sql = "DELETE FROM recipe WHERE recipe_id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, recipe.getRecipeId());
+        jdbcTemplate.update(sql, recipe.getRecipeId(), recipe.getUserId());
     }
 
     @Override

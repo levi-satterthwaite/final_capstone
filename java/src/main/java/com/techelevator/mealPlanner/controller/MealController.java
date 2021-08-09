@@ -56,7 +56,8 @@ public class MealController {
     @RequestMapping(path = "/meals", method = RequestMethod.POST)
     public Meal addMeals(@RequestBody Meal meal, Principal principal) throws MealException {
         User user = userDAO.findByUsername(principal.getName());
-        return mealDAO.addMeal(meal, user.getId());
+        meal.setUserId(user.getId());
+        return mealDAO.addMeal(meal);
     }
 
     @RequestMapping(path = "/meals/{id}/recipes", method = RequestMethod.POST)
@@ -64,7 +65,7 @@ public class MealController {
             MealNotFoundException, RecipeNotFoundException {
         User user = userDAO.findByUsername(principal.getName());
         Meal meal = mealDAO.getMealById(mealId, user.getId());
-        return mealDAO.addRecipesToMeal(meal, recipes, user.getId());
+        return mealDAO.addRecipesToMeal(meal, recipes);
     }
 
     @RequestMapping(path = "/meals/{id}", method = RequestMethod.PUT)
@@ -82,7 +83,7 @@ public class MealController {
     public Message deleteMeal(@PathVariable(name = "id") Long mealId, Principal principal) throws MealNotFoundException,
             RecipeException {
         User user = userDAO.findByUsername(principal.getName());
-        mealDAO.deleteMeal(mealDAO.getMealById(mealId, user.getId()), user.getId());
+        mealDAO.deleteMeal(mealDAO.getMealById(mealId, user.getId()));
         return new Message("The meal has been deleted.");
     }
 }

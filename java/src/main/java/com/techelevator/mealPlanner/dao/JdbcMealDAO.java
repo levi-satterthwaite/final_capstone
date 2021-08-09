@@ -73,7 +73,7 @@ public class JdbcMealDAO implements MealDAO {
     }
 
     @Override
-    public Meal addMeal(Meal meal, Long userId) throws MealException {
+    public Meal addMeal(Meal meal) throws MealException {
         try {
             meal.validate();
             String sql = "INSERT INTO meal (meal_id, user_id, name, category, image_file_name) VALUES " +
@@ -92,7 +92,7 @@ public class JdbcMealDAO implements MealDAO {
     }
 
     @Override
-    public Meal addRecipesToMeal(Meal meal, List<Recipe> recipes, Long userId) throws MealNotFoundException,
+    public Meal addRecipesToMeal(Meal meal, List<Recipe> recipes) throws MealNotFoundException,
             RecipeNotFoundException {
         for(Recipe recipe : recipes) {
             addRecipeToMeal(meal, recipe);
@@ -136,12 +136,12 @@ public class JdbcMealDAO implements MealDAO {
     }
 
     @Override
-    public void deleteMeal(Meal meal, Long userId) throws RecipeException {
+    public void deleteMeal(Meal meal) throws RecipeException {
         deleteRecipesFromMeal(meal, meal.getRecipeList());
 
         // delete the meal plan
         String sql = "DELETE FROM meal WHERE meal_id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, meal.getMealId());
+        jdbcTemplate.update(sql, meal.getMealId(), meal.getUserId());
     }
 
     @Override
