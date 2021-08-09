@@ -1,10 +1,13 @@
 <template>
   <div class="meal-list">
-    <meal-card
-      v-for="meal in $store.state.meals"
-      v-bind:key="meal.id"
-      v-bind:meal="meal"
-    />
+    <div class="meal-card-wrapper" v-if="$store.state.meals.length">
+      <meal-card
+        v-for="meal in $store.state.meals"
+        v-bind:key="meal.id"
+        v-bind:meal="meal"
+      />
+    </div>
+    <p v-else>No meals have been created, please add one.</p>
   </div>
 </template>
 
@@ -42,14 +45,14 @@ export default {
   },
   created() {
     this.getAllmeals();
-  }
+  },
 };
 </script>
 
 <style>
 div.meal-list {
-    display:flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>
