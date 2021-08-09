@@ -30,11 +30,11 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     @Override
     public List<MealPlan> getMealPlanByName(String name, Long userId) throws MealNotFoundException, RecipeNotFoundException {
         List<MealPlan> mealPlans = new ArrayList<MealPlan>();
-        String sql = "SELECT meal_plan_id, user_id, name, description, image_file_name FROM meal_plan WHERE name ILIKE ?";
+        String sql = "SELECT meal_plan_id, user_id, name, description, image_file_name FROM meal_plan WHERE name ILIKE ? AND user_id = ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%", userId);
         while(rows.next()) {
             MealPlan mealPlan = mapMealPlan(rows);
-            mealPlan.setMealList(getMealsByMealPlanId(mealPlan.getMealPlanId()));
+            mealPlan.setMealList(getMealsByMealPlanId(mealPlan.getMealPlanId(), mealPlan.getUserId()));
             mealPlans.add(mealPlan);
         }
         return mealPlans;
@@ -47,7 +47,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlanId, userId);
         if(rows.next()) {
             mealPlan = mapMealPlan(rows);
-            mealPlan.setMealList(getMealsByMealPlanId(mealPlan.getMealPlanId()));
+            mealPlan.setMealList(getMealsByMealPlanId(mealPlan.getMealPlanId(), mealPlan.getUserId()));
         }
         if(mealPlan == null) {
             throw new MealPlanNotFoundException();
@@ -88,7 +88,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         }
         mealPlan.validateMeal();
 
-        List<Meal> existingMealList = getMealsByMealPlanId(mealPlan.getMealPlanId());
+        List<Meal> existingMealList = getMealsByMealPlanId(mealPlan.getMealPlanId(), mealPlan.getUserId());
         Map<Long, Meal> existingMealsMap = new HashMap<Long, Meal>();
         for(Meal existingMeal : existingMealList) {
             existingMealsMap.put(existingMeal.getMealId(), existingMeal);
@@ -164,14 +164,13 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         rows.next();
     }
 
-    private List<Meal> getMealsByMealPlanId(Long mealPlanId) throws MealNotFoundException, RecipeNotFoundException {
+    private List<Meal> getMealsByMealPlanId(Long mealPlanId, Long userId) throws MealNotFoundException, RecipeNotFoundException {
         List<Meal> meals = new ArrayList<Meal>();
         String sql = "SELECT meal_id " +
                 "FROM meal_plan_meal WHERE meal_plan_id = ?";
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlanId);
         while(rows.next()) {
             Long mealId = rows.getLong("meal_id");
-            Long userId = rows.getLong("user_id");
             Meal meal = mealDAO.getMealById(mealId, userId);
             meals.add(meal);
         }
