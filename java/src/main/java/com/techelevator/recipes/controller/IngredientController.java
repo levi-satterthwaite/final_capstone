@@ -34,10 +34,10 @@ public class IngredientController {
         return ingredientDAO.getIngredientsByName(name);
     }
 
-    @RequestMapping(path = "/ingredient/{id}", method = RequestMethod.DELETE)
-    public Message delete(@PathVariable(name = "id") Long ingredientId) throws IngredientException {
-        ingredientDAO.deleteIngredient(ingredientDAO.getIngredientById(ingredientId));
-        return new Message("The ingredient has been deleted.");
-    }
+//    @RequestMapping(path = "/ingredient/{id}", method = RequestMethod.DELETE)
+//    public Message delete(@PathVariable(name = "id") Long ingredientId) throws IngredientException {
+//        ingredientDAO.deleteIngredient(ingredientDAO.getIngredientById(ingredientId));
+//        return new Message("The ingredient has been deleted.");
+//    }
 
 }

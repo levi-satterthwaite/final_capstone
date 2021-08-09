@@ -51,7 +51,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     @Test
     public void retrieve_recipe_by_id() throws NegativeValueException, RecipeException {
         Recipe recipeOne = getRecipe(-1L);
-        recipeDAO.addRecipe(recipeOne);
+        recipeDAO.addRecipe(recipeOne, recipeOne.getUserId());
 
         //Test
         Recipe testRecipe = recipeDAO.getRecipeById(recipeOne.getRecipeId(), recipeOne.getUserId());
@@ -63,8 +63,8 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     public void retrieve_recipes_by_name() throws NegativeValueException, RecipeException {
         Recipe recipeOne = getByName("TestName1");
         Recipe recipeTwo = getByName("TestName2");
-        recipeDAO.addRecipe(recipeOne);
-        recipeDAO.addRecipe(recipeTwo);
+        recipeDAO.addRecipe(recipeOne, recipeOne.getUserId());
+        recipeDAO.addRecipe(recipeTwo, recipeTwo.getUserId());
 
         List<Recipe> testRecipeList = recipeDAO.getRecipesByName("TestName1", recipeOne.getUserId());
         Assert.assertTrue(testRecipeList.size() > 0);
@@ -74,7 +74,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     public void add_recipe() throws NegativeValueException, RecipeException {
         Recipe newRecipe = getRecipe(-1L);
 
-        recipeDAO.addRecipe(newRecipe);
+        recipeDAO.addRecipe(newRecipe, newRecipe.getUserId());
 
         Assert.assertTrue(newRecipe.getRecipeId() > 0);
         Recipe expectedRecipe = recipeDAO.getRecipeById(newRecipe.getRecipeId(), newRecipe.getUserId());
@@ -84,7 +84,7 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
     @Test
     public void add_ingredients_to_recipe() throws IngredientException, NegativeValueException, RecipeException {
         Recipe recipeOne = getRecipe(-1L);
-        recipeDAO.addRecipe(recipeOne);
+        recipeDAO.addRecipe(recipeOne, recipeOne.getUserId());
         Ingredient ingredientOne = getIngredient(-1L);
         ingredientOne.setUnitMeasurement("unitMeasurement");
         ingredientOne.setQuantity(1.5);

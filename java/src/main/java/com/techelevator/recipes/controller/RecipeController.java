@@ -21,8 +21,9 @@ public class RecipeController {
     private RecipeDAO recipeDAO;
     private UserDAO userDAO;
 
-    public RecipeController(RecipeDAO recipeDAO) {
+    public RecipeController(RecipeDAO recipeDAO, UserDAO userDAO) {
         this.recipeDAO = recipeDAO;
+        this.userDAO = userDAO;
     }
 
     @RequestMapping(path = "/recipes", method = RequestMethod.GET)
@@ -48,9 +49,10 @@ public class RecipeController {
     }
 
     @RequestMapping(path = "/recipes", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestBody Recipe recipe) throws NegativeValueException, RecipeException {
+    public Recipe addRecipe(@RequestBody Recipe recipe, Principal principal) throws NegativeValueException, RecipeException {
+        User user = userDAO.findByUsername(principal.getName());
         recipe.setDateCreated(LocalDate.now());
-        return recipeDAO.addRecipe(recipe);
+        return recipeDAO.addRecipe(recipe, user.getId());
     }
 
     @RequestMapping(path = "/recipes/{id}/ingredients", method = RequestMethod.POST)
@@ -64,7 +66,7 @@ public class RecipeController {
     @RequestMapping(path = "/recipes/{id}", method = RequestMethod.DELETE)
     public Message deleteRecipe(@PathVariable(name = "id") Long recipeId, Principal principal) throws RecipeException {
         User user = userDAO.findByUsername(principal.getName());
-        recipeDAO.deleteRecipe(recipeDAO.getRecipeById(recipeId, user.getId()));
+        recipeDAO.deleteRecipe(recipeDAO.getRecipeById(recipeId, user.getId()), user.getId());
         return new Message("The recipe has been deleted.");
     }
 
@@ -76,7 +78,7 @@ public class RecipeController {
         }
         User user = userDAO.findByUsername(principal.getName());
         recipeDAO.getRecipeById(recipeId, user.getId());
-        return recipeDAO.updateRecipe(recipe);
+        return recipeDAO.updateRecipe(recipe, user.getId());
     }
 
 

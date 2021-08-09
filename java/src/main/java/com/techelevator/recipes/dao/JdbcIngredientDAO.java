@@ -64,14 +64,14 @@ public class JdbcIngredientDAO implements IngredientDAO {
         return ingredients;
     }
 
-    @Override
-    public void deleteIngredient(Ingredient ingredient) throws IngredientException {
-        //check to make sure the ingredient isn't being used in a recipe
-        makeSureIngredientIsNotInARecipe(ingredient);
-        //delete the ingredient in the database
-        String sql = "DELETE FROM ingredient WHERE ingredient_id = ?";
-        jdbcTemplate.update(sql, ingredient.getIngredientId());
-    }
+//    @Override
+//    public void deleteIngredient(Ingredient ingredient) throws IngredientException {
+//        //check to make sure the ingredient isn't being used in a recipe
+//        makeSureIngredientIsNotInARecipe(ingredient);
+//        //delete the ingredient in the database
+//        String sql = "DELETE FROM ingredient WHERE ingredient_id = ?";
+//        jdbcTemplate.update(sql, ingredient.getIngredientId());
+//    }
 
     private void makeSureIngredientIsNotInARecipe(Ingredient ingredient) throws IngredientException {
         // check the database to make sure there are no recipes using this ingredient

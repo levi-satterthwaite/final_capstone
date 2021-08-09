@@ -28,10 +28,10 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public List<MealPlan> getMealPlanByName(String name) throws MealNotFoundException, RecipeNotFoundException {
+    public List<MealPlan> getMealPlanByName(String name, Long userId) throws MealNotFoundException, RecipeNotFoundException {
         List<MealPlan> mealPlans = new ArrayList<MealPlan>();
-        String sql = "SELECT meal_plan_id, name, description, image_file_name FROM meal_plan WHERE name ILIKE ?";
-        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%");
+        String sql = "SELECT meal_plan_id, user_id, name, description, image_file_name FROM meal_plan WHERE name ILIKE ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, "%" + name + "%", userId);
         while(rows.next()) {
             MealPlan mealPlan = mapMealPlan(rows);
             mealPlan.setMealList(getMealsByMealPlanId(mealPlan.getMealPlanId()));
@@ -41,10 +41,10 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public MealPlan getMealPlanById(Long mealPlanId) throws MealPlanNotFoundException, RecipeNotFoundException, MealNotFoundException {
+    public MealPlan getMealPlanById(Long mealPlanId, Long userId) throws MealPlanNotFoundException, RecipeNotFoundException, MealNotFoundException {
         MealPlan mealPlan = null;
-        String sql = "SELECT meal_plan_id, name, description, image_file_name FROM meal_plan WHERE meal_plan_id = ?";
-        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlanId);
+        String sql = "SELECT meal_plan_id, user_id, name, description, image_file_name FROM meal_plan WHERE meal_plan_id = ? AND user_id = ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlanId, userId);
         if(rows.next()) {
             mealPlan = mapMealPlan(rows);
             mealPlan.setMealList(getMealsByMealPlanId(mealPlan.getMealPlanId()));
@@ -56,11 +56,11 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public MealPlan addMealPlan(MealPlan mealPlan) throws MealPlanException {
+    public MealPlan addMealPlan(MealPlan mealPlan, Long userId) throws MealPlanException {
         try {
-            String sql = "INSERT INTO meal_plan (meal_plan_id, name, description, image_file_name) VALUES " +
-                    "(DEFAULT, ?, ?, ?) RETURNING meal_plan_id";
-            SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlan.getName(), mealPlan.getDescription(),
+            String sql = "INSERT INTO meal_plan (meal_plan_id, user_id, name, description, image_file_name) VALUES " +
+                    "(DEFAULT, ?, ?, ?, ?) RETURNING meal_plan_id";
+            SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlan.getUserId(), mealPlan.getName(), mealPlan.getDescription(),
                     mealPlan.getImageFileName());
             rows.next();
             mealPlan.setMealPlanId(rows.getLong("meal_plan_id"));
@@ -74,15 +74,15 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
     }
 
     @Override
-    public MealPlan addMealsToMealPlan(MealPlan mealPlan, List<Meal> meals) throws MealPlanNotFoundException, RecipeNotFoundException, MealNotFoundException {
+    public MealPlan addMealsToMealPlan(MealPlan mealPlan, List<Meal> meals, Long userId) throws MealPlanNotFoundException, RecipeNotFoundException, MealNotFoundException {
         for(Meal meal : meals) {
             addMealToMealPlan(mealPlan, meal);
         }
-        return getMealPlanById(mealPlan.getMealPlanId());
+        return getMealPlanById(mealPlan.getMealPlanId(), mealPlan.getUserId());
     }
 
     @Override
-    public MealPlan updateMealPlan(MealPlan mealPlan) throws MealPlanNotFoundException, InvalidMealException, RecipeNotFoundException, MealNotFoundException, NegativeValueException {
+    public MealPlan updateMealPlan(MealPlan mealPlan, Long userId) throws MealPlanNotFoundException, InvalidMealException, RecipeNotFoundException, MealNotFoundException, NegativeValueException {
         if(mealPlan.getMealPlanId().equals(null)) {
             throw new MealPlanNotFoundException();
         }
@@ -109,17 +109,17 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         List<Meal> mealPlanMealsToRemove = new ArrayList<>(existingMealsMap.values());
         deleteMealsFromMealPlan(mealPlan, mealPlanMealsToRemove);
 
-        String sql = "UPDATE meal_plan SET name = ?, description = ?, image_file_name = ? WHERE meal_plan_id = ?";
+        String sql = "UPDATE meal_plan SET name = ?, description = ?, image_file_name = ? WHERE meal_plan_id = ? AND user_id = ?";
         jdbcTemplate.update(sql, mealPlan.getName(), mealPlan.getDescription(), mealPlan.getImageFileName(),
-                mealPlan.getMealPlanId());
-        return getMealPlanById(mealPlan.getMealPlanId());
+                mealPlan.getMealPlanId(), mealPlan.getUserId());
+        return getMealPlanById(mealPlan.getMealPlanId(), mealPlan.getUserId());
     }
 
     @Override
-    public void deleteMealPlan(MealPlan mealPlan) {
+    public void deleteMealPlan(MealPlan mealPlan, Long userId) {
         deleteMealsFromMealPlan(mealPlan, mealPlan.getMealList());
 
-        String sql = "DELETE FROM meal_plan WHERE meal_plan_id = ?";
+        String sql = "DELETE FROM meal_plan WHERE meal_plan_id = ? AND user_id = ?";
         jdbcTemplate.update(sql, mealPlan.getMealPlanId());
     }
 
@@ -171,7 +171,8 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, mealPlanId);
         while(rows.next()) {
             Long mealId = rows.getLong("meal_id");
-            Meal meal = mealDAO.getMealById(mealId);
+            Long userId = rows.getLong("user_id");
+            Meal meal = mealDAO.getMealById(mealId, userId);
             meals.add(meal);
         }
         return meals;
@@ -181,6 +182,7 @@ public class JdbcMealPlanDAO implements MealPlanDAO {
         MealPlan mealPlan = new MealPlan();
 
         mealPlan.setMealPlanId(row.getLong("meal_plan_id"));
+        mealPlan.setUserId(row.getLong("user_id"));
         mealPlan.setName(row.getString("name"));
         mealPlan.setDescription(row.getString("description"));
         mealPlan.setImageFileName(row.getString("image_file_name"));

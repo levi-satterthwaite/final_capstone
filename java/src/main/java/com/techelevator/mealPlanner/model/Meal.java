@@ -12,6 +12,7 @@ import java.util.Objects;
 public class Meal {
 
     private Long mealId;
+    private Long userId;
     private String name;
     private String category;
     private String imageFileName;
@@ -45,6 +46,14 @@ public class Meal {
 
     public void setMealId(Long mealId) {
         this.mealId = mealId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -84,11 +93,11 @@ public class Meal {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Meal meal = (Meal) o;
-        return Objects.equals(mealId, meal.mealId) && Objects.equals(name, meal.name) && Objects.equals(category, meal.category) && Objects.equals(recipeList, meal.recipeList);
+        return Objects.equals(mealId, meal.mealId) && Objects.equals(userId, meal.userId) && Objects.equals(name, meal.name) && Objects.equals(category, meal.category) && Objects.equals(imageFileName, meal.imageFileName) && Objects.equals(recipeList, meal.recipeList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mealId, name, category, recipeList);
+        return Objects.hash(mealId, userId, name, category, imageFileName, recipeList);
     }
 }

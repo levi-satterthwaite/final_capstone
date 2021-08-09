@@ -74,7 +74,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public Recipe addRecipe(Recipe recipe) throws NegativeValueException, RecipeException {
+    public Recipe addRecipe(Recipe recipe, Long userId) throws NegativeValueException, RecipeException {
         try {
             recipe.validate();
             String sql = "INSERT INTO recipe (recipe_id, user_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
@@ -115,7 +115,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public void deleteRecipe(Recipe recipe) throws RecipeException {
+    public void deleteRecipe(Recipe recipe, Long userId) throws RecipeException {
         // check to see if recipe is being used in a meal plan
         makeSureRecipeIsNotInAMealPlan(recipe);
         // delete all recipe ingredients first
@@ -138,7 +138,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     }
 
     @Override
-    public Recipe updateRecipe(Recipe recipe) throws NegativeValueException, RecipeException {
+    public Recipe updateRecipe(Recipe recipe, Long userId) throws NegativeValueException, RecipeException {
         if (recipe.getRecipeId().equals(null)) {
             throw new RecipeNotFoundException();
         }
@@ -186,7 +186,8 @@ public class JdbcRecipeDAO implements RecipeDAO {
                 "image_file_name = ? WHERE recipe_id = ? AND user_id = ?";
         jdbcTemplate.update(sql, recipe.getName(), recipe.getCategory(), recipe.getDifficultyLevel(),
                 recipe.getPrepTimeMin(), recipe.getCookTimeMin(), recipe.getServingSize(),
-                recipe.getInstructions(), recipe.getDateCreated(), recipe.getImageFileName(), recipe.getRecipeId());
+                recipe.getInstructions(), recipe.getDateCreated(), recipe.getImageFileName(), recipe.getRecipeId(),
+                recipe.getUserId());
         return getRecipeById(recipe.getRecipeId(), recipe.getUserId());
     }
 
