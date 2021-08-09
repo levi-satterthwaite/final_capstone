@@ -13,12 +13,12 @@ import java.util.List;
 public interface MealDAO {
 
     List<Meal> getListOfMeal() throws RecipeNotFoundException;
-    List<Meal> getMealByName(String name) throws RecipeNotFoundException;
-    Meal getMealById(Long mealId) throws MealNotFoundException, RecipeNotFoundException;
+    List<Meal> getMealByName(String name, Long userId) throws RecipeNotFoundException;
+    Meal getMealById(Long mealId, Long userId) throws MealNotFoundException, RecipeNotFoundException;
     Meal addMeal(Meal meal) throws MealException;
     Meal addRecipesToMeal(Meal meal, List<Recipe> recipes) throws MealNotFoundException,
             RecipeNotFoundException;
-    Meal updateMeal(Meal meal) throws MealException, RecipeException, NegativeValueException;
+    Meal updateMeal(Meal meal, Long userId) throws MealException, RecipeException, NegativeValueException;
     void deleteMeal(Meal meal) throws RecipeException;
     void deleteRecipesFromMeal(Meal meal, List<Recipe> recipes) throws RecipeException;
 }

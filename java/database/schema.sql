@@ -1,7 +1,16 @@
 BEGIN TRANSACTION;
+ROLLBACK;
 
+DROP TABLE IF EXISTS recipe_ingredient;
+DROP TABLE IF EXISTS recipe_meal;
+DROP TABLE IF EXISTS meal_plan_meal;
+DROP TABLE IF EXISTS recipe;
+DROP TABLE IF EXISTS ingredient;
+DROP TABLE IF EXISTS meal;
+DROP TABLE IF EXISTS meal_plan;
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS seq_user_id;
+
 
 CREATE SEQUENCE seq_user_id
   INCREMENT BY 1
@@ -21,18 +30,9 @@ CREATE TABLE users (
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
 
-
-DROP TABLE IF EXISTS recipe_ingredient;
-DROP TABLE IF EXISTS recipe_meal;
-DROP TABLE IF EXISTS meal_plan_meal;
-DROP TABLE IF EXISTS recipe;
-DROP TABLE IF EXISTS ingredient;
-DROP TABLE IF EXISTS meal;
-DROP TABLE IF EXISTS meal_plan;
-
-
 CREATE TABLE recipe (
         recipe_id serial primary key,
+        user_id int not null,
         name varchar(255) not null unique,
         category varchar(255) not null,
         difficulty_level varchar(255) not null,
@@ -41,7 +41,8 @@ CREATE TABLE recipe (
         serving_size int not null check (serving_size > 0),
         instructions text not null,
         date_created date not null,
-        image_file_name text
+        image_file_name text,
+        CONSTRAINT fk_users_recipe_user_id foreign key (user_id) references users (user_id)
 );
 
 CREATE TABLE ingredient (
@@ -63,9 +64,11 @@ CREATE TABLE recipe_ingredient (
 
 CREATE TABLE meal (
         meal_id serial primary key,
+        user_id int not null,
         name varchar(255) not null unique,
         category varchar(255) not null,
-        image_file_name text  
+        image_file_name text,
+        CONSTRAINT fk_users_meal_user_id foreign key (user_id) references users (user_id)
 );
 
 CREATE TABLE recipe_meal (
@@ -79,9 +82,11 @@ CREATE TABLE recipe_meal (
 
 CREATE TABLE meal_plan (
         meal_plan_id serial primary key,
+        user_id int not null,
         name varchar(255) not null unique,
         description text,
-        image_file_name text  
+        image_file_name text,
+        CONSTRAINT fk_users_meal_plan_user_id foreign key (user_id) references users (user_id)  
 );
 
 CREATE TABLE meal_plan_meal (
@@ -98,8 +103,8 @@ INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Unsalte
 INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Mayonnaise', 'Condiment');
 INSERT INTO ingredient (ingredient_id, name, category) VALUES (DEFAULT, 'Cheddar Cheese', 'Dairy');
 
-INSERT INTO recipe (recipe_id, name, category, difficulty_level, prep_time_min, cook_time_min, serving_size, instructions, date_created, image_file_name) 
-VALUES (DEFAULT, 'Grilled Cheese', 'Entree', 'Easy', 5, 7, 1, 'On a cutting board, butter each piece of bread with butter on one side. 
+INSERT INTO recipe (recipe_id, user_id, name, category, difficulty_level, prep_time_min, cook_time_min, serving_size, instructions, date_created, image_file_name) 
+VALUES (DEFAULT, 1, 'Grilled Cheese', 'Entree', 'Easy', 5, 7, 1, 'On a cutting board, butter each piece of bread with butter on one side. 
 Flip the bread over and spread each piece of bread with mayonnaise. 
 Place the cheese on the buttered side of one piece of bread. Top it with the second piece of bread, mayonnaise side out. 
 Heat a nonstick pan over medium low heat. 

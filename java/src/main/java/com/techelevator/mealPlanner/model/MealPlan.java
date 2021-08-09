@@ -10,6 +10,7 @@ import java.util.Objects;
 public class MealPlan {
 
     private Long mealPlanId;
+    private Long userId;
     private String name;
     private String description;
     private String imageFileName;
@@ -35,6 +36,14 @@ public class MealPlan {
 
     public void setMealPlanId(Long mealPlanId) {
         this.mealPlanId = mealPlanId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -74,11 +83,11 @@ public class MealPlan {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MealPlan mealPlan = (MealPlan) o;
-        return Objects.equals(mealPlanId, mealPlan.mealPlanId) && Objects.equals(name, mealPlan.name) && Objects.equals(description, mealPlan.description) && Objects.equals(imageFileName, mealPlan.imageFileName) && Objects.equals(mealList, mealPlan.mealList);
+        return Objects.equals(mealPlanId, mealPlan.mealPlanId) && Objects.equals(userId, mealPlan.userId) && Objects.equals(name, mealPlan.name) && Objects.equals(description, mealPlan.description) && Objects.equals(imageFileName, mealPlan.imageFileName) && Objects.equals(mealList, mealPlan.mealList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mealPlanId, name, description, imageFileName, mealList);
+        return Objects.hash(mealPlanId, userId, name, description, imageFileName, mealList);
     }
 }
