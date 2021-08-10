@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
+      <img src="feed_me.jpg" alt="Feed Me Logo">
       <div class="toolbar">
         <router-link v-bind:to="{ name: 'home' }">Home</router-link
         >&nbsp;|&nbsp;
