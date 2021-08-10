@@ -34,6 +34,11 @@ export default {
         return http.post('/recipes', recipe);
     },
 
+    updateRecipe(recipe) {
+        const http = axios.create(axiosConfig);
+        return http.put(`/recipes/${recipe.recipeId}`, recipe);
+    },
+
     addImage(file) {
         const http = axios.create(axiosConfig);
         const formData = new FormData();

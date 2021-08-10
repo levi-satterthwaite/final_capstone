@@ -264,6 +264,11 @@ export default {
       required: false,
       default: null,
     },
+    data: {
+      type: Object,
+      required: false,
+      default: null,
+    }
   },
   data() {
     return {
@@ -446,6 +451,12 @@ export default {
       this.difficultyLevelsError = mealPlannerService.getError(e);
     }
   },
+  created() {
+    if(this.data) {
+      this.recipe = this.data;
+      this.ingredients = this.data.ingredientList;
+    }
+  }
 };
 </script>
 

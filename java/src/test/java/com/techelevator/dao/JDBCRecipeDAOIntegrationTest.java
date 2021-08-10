@@ -1,6 +1,8 @@
 package com.techelevator.dao;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.techelevator.mealPlanner.exceptions.MealException;
+import com.techelevator.mealPlanner.model.Meal;
 import com.techelevator.model.User;
 import com.techelevator.recipes.dao.IngredientDAO;
 import com.techelevator.recipes.dao.JdbcIngredientDAO;
@@ -97,6 +99,33 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         Assert.assertEquals(testRecipe.getIngredientList().get(0), ingredientOne);
     }
 
+    @Test
+    public void update_recipe() throws IngredientException, RecipeException, NegativeValueException {
+        Ingredient newIngredient = getIngredient(-1L);
+        ingredientDAO.addIngredient(newIngredient);
+
+        Recipe newRecipe = getRecipe(-1L);
+        recipeDAO.addRecipe(newRecipe);
+
+        newRecipe.setName("updatedName");
+        newRecipe.getIngredientList().add(newIngredient);
+
+        Recipe expectedRecipe = recipeDAO.updateRecipe(newRecipe, newRecipe.getUserId());
+
+        Assert.assertEquals(expectedRecipe.getName(), "updatedName");
+        Assert.assertEquals(expectedRecipe.getIngredientList().size(), 1);
+    }
+
+    @Test
+    public void delete_recipe() throws RecipeException, NegativeValueException {
+        Recipe newRecipe = getRecipe(-1L);
+        recipeDAO.addRecipe(newRecipe);
+
+        recipeDAO.deleteRecipe(newRecipe);
+
+        Assert.assertEquals(recipeDAO.getRecipesByName(newRecipe.getName(), newRecipe.getUserId()).size(), 0);
+    }
+
     private void createNewTestRecipe(Recipe recipe) {
         String sql = "INSERT INTO recipe (recipe_id, user_id, name, category, difficulty_level, prep_time_min, cook_time_min, " +
                 "serving_size, instructions, date_created, image_file_name) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
@@ -131,6 +160,8 @@ public class JDBCRecipeDAOIntegrationTest extends DAOIntegrationTest{
         ingredient.setIngredientId(ingredientId);
         ingredient.setName("testName");
         ingredient.setCategory("Entree");
+        ingredient.setQuantity(1);
+        ingredient.setUnitMeasurement("cups");
         return ingredient;
     }
 
