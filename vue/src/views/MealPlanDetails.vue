@@ -2,7 +2,9 @@
   <div class="page meal-plan-details">
     <div class="error" v-if="error">{{ error.message }}</div>
     <h1 v-if="mealPlan">{{ mealPlan.name }}</h1>
+    <p class="meal-plan-description" v-if="mealPlan && mealPlan.description">{{mealPlan.description}}</p>
     <div class="meals-by-category" v-if="mealPlan">
+      <p  v-if="!hasMeals">Add some meals to your meal plan.</p>
       <div
         class="meal-category"
         v-for="category in mealPlanMealsByCategory.keys()"
@@ -51,6 +53,10 @@ export default {
     MealCard,
   },
   computed: {
+    hasMeals() {
+      // Array.from takes an iterator (keys()) and turns it into a list
+      return Array.from(this.mealPlanMealsByCategory.keys()).length;
+    },
     mealPlanMealsByCategory() {
       const mealsByCategory = new Map();
       for (const meal of this.mealPlan.mealList) {

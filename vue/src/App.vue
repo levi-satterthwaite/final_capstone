@@ -112,7 +112,7 @@ div.page {
 div.page h1 {
   text-align: center;
   margin-top: 50px;
-  color: #4b3f72
+  color: #4b3f72;
 }
 
 div.page div.container {
@@ -126,10 +126,87 @@ div.action-bar {
   position: fixed;
   left: 0;
   bottom: 0;
-  width:  calc(100% - 100px);
+  width: calc(100% - 100px);
   text-align: center;
   margin-left: 50px;
   margin-right: 50px;
-  margin-bottom: 25px
+  margin-bottom: 25px;
+}
+div.form div.field {
+  margin: 10px;
+  margin-bottom: 20px;
+}
+div.form div.field label {
+  /* display: none; */
+  display: block;
+  /* width: 175px;
+  display: inline-block; */
+  margin-bottom: 5px;
+}
+div.form div.field input,
+div.form div.field select {
+  -ms-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  width: calc(100% - 20px);
+  font-size: 16px;
+  line-height: 30px;
+  border: none;
+  border-color: black;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 1.5px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+div.form div.field input:focus,
+div.form div.field select:focus {
+  outline: none;
+  border-color: #9d7dde;
+}
+div.form div.field select {
+  height: 30px;
+}
+div.image-preview img {
+  max-width: 200px;
+}
+input#image {
+  display: none;
+}
+div.form {
+  padding: 30px;
+  width: 50%;
+  background-color: white;
+}
+div.form fieldset {
+  margin: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-top: solid 1.5px #9d7dde;
+  position: relative;
+  margin-top: 50px;
+  padding-bottom: 30px;
+}
+div.form fieldset legend {
+  color: #4b3f72;
+  font-weight: bold;
+  position: absolute;
+  top: -35px;
+  left: 0px;
+}
+div.form ul.items {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+div.form ul.items li {
+  border-bottom: solid 1px #ccc;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+div.error {
+  color: red;
 }
 </style>

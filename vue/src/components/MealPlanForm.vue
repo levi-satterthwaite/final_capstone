@@ -1,5 +1,5 @@
 <template>
-  <div class="meal-plan-form card">
+  <div class="form meal-plan-form card">
     <form v-on:submit.prevent="submitMealPlan">
       <fieldset class="meal-plan-details">
         <legend>Meal Plan Details</legend>
@@ -14,7 +14,7 @@
       </fieldset>
       <fieldset class="meal-plan-meals">
         <legend>Meal Plan Meals</legend>
-        <ul class="meals">
+        <ul class="items meals">
           <li class="meal meal-empty" v-if="!hasMeals && !isAddMealOpen">
             Please Add Meals
           </li>
@@ -213,79 +213,10 @@ export default {
 </script>
 
 <style>
-div.field {
-  margin: 10px;
-  margin-bottom: 20px;
-}
-div.field label {
-  /* display: none; */
-  display: block;
-  /* width: 175px;
-  display: inline-block; */
-  margin-bottom: 5px;
-}
-div.field input {
-  width: 96%;
-  font-size: 16px;
-  line-height: 30px;
-  border: none;
-  border-color: black;
-  border-style: solid;
-  border-radius: 10px;
-  border-width: 1.5px;
-  padding: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-div.field input:focus {
-  outline: none;
-  border-color: #9d7dde;
-}
-div.image-preview img {
-  max-width: 200px;
-}
-input#image {
-  display: none;
-}
-div.meal-plan-form {
-  padding: 30px;
-  width: 50%;
-  background-color: white;
-}
-div.meal-plan-form fieldset {
-  margin: 10px;
-  margin-bottom: 20px;
-}
-ul.meals {
-  list-style: none;
-  padding: 0px;
-  margin: 10px;
-}
 
-div.meal-plan-form fieldset {
-  /* border-radius: 10px; */
-  border: none;
-  border-top: solid 1.5px #9d7dde;
-  position: relative;
-  margin-top: 50px;
-  padding-bottom: 30px;
-}
-div.meal-plan-form fieldset legend {
-  color: #4b3f72;
-  font-weight: bold;
-  position: absolute;
-  top: -35px;
-  left: 0px;
-}
-ul.meals {
+
+/* ul.meals {
   margin: 0px;
-}
-li.meal {
-  border-bottom: solid 1px #ccc;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-div.error {
-  color: red;
-}
+} */
+
 </style>

@@ -1,10 +1,13 @@
 <template>
   <div class="meal-plan-list">
-    <meal-plan-card
-      v-for="mealPlan in $store.state.mealPlans"
-      v-bind:key="mealPlan.id"
-      v-bind:mealPlan="mealPlan"
-    />
+    <div class="meal-plan-card-wrapper" v-if="$store.state.mealPlans.length">
+      <meal-plan-card
+        v-for="mealPlan in $store.state.mealPlans"
+        v-bind:key="mealPlan.id"
+        v-bind:mealPlan="mealPlan"
+      />
+    </div>
+    <p v-else>No meal plans have been created, please add one.</p>
   </div>
 </template>
 
@@ -19,9 +22,12 @@ export default {
   },
   methods: {
     getAllMealPlans() {
-      mealPlannerService.getMealPlans().then((response) => {
+      mealPlannerService
+        .getMealPlans()
+        .then((response) => {
           this.$store.commit("SET_MEAL_PLANS", response.data);
-        }).catch((error) => {
+        })
+        .catch((error) => {
           if (error.response) {
             this.errorMsg =
               "Error Status " +
@@ -39,14 +45,14 @@ export default {
   },
   created() {
     this.getAllMealPlans();
-  }
+  },
 };
 </script>
 
 <style>
-div.meal-plan-list {
-    display:flex;
-    flex-wrap: wrap;
-    justify-content: center;
+div.meal-plan-list, div.meal-plan-card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>

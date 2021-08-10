@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe-form card">
+  <div class="form recipe-form card">
     <form v-on:submit.prevent="submitRecipe">
       <fieldset class="recipe-details">
         <legend>Recipe Details</legend>
@@ -101,7 +101,7 @@
       </fieldset>
       <fieldset class="recipe-ingredients">
         <legend>Recipe Ingredients</legend>
-        <ul class="ingredients">
+        <ul class="items ingredients">
           <li
             class="ingredient ingredient-empty"
             v-if="!hasIngredients && !isAddIngredientOpen"
@@ -450,85 +450,5 @@ export default {
 </script>
 
 <style>
-div.field {
-  margin: 10px;
-  margin-bottom: 20px;
-}
-div.field label {
-  /* display: none; */
-  display: block;
-  /* width: 175px;
-  display: inline-block; */
-  margin-bottom: 5px;
-}
-div.field input,
-div.field select {
-  width: 96%;
-  font-size: 16px;
-  line-height: 30px;
-  border: none;
-  border-color: black;
-  border-style: solid;
-  border-radius: 10px;
-  border-width: 1.5px;
-  padding: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-div.field input:focus,
-div.field select:focus {
-  outline: none;
-  border-color: #9d7dde;
-}
 
-div.field select {
-  width: 100%;
-  font-size: 16px;
-
-  height: 43px;
-}
-
-div.image-preview img {
-  max-width: 200px;
-}
-input#image {
-  display: none;
-}
-div.recipe-form {
-  padding: 30px;
-  width: 50%;
-  background-color: white;
-}
-div.recipe-form fieldset {
-  margin: 10px;
-  margin-bottom: 20px;
-}
-ul.ingredients {
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
-}
-div.recipe-form fieldset {
-  /* border-radius: 10px; */
-  border: none;
-  border-top: solid 1.5px #9d7dde;
-  position: relative;
-  margin-top: 50px;
-  padding-bottom: 30px;
-}
-div.recipe-form fieldset legend {
-  color: #4b3f72;
-  font-weight: bold;
-  position: absolute;
-  top: -35px;
-  left: 0px;
-}
-li.ingredient {
-  border-bottom: solid 1px #ccc;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-div.error {
-  color: red;
-}
 </style>

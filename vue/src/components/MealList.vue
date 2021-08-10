@@ -50,7 +50,7 @@ export default {
 </script>
 
 <style>
-div.meal-list {
+div.meal-list, div.meal-card-wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
