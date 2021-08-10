@@ -26,6 +26,15 @@
     <div class="action-bar"  v-if="mealPlan">
       <router-link
         v-bind:to="{
+          name: 'mealPlanGroceries',
+          params: { id: mealPlan.mealPlanId },
+          }"
+          tag="button"
+          class="btn"
+          >Create Grocery List</router-link
+          >
+      <router-link
+        v-bind:to="{
           name: 'updateMealPlan',
           params: { id: mealPlan.mealPlanId },
         }"
