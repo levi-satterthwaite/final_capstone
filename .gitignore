@@ -69,3 +69,5 @@ target
 .cache-main
 .scala_dependencies
 .worksheet
+
+upload-dir

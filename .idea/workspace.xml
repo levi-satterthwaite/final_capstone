@@ -34,7 +34,7 @@
       <recent name="C:\Users\Student\source\repos\team-delta-java-blue-final-capstone\upload-dir" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.JDBCRecipeDAOIntegrationTest.retrieve_all_recipes">
+  <component name="RunManager" selected="Application.Application">
     <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.techelevator.Application" />
       <module name="final-capstone-starter" />
@@ -74,9 +74,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Application" />
         <item itemvalue="JUnit.JDBCRecipeDAOIntegrationTest.retrieve_all_recipes" />
         <item itemvalue="JUnit.All in final-capstone-starter" />
-        <item itemvalue="Application.Application" />
       </list>
     </recent_temporary>
   </component>
