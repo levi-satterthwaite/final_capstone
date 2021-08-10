@@ -2,6 +2,7 @@ package com.techelevator.recipes.controller;
 
 import com.techelevator.dao.UserDAO;
 import com.techelevator.model.User;
+import com.techelevator.model.UserDoesNotExistException;
 import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.NegativeValueException;
 import com.techelevator.recipes.exceptions.RecipeException;
@@ -26,12 +27,6 @@ public class RecipeController {
         this.userDAO = userDAO;
     }
 
-    @RequestMapping(path = "/recipes", method = RequestMethod.GET)
-    public List<Recipe> getByName(@RequestParam(required = false, defaultValue = "") String name, Principal principal) {
-        User user = userDAO.findByUsername(principal.getName());
-        return recipeDAO.getRecipesByName(name, user.getId());
-    }
-
     @RequestMapping(path = "/recipes/categories", method = RequestMethod.GET)
     public List<RecipeCategory> getCategories() {
         return RecipeCategory.getCategories();
@@ -42,15 +37,30 @@ public class RecipeController {
         return DifficultyLevel.getDifficultyLevels();
     }
 
-    @RequestMapping(path = "/recipes/{id}", method = RequestMethod.GET)
-    public Recipe getById(@PathVariable(name = "id") Long recipeId, Principal principal) throws RecipeNotFoundException {
+    @RequestMapping(path = "/recipes", method = RequestMethod.GET)
+    public List<Recipe> getByName(@RequestParam(required = false, defaultValue = "") String name, Principal principal) throws UserDoesNotExistException {
         User user = userDAO.findByUsername(principal.getName());
+        if(user == null) {
+            throw new UserDoesNotExistException();
+        }
+        return recipeDAO.getRecipesByName(name, user.getId());
+    }
+
+    @RequestMapping(path = "/recipes/{id}", method = RequestMethod.GET)
+    public Recipe getById(@PathVariable(name = "id") Long recipeId, Principal principal) throws RecipeNotFoundException, UserDoesNotExistException {
+        User user = userDAO.findByUsername(principal.getName());
+        if(user == null) {
+            throw new UserDoesNotExistException();
+        }
         return recipeDAO.getRecipeById(recipeId, user.getId());
     }
 
     @RequestMapping(path = "/recipes", method = RequestMethod.POST)
-    public Recipe addRecipe(@RequestBody Recipe recipe, Principal principal) throws NegativeValueException, RecipeException {
+    public Recipe addRecipe(@RequestBody Recipe recipe, Principal principal) throws NegativeValueException, RecipeException, UserDoesNotExistException {
         User user = userDAO.findByUsername(principal.getName());
+        if(user == null) {
+            throw new UserDoesNotExistException();
+        }
         recipe.setUserId(user.getId());
         recipe.setDateCreated(LocalDate.now());
         return recipeDAO.addRecipe(recipe);
@@ -58,26 +68,35 @@ public class RecipeController {
 
     @RequestMapping(path = "/recipes/{id}/ingredients", method = RequestMethod.POST)
     public Recipe addIngredients(@PathVariable(name = "id") Long recipeId, @RequestBody List<Ingredient> ingredients, Principal principal)
-            throws NegativeValueException, RecipeNotFoundException {
+            throws NegativeValueException, RecipeNotFoundException, UserDoesNotExistException {
         User user = userDAO.findByUsername(principal.getName());
+        if(user == null) {
+            throw new UserDoesNotExistException();
+        }
         Recipe recipe = recipeDAO.getRecipeById(recipeId, user.getId());
         return recipeDAO.addIngredientsToRecipe(recipe, ingredients);
     }
 
     @RequestMapping(path = "/recipes/{id}", method = RequestMethod.DELETE)
-    public Message deleteRecipe(@PathVariable(name = "id") Long recipeId, Principal principal) throws RecipeException {
+    public Message deleteRecipe(@PathVariable(name = "id") Long recipeId, Principal principal) throws RecipeException, UserDoesNotExistException {
         User user = userDAO.findByUsername(principal.getName());
+        if(user == null) {
+            throw new UserDoesNotExistException();
+        }
         recipeDAO.deleteRecipe(recipeDAO.getRecipeById(recipeId, user.getId()));
         return new Message("The recipe has been deleted.");
     }
 
     @RequestMapping(path = "/recipes/{id}", method = RequestMethod.PUT)
     public Recipe updateRecipe(@PathVariable(name = "id") Long recipeId, @RequestBody Recipe recipe, Principal principal) throws
-            RecipeException, NegativeValueException {
+            RecipeException, NegativeValueException, UserDoesNotExistException {
         if(!recipeId.equals(recipe.getRecipeId())) {
             throw new RecipeException("Recipe IDs do not match.");
         }
         User user = userDAO.findByUsername(principal.getName());
+        if(user == null) {
+            throw new UserDoesNotExistException();
+        }
         recipeDAO.getRecipeById(recipeId, user.getId());
         return recipeDAO.updateRecipe(recipe, user.getId());
     }
