@@ -23,7 +23,6 @@
             v-else
             v-for="meal in meals"
             v-bind:key="meal.mealId"
-            v-bind:meals="meals"
           >
             <div class="field">
               <span class="meal-name">{{ meal.name }}</span>

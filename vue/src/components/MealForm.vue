@@ -40,7 +40,6 @@
             v-else
             v-for="recipe in recipes"
             v-bind:key="recipe.recipeId"
-            v-bind:recipes="recipes"
           >
             <div class="field">
               <span class="recipe-name">{{ recipe.name }}</span>

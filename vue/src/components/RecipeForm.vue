@@ -113,7 +113,6 @@
             v-else
             v-for="ingredient in ingredients"
             v-bind:key="ingredient.ingredientId"
-            v-bind:ingredients="ingredients"
           >
             <div class="field">
               <span class="ingredient-name">{{ ingredient.name }}</span>
@@ -233,7 +232,7 @@
         <legend>Recipe Image</legend>
         <div class="field">
           <label for="image">Image</label>
-          <input type="file" id="image" v-on:change="onFileChange" required />
+          <input type="file" id="image" v-on:change="onFileChange" />
         </div>
         <div class="form-controls">
           <button v-on:click.prevent="chooseImage" class="btn btn-sm">
@@ -242,6 +241,12 @@
         </div>
         <div class="image-preview" v-if="image">
           <img v-bind:src="image" />
+        </div>
+        <div class="image-preview" v-if="data && data.imageFileName && !image">
+          <img
+            v-bind:src="'/files/' + data.imageFileName"
+            v-bind:alt="recipe.name"
+          />
         </div>
       </fieldset>
       <div class="error" v-if="error">{{ error.message }}</div>
@@ -268,7 +273,7 @@ export default {
       type: Object,
       required: false,
       default: null,
-    }
+    },
   },
   data() {
     return {
@@ -452,14 +457,13 @@ export default {
     }
   },
   created() {
-    if(this.data) {
+    if (this.data) {
       this.recipe = this.data;
       this.ingredients = this.data.ingredientList;
     }
-  }
+  },
 };
 </script>
 
 <style>
-
 </style>
