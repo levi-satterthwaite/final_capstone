@@ -99,10 +99,10 @@ div#login div.field label {
   font-size: 20px;
   color: #4b3f72;
 }
-div.field input#username {
+div#login div.field input#username {
   font-size: 18px;
 }
-div.field input#password {
+div#login div.field input#password {
   font-size: 18px;
 }
 div.register {
@@ -110,6 +110,6 @@ div.register {
   font-size: 18px;
 }
 div#login div.form-controls button.btn {
-  font-size: 18px;
+  font-size: 17px;
 }
 </style>
