@@ -69,7 +69,7 @@ const router = new Router({
       name: "recipes",
       component: Recipes,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -77,7 +77,7 @@ const router = new Router({
       name: "addRecipe",
       component: AddRecipe,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -85,7 +85,7 @@ const router = new Router({
       name: "recipeDetails",
       component: RecipeDetails,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },  
     {
@@ -93,7 +93,7 @@ const router = new Router({
       name: "meals",
       component: Meals,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -101,7 +101,7 @@ const router = new Router({
       name: "addMeal",
       component: AddMeal,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -109,7 +109,7 @@ const router = new Router({
       name: "updateMeal",
       component: UpdateMeal,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -117,7 +117,7 @@ const router = new Router({
       name: "mealDetails",
       component: MealDetails,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -125,7 +125,7 @@ const router = new Router({
       name: "mealPlans",
       component: MealPlans,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -133,7 +133,7 @@ const router = new Router({
       name: "addMealPlan",
       component: AddMealPlan,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -141,7 +141,7 @@ const router = new Router({
       name: "updateMealPlan",
       component: UpdateMealPlan,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -149,7 +149,7 @@ const router = new Router({
       name: "mealPlanDetails",
       component: MealPlanDetails,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     }
   ]
