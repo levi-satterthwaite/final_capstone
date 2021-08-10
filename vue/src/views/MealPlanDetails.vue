@@ -23,7 +23,7 @@
       </div>
     </div>
     <p v-else>Meal plan not found!</p>
-    <div class="action-bar">
+    <div class="action-bar"  v-if="mealPlan">
       <router-link
         v-bind:to="{
           name: 'updateMealPlan',
