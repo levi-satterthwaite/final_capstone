@@ -24,7 +24,7 @@
       </div>
     </div>
     <p v-else>Meal not found!</p>
-    <div class="action-bar">
+    <div class="action-bar" v-if="meal">
       <router-link
         v-bind:to="{ name: 'updateMeal', params: { id: meal.mealId } }"
         tag="button"
