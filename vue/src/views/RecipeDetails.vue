@@ -63,4 +63,10 @@ div.description {
      color: #4b3f72;
 }
 
+    
+#recipeDetail {
+    text-align: left;
+    font-size: 15pt;
+    color: #4B3F72;
+}
 </style>
