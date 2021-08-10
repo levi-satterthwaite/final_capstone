@@ -2,9 +2,13 @@ package com.techelevator.dao;
 
 import com.techelevator.mealPlanner.dao.JdbcMealDAO;
 import com.techelevator.mealPlanner.dao.MealDAO;
+import com.techelevator.mealPlanner.exceptions.InvalidMealException;
 import com.techelevator.mealPlanner.exceptions.MealException;
+import com.techelevator.mealPlanner.exceptions.MealNotFoundException;
+import com.techelevator.mealPlanner.exceptions.MealPlanException;
 import com.techelevator.mealPlanner.model.Meal;
 import com.techelevator.mealPlanner.model.MealCategory;
+import com.techelevator.mealPlanner.model.MealPlan;
 import com.techelevator.recipes.dao.JdbcRecipeDAO;
 import com.techelevator.recipes.dao.RecipeDAO;
 import com.techelevator.recipes.exceptions.NegativeValueException;
@@ -93,6 +97,34 @@ public class JDBCMealIntegrationTest extends DAOIntegrationTest {
 
         Assert.assertTrue(testMeal.getRecipeList().size() > 0);
         Assert.assertEquals(testMeal.getRecipeList().get(0), newRecipe);
+    }
+
+    @Test
+    public void update_meal() throws RecipeException, NegativeValueException, MealException {
+        Recipe newRecipe = getRecipe(-1L);
+        recipeDAO.addRecipe(newRecipe);
+
+        Meal newMeal = getById(-1L);
+        mealDAO.addMeal(newMeal);
+
+        newMeal.setName("updatedName");
+        newMeal.getRecipeList().add(newRecipe);
+
+        Meal expectedMeal = mealDAO.updateMeal(newMeal, newMeal.getUserId());
+
+        Assert.assertEquals(expectedMeal.getName(), "updatedName");
+        Assert.assertEquals(expectedMeal.getRecipeList().size(), 1);
+
+    }
+
+    @Test
+    public void delete_meal() throws MealException, RecipeException {
+        Meal newMeal = getById(-1L);
+        mealDAO.addMeal(newMeal);
+
+        mealDAO.deleteMeal(newMeal);
+
+        Assert.assertEquals(mealDAO.getMealByName(newMeal.getName(), newMeal.getUserId()).size(), 0);
     }
 
     private Meal getById(Long mealId) {
