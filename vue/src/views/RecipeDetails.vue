@@ -19,6 +19,8 @@
 
 <script>
 import RecipeCard from '../components/RecipeCard.vue';
+import mealPlannerService from "@/services/MealPlannerService"
+console.log(mealPlannerService)
 export default {
     name: 'recipe-detail',
     data () {
@@ -51,5 +53,14 @@ export default {
 </script>
 
 <style>
+div.description {
+    color: #4b3f72;
+}
+
+#recipeDetail {
+    text-align: left;
+    font-size: 15pt;
+     color: #4b3f72;
+}
 
 </style>
