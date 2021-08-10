@@ -1,12 +1,22 @@
 import axios from 'axios';
 
-const http = axios.create({
-    baseURL: "http://localhost:8080"
-});
+// axios.create() is like creating a new instance of axios (new axios())
+// {baseURL: http://localhost:8080"} is the configuration (instance variable)
+
+// const http = axios.create({
+//     baseURL: "http://localhost:8080"
+// });
+
+// we will need to create a new instance of axios for each service method so that if 
+// axios.defaults.headers.common is changed (by logging in or logging out), the instance will have 
+// the correct configurations (authorization header)
+const baseURL = 'http://localhost:8080';
+const axiosConfig = {baseURL};
 
 export default {
 
     getRecipes(recipeName) {
+        const http = axios.create(axiosConfig);
         let name = '';
         if (typeof recipeName === "string") {
             name = recipeName;
@@ -15,14 +25,17 @@ export default {
     },
 
     getRecipeById(id) {
+        const http = axios.create(axiosConfig);
         return http.get(`/recipes/${id}`);
     },
 
     addRecipe(recipe) {
+        const http = axios.create(axiosConfig);
         return http.post('/recipes', recipe);
     },
 
     addImage(file) {
+        const http = axios.create(axiosConfig);
         const formData = new FormData();
         // attaching a file to our request by the key 'file'
         // see Postman for example
@@ -35,6 +48,7 @@ export default {
     },
 
     getIngredients(ingredientName) {
+        const http = axios.create(axiosConfig);
         let name = '';
         if (typeof ingredientName === "string") {
             name = ingredientName;
@@ -43,10 +57,12 @@ export default {
     },
 
     addIngredient(ingredient) {
+        const http = axios.create(axiosConfig);
         return http.post('/ingredients', ingredient);
     },
 
     addIngredientsToRecipe(recipe, ingredients) {
+        const http = axios.create(axiosConfig);
         return http.post(`/recipes/${recipe.recipeId}/ingredients`, ingredients);
     },
 
@@ -62,6 +78,7 @@ export default {
     },
 
     getMeals(mealName) {
+        const http = axios.create(axiosConfig);
         let name = '';
         if (typeof mealName === "string") {
             name = mealName;
@@ -70,22 +87,27 @@ export default {
     },
 
     getMealById(id) {
+        const http = axios.create(axiosConfig);
         return http.get(`/meals/${id}`);
     },
 
     addMeal(meal) {
+        const http = axios.create(axiosConfig);
         return http.post('/meals', meal);
     },
 
     updateMeal(meal) {
+        const http = axios.create(axiosConfig);
         return http.put(`/meals/${meal.mealId}`, meal);
     },
 
     addRecipesToMeal(meal, recipes) {
+        const http = axios.create(axiosConfig);
         return http.post(`/meals/${meal.mealId}/recipes`, recipes);
     },
 
     getMealPlans(mealPlanName) {
+        const http = axios.create(axiosConfig);
         let name = '';
         if (typeof mealPlanName === "string") {
             name = mealPlanName;
@@ -94,30 +116,37 @@ export default {
     },
 
     getMealPlanById(id) {
+        const http = axios.create(axiosConfig);
         return http.get(`/mealplans/${id}`);
     },
 
     addMealPlan(mealPlan) {
+        const http = axios.create(axiosConfig);
         return http.post('/mealplans', mealPlan);
     },
 
     updateMealPlan(mealPlan) {
+        const http = axios.create(axiosConfig);
         return http.put(`/mealplans/${mealPlan.mealPlanId}`, mealPlan);
     },
 
     addMealsToMealPlan(mealPlan, meals) {
+        const http = axios.create(axiosConfig);
         return http.post(`/mealplans/${mealPlan.mealPlanId}/meals`, meals);
     },
 
     getRecipeCategories() {
+        const http = axios.create(axiosConfig);
         return http.get('/recipes/categories');
     },
 
     getRecipeDifficultyLevels() {
+        const http = axios.create(axiosConfig);
         return http.get('/recipes/difficultylevels');
     },
 
     getMealCategories() {
+        const http = axios.create(axiosConfig);
         return http.get('/meals/categories');
     }
 
