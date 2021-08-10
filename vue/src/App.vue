@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
+      <img src="@/assets/feed_me.jpg" alt="Feed Me Logo" class="feed-me-logo">
       <div class="toolbar">
         <router-link v-bind:to="{ name: 'home' }">Home</router-link
         >&nbsp;|&nbsp;
@@ -44,7 +45,7 @@ a:hover {
 
 #nav {
   background-color: #4b3f72;
-  height: 75px;
+  height: 100px;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -57,6 +58,7 @@ div.toolbar {
   display: flex;
   margin-right: 20px;
   color: white;
+  font-size: 18px;
 }
 div.toolbar a {
   margin-right: 10px;
@@ -208,5 +210,11 @@ div.form ul.items li {
 }
 div.error {
   color: red;
+}
+div#nav img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100px;
 }
 </style>
