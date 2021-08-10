@@ -38,8 +38,10 @@ export default {
         recipe.ingredientList = ingredients;
         await this.updateRecipe(recipe);
         this.$router.push({
-          name: "recipeDetails",
-          params: { id: recipe.recipeId },
+          // name: "recipeDetails",
+          // params: { id: recipe.recipeId },
+          name: "recipes",
+          params: {}
         });
       } catch (e) {
         this.submitRecipeError = mealPlannerService.getError(e);
