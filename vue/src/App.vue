@@ -113,7 +113,7 @@ div.page {
 
 div.page h1 {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 75px;
   color: #4b3f72;
 }
 
