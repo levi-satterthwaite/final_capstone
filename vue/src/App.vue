@@ -1,26 +1,28 @@
 <template>
   <div id="app">
     <div id="nav">
-      <img src="@/assets/feed_me.jpg" alt="Feed Me Logo" class="feed-me-logo">
+      <img src="@/assets/feed_me.jpg" alt="Feed Me Logo" class="feed-me-logo" />
       <div class="toolbar">
-        <router-link v-bind:to="{ name: 'home' }">Home</router-link
-        >&nbsp;|&nbsp;
-        <router-link v-bind:to="{ name: 'recipes' }">Recipes</router-link
-        >&nbsp;|&nbsp;
-        <router-link v-bind:to="{ name: 'meals' }">Meals</router-link
-        >&nbsp;|&nbsp;
-        <router-link v-bind:to="{ name: 'mealPlans' }">Meal Plans</router-link
-        >&nbsp;|&nbsp;
-        <router-link
-          v-bind:to="{ name: 'logout' }"
-          v-if="$store.state.token != ''"
-          >Logout</router-link
-        >
-        <router-link
-          v-bind:to="{ name: 'login' }"
-          v-if="$store.state.token == ''"
-          >Login</router-link
-        >
+        <div class="nav-links">
+          <router-link v-bind:to="{ name: 'home' }">Home</router-link>
+          <!-- &nbsp;|&nbsp; -->
+          <router-link v-bind:to="{ name: 'recipes' }">Recipes</router-link>
+          <!-- &nbsp;|&nbsp; -->
+          <router-link v-bind:to="{ name: 'meals' }">Meals</router-link>
+          <!-- &nbsp;|&nbsp; -->
+          <router-link v-bind:to="{ name: 'mealPlans' }">Meal Plans</router-link>
+          <!--&nbsp;|&nbsp;-->
+          <router-link
+            v-bind:to="{ name: 'logout' }"
+            v-if="$store.state.token != ''"
+            >Logout</router-link
+          >
+          <router-link
+            v-bind:to="{ name: 'login' }"
+            v-if="$store.state.token == ''"
+            >Login</router-link
+          >
+        </div>
       </div>
     </div>
     <div class="router-view">
@@ -34,7 +36,7 @@
   font-family: Rubik, "Poppins", sans-serif;
 }
 #app {
-  display:flex;
+  display: flex;
 }
 a {
   display: block;
@@ -58,19 +60,39 @@ a:hover {
   width: 100%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+#nav .nav-links {
+  display: inherit;
+}
+
+.nav-links a {
+  color: white;
+}
+
+.nav-links a::after {
+  content: "\00a0|\00a0";
+  color: white;
+}
+
+.nav-links a:hover {
+  color: #cccccc;
+}
+
+.nav-links a::after:hover {
+  color: white;
+}
+.nav-links a:last-child::after {
+  content: unset;
+}
+.nav-links a:last-child {
+  margin-right: 10px;
+}
+
 div.toolbar {
   display: flex;
   margin-right: 20px;
   color: white;
   font-size: 18px;
-}
-div.toolbar a {
-  margin-right: 10px;
-  margin-left: 10px;
-  color: white;
-}
-div.toolbar a:hover {
-  color: #cccccc;
 }
 div.router-view {
   margin-top: 91px;
@@ -116,7 +138,7 @@ div.page {
   margin-right: 50px;
   align-items: center;
   flex-grow: 1;
-  padding-top: 25px
+  padding-top: 25px;
 }
 
 div.page h1 {
