@@ -2,9 +2,11 @@
   <div class="page meal-plan-details">
     <div class="error" v-if="error">{{ error.message }}</div>
     <h1 v-if="mealPlan">{{ mealPlan.name }}</h1>
-    <p class="meal-plan-description" v-if="mealPlan && mealPlan.description">{{mealPlan.description}}</p>
+    <p class="meal-plan-description" v-if="mealPlan && mealPlan.description">
+      {{ mealPlan.description }}
+    </p>
     <div class="meals-by-category" v-if="mealPlan">
-      <p  v-if="!hasMeals">Add some meals to your meal plan.</p>
+      <p v-if="!hasMeals">Add some meals to your meal plan.</p>
       <div
         class="meal-category"
         v-for="category in mealPlanMealsByCategory.keys()"
@@ -23,16 +25,16 @@
       </div>
     </div>
     <p v-else>Meal plan not found!</p>
-    <div class="action-bar"  v-if="mealPlan">
+    <div class="action-bar" v-if="mealPlan">
       <router-link
         v-bind:to="{
           name: 'groceryList',
           params: { id: mealPlan.mealPlanId },
-          }"
-          tag="button"
-          class="btn"
-          >Create Grocery List</router-link
-          >
+        }"
+        tag="button"
+        class="btn"
+        >Create Grocery List</router-link
+      >
       <router-link
         v-bind:to="{
           name: 'updateMealPlan',
@@ -42,12 +44,13 @@
         class="btn"
         >Edit Meal Plan</router-link
       >
+      <button class="btn" v-on:click.prevent="deleteMealPlan">Delete</button>
     </div>
   </div>
 </template>
 
 <script>
-import mealPlannerService from "@/services/MealPlannerService"
+import mealPlannerService from "@/services/MealPlannerService";
 import MealCard from "@/components/MealCard";
 
 export default {
@@ -55,7 +58,7 @@ export default {
   data() {
     return {
       mealPlan: null,
-      error: null
+      error: null,
     };
   },
   components: {
@@ -75,6 +78,20 @@ export default {
         mealsByCategory.get(meal.category).push(meal);
       }
       return mealsByCategory;
+    },
+  },
+  methods: {
+    async deleteMealPlan() {
+      try {
+        if (window.confirm("Are you sure you want to delete this meal plan?")) {
+          await mealPlannerService.deleteMealPlan(
+            this.mealPlan
+          );
+          this.$router.push({name: 'mealPlans', params: {}});
+        }
+      } catch(e) {
+        this.error = mealPlannerService.getError(e);
+      }
     },
   },
   async created() {
