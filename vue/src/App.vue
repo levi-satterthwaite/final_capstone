@@ -33,6 +33,9 @@
 * {
   font-family: Rubik, "Poppins", sans-serif;
 }
+#app {
+  display:flex;
+}
 a {
   display: block;
   text-decoration: none;
@@ -71,6 +74,8 @@ div.toolbar a:hover {
 div.router-view {
   margin-top: 75px;
   margin-bottom: 80px;
+  display: flex;
+  flex-grow: 1;
 }
 /* div.toolbar a:last-child {
   margin-right: 20px;
@@ -109,6 +114,7 @@ div.page {
   margin-left: 50px;
   margin-right: 50px;
   align-items: center;
+  flex-grow: 1;
 }
 
 div.page h1 {
