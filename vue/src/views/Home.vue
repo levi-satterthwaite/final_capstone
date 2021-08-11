@@ -13,7 +13,10 @@ export default {
 </script>
 
 <style>
-div img {
+div.home {
+  margin: 0 auto;
+}
+div.home img {
   display: block;
   margin: 0 auto;
 }
