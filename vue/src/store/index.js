@@ -20,21 +20,7 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-    recipes: [
-      {
-        recipeId: "",
-        name: "",
-        category: "",
-        difficultyLevel:  "",
-        prepTimeMin: "",
-        cookTimeMin: "",
-        servingSize: "",
-        instructions: "",
-        dateCreated: "",
-        imageFileName: "",
-        ingredientList: "",
-    }
-    ],
+    recipes: [],
     meals: [],
     mealPlans: []
   },

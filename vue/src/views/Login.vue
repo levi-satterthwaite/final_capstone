@@ -87,7 +87,7 @@ export default {
 
 <style>
 div#login {
-  margin-top: 50px;
+  margin-top: 75px;
 }
 div#login h2 {
   margin-top: 20px;

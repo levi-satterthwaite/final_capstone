@@ -26,7 +26,7 @@
     <div class="action-bar"  v-if="mealPlan">
       <router-link
         v-bind:to="{
-          name: 'mealPlanGroceries',
+          name: 'groceryList',
           params: { id: mealPlan.mealPlanId },
           }"
           tag="button"
@@ -95,13 +95,6 @@ export default {
 </script>
 
 <style>
-div.meal-plan-details h1 {
-  text-align: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  color: #4b3f72;
-}
-
 div.meal-plan-details {
   display: flex;
   flex-direction: column;

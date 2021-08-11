@@ -91,12 +91,12 @@
         </div>
         <div class="field">
           <label for="instructions">Instructions</label>
-          <input
+          <textarea
             type="text"
             id="instructions"
             v-model="recipe.instructions"
             required
-          />
+          ></textarea>
         </div>
       </fieldset>
       <fieldset class="recipe-ingredients">
