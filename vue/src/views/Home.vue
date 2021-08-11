@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
-    <p>You must be authenticated to see this</p>
+    <img src="@/assets/titlepage.png" alt="website banner" class="website-banner">
+    <img src="@/assets/cardexamples.png" alt="card examples" class="card-examples">
+    <img src="@/assets/reviews.png" alt="reviews" class="reviews">
   </div>
 </template>
 
@@ -10,3 +11,10 @@ export default {
   name: "home"
 };
 </script>
+
+<style>
+div img {
+  display: block;
+  margin: 0 auto;
+}
+</style>

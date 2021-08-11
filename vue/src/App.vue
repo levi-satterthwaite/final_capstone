@@ -45,7 +45,7 @@ a:hover {
 
 #nav {
   background-color: #4b3f72;
-  height: 100px;
+  height: 78px;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -215,6 +215,6 @@ div#nav img {
   position: fixed;
   top: 0;
   left: 0;
-  height: 100px;
+  height: 78px;
 }
 </style>
