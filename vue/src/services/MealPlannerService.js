@@ -39,6 +39,11 @@ export default {
         return http.put(`/recipes/${recipe.recipeId}`, recipe);
     },
 
+    deleteRecipe(recipe) {
+        const http = axios.create(axiosConfig);
+        return http.delete(`/recipes/${recipe.recipeId}`, recipe);
+    },
+
     addImage(file) {
         const http = axios.create(axiosConfig);
         const formData = new FormData();
@@ -106,6 +111,11 @@ export default {
         return http.put(`/meals/${meal.mealId}`, meal);
     },
 
+    deleteMeal(meal) {
+        const http = axios.create(axiosConfig);
+        return http.delete(`/meals/${meal.mealId}`, meal);
+    },
+
     addRecipesToMeal(meal, recipes) {
         const http = axios.create(axiosConfig);
         return http.post(`/meals/${meal.mealId}/recipes`, recipes);
@@ -133,6 +143,11 @@ export default {
     updateMealPlan(mealPlan) {
         const http = axios.create(axiosConfig);
         return http.put(`/mealplans/${mealPlan.mealPlanId}`, mealPlan);
+    },
+
+    deleteMealPlan(mealPlan) {
+        const http = axios.create(axiosConfig);
+        return http.delete(`/mealplans/${mealPlan.mealPlanId}`, mealPlan);
     },
 
     addMealsToMealPlan(mealPlan, meals) {
