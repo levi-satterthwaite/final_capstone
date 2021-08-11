@@ -33,6 +33,9 @@
 * {
   font-family: Rubik, "Poppins", sans-serif;
 }
+#app {
+  display:flex;
+}
 a {
   display: block;
   text-decoration: none;
@@ -69,8 +72,10 @@ div.toolbar a:hover {
   color: #cccccc;
 }
 div.router-view {
-  margin-top: 75px;
+  margin-top: 91px;
   margin-bottom: 80px;
+  display: flex;
+  flex-grow: 1;
 }
 /* div.toolbar a:last-child {
   margin-right: 20px;
@@ -109,11 +114,12 @@ div.page {
   margin-left: 50px;
   margin-right: 50px;
   align-items: center;
+  flex-grow: 1;
+  padding-top: 25px
 }
 
 div.page h1 {
   text-align: center;
-  margin-top: 50px;
   color: #4b3f72;
 }
 
@@ -179,7 +185,7 @@ input#image {
 }
 div.form {
   padding: 30px;
-  width: 50%;
+  width: 70%;
   background-color: white;
 }
 div.form fieldset {
