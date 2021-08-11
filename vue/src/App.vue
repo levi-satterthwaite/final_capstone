@@ -152,7 +152,8 @@ div.form div.field label {
   margin-bottom: 5px;
 }
 div.form div.field input,
-div.form div.field select {
+div.form div.field select,
+div.form div.field textarea {
   -ms-box-sizing: content-box;
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;
@@ -170,12 +171,16 @@ div.form div.field select {
   padding-right: 10px;
 }
 div.form div.field input:focus,
-div.form div.field select:focus {
+div.form div.field select:focus,
+div.form div.field textarea:focus {
   outline: none;
   border-color: #9d7dde;
 }
 div.form div.field select {
   height: 30px;
+}
+div.form div.field textarea {
+  resize: none;
 }
 div.image-preview img {
   max-width: 200px;
