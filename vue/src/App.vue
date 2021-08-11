@@ -99,6 +99,7 @@ div.router-view {
   margin-bottom: 80px;
   display: flex;
   flex-grow: 1;
+  justify-content: center;
 }
 /* div.toolbar a:last-child {
   margin-right: 20px;
@@ -110,6 +111,7 @@ body {
   margin: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 10px;
+  background-color: white;
 }
 
 .btn {
@@ -184,7 +186,7 @@ div.page div.field input {
   box-sizing: content-box;
   width: calc(100% - 20px);
   font-size: 16px;
-  line-height: 30px;
+  line-height: 25px;
   border: none;
   border-color: #4b3f72;
   border-style: solid;
@@ -201,7 +203,7 @@ div.form div.field textarea:focus {
   border-color: #9d7dde;
 }
 div.form div.field select {
-  height: 30px;
+  height: 25px;
 }
 div.form div.field textarea {
   resize: none;
@@ -214,7 +216,7 @@ input#image {
 }
 div.form {
   padding: 30px;
-  width: 70%;
+  width: 30%;
   background-color: white;
 }
 div.form fieldset {

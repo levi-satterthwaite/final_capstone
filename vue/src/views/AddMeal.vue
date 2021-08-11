@@ -1,5 +1,5 @@
 <template>
-  <div class="add-meal">
+  <div class="page add-meal">
     <h1>Create Meal</h1>
     <meal-form
       v-on:submit="handleMealFormSubmit"

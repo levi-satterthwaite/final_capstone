@@ -115,7 +115,7 @@ div.recipe-details-container {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  width: 70%;
+  width: 40%;
   margin-top: 25px;
 }
 div.recipe-details-container img {

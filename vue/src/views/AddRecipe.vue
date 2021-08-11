@@ -1,5 +1,5 @@
 <template>
-  <div class="add-recipe">
+  <div class="page add-recipe">
     <h1>Create Recipe</h1>
     <recipe-form v-on:submit="handleRecipeFormSubmit" v-bind:error="submitRecipeError" />
   </div>

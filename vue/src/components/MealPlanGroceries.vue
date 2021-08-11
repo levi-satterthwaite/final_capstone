@@ -1,5 +1,5 @@
 <template>
-  <div class="card meal-plan-grocery-list">
+  <div class="meal-plan-grocery-list card">
     <div class="error" v-if="error">{{ error.message }}</div>
     <div
       class="ingredient-category"
@@ -52,7 +52,7 @@ export default {
 
 <style>
 div.meal-plan-grocery-list {
-  width: 50%;
+  width: 30%;
   background-color: white;
   padding: 25px;
 }
@@ -60,7 +60,7 @@ div.ingredient-category h3 {
   font-size: 20px;
   /* text-align: center; */
   /* background-color: #9d7dde; */
-  color: #9d7dde;
+  color: #4b3f72;
   padding-left: 20px;
   margin-bottom: 0px;
 }

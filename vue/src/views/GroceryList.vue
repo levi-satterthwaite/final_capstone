@@ -1,6 +1,6 @@
 <template>
   <div class="page grocery-list">
-    <h1>Grocery List</h1>
+    <h1>Grocery List for {{mealPlan.name}} Meal Plan</h1>
     <contact-form
       v-if="isContactFormOpen"
       v-bind:message="shareMessage"
