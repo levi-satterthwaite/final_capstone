@@ -7,23 +7,44 @@
       <div class="recipe-overview">
         <div class="recipe-overview-item">
           <span>Category</span>
-          <span>{{recipe.category}}</span>
+          <span>{{ recipe.category }}</span>
         </div>
         <div class="recipe-overview-item">
           <span>Difficulty Level</span>
-          <span>{{recipe.difficultyLevel}}</span>
+          <span>{{ recipe.difficultyLevel }}</span>
         </div>
         <div class="recipe-overview-item">
           <span>Serving Size</span>
-          <span>{{recipe.servingSize}}</span>
+          <span>{{ recipe.servingSize }}</span>
         </div>
         <div class="recipe-overview-item">
           <span>Total Prep Time (minutes)</span>
-          <span>{{recipe.prepTimeMin}}</span>
+          <span>{{ recipe.prepTimeMin }}</span>
         </div>
         <div class="recipe-overview-item">
           <span>Total Cook Time (minutes)</span>
-          <span>{{recipe.cookTimeMin}}</span>
+          <span>{{ recipe.cookTimeMin }}</span>
+        </div>
+        <div class="recipe-ingredients">
+          <div class="recipe-overview-item">
+            <span>Ingredients</span>
+          </div>
+          <div
+            class="recipe-overview-item recipe-overview-ingredient"
+            v-for="ingredient in recipe.ingredientList"
+            v-bind:key="ingredient.ingredientId"
+          >
+            {{ ingredient.name }} - {{ ingredient.quantity }}
+            {{ ingredient.unitMeasurement }}
+          </div>
+        </div>
+        <div class="recipe-instructions">
+          <div class="recipe-overview-item">
+            <span>Instructions</span>
+          </div>
+          <div class="recipe-overview-item">
+            {{ recipe.instructions }}
+          </div>
         </div>
       </div>
     </div>
@@ -55,7 +76,7 @@ export default {
         return null;
       }
       return "/files/" + this.recipe.imageFileName;
-    }
+    },
   },
   async created() {
     const recipeId = this.$route.params.id;
@@ -89,11 +110,13 @@ div.recipe-details-container {
 div.recipe-details-container img {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+  object-fit: cover;
+  width: 100%;
+  max-height: 500px;
 }
 div.recipe-overview {
- padding: 25px;
- padding-top: 0px;
-
+  padding: 40px;
+  padding-top: 0px;
 }
 div.recipe-overview-item {
   padding: 5px;
@@ -105,6 +128,10 @@ div.recipe-overview-item span:first-child {
   padding-right: 10px;
 }
 div.recipe-overview-item span:first-child::after {
- content: ":";
+  content: ":";
+}
+div.recipe-overview div.recipe-ingredients,
+div.recipe-overview div.recipe-instructions {
+  padding-top: 25px;
 }
 </style>
