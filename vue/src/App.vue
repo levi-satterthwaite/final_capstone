@@ -72,7 +72,7 @@ div.toolbar a:hover {
   color: #cccccc;
 }
 div.router-view {
-  margin-top: 75px;
+  margin-top: 91px;
   margin-bottom: 80px;
   display: flex;
   flex-grow: 1;
@@ -115,11 +115,11 @@ div.page {
   margin-right: 50px;
   align-items: center;
   flex-grow: 1;
+  padding-top: 25px
 }
 
 div.page h1 {
   text-align: center;
-  margin-top: 75px;
   color: #4b3f72;
 }
 

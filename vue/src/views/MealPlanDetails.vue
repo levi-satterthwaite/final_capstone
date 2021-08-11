@@ -95,13 +95,6 @@ export default {
 </script>
 
 <style>
-div.meal-plan-details h1 {
-  text-align: center;
-  margin-top: 75px;
-  margin-bottom: 50px;
-  color: #4b3f72;
-}
-
 div.meal-plan-details {
   display: flex;
   flex-direction: column;
