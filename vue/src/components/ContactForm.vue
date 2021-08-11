@@ -11,6 +11,7 @@
         <label>Recipient's Email</label>
         <input type="email" name="user_email" />
       </div>
+      <hr class="contact-form-line">
       <div class="email-body" v-html="shareMessage"></div>
       <textarea name="message" v-show="false" v-model="shareMessage">
       </textarea>
@@ -73,6 +74,10 @@ div.contact-form h3 {
   font-size: 20px;
 }
 div.email-body {
-  padding-left: 15px;
+  padding-left: 20px;
+}
+div.contact-form hr.contact-form-line {
+  margin-top: 40px;
+  margin-bottom: 30px;
 }
 </style>
