@@ -30,7 +30,7 @@ export default {
     message: String
   },
   methods: {
-    sendEmail: (e) => {
+    sendEmail(e) {
       emailjs
         .sendForm(
           "default_service",
