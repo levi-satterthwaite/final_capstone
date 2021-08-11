@@ -19,5 +19,6 @@ div.home {
 div.home img {
   display: block;
   margin: 0 auto;
+  width: 100%;
 }
 </style>
