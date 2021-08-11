@@ -4,13 +4,28 @@
     <div class="recipe-details-container card">
       <img v-if="imageFileName" v-bind:src="imageFileName" />
       <h1>{{ recipe.name }}</h1>
-      <p>
-        <a v-bind:href="imageFileName">{{ recipe.name }}</a>
-      </p>
-      <p v-for="ingredient in recipe.ingredientList" v-bind:key="ingredient.id">
-        {{ ingredient.name }}
-      </p>
-      <p>{{ recipe.instructions }}</p>
+      <div class="recipe-overview">
+        <div class="recipe-overview-item">
+          <span>Category</span>
+          <span>{{recipe.category}}</span>
+        </div>
+        <div class="recipe-overview-item">
+          <span>Difficulty Level</span>
+          <span>{{recipe.difficultyLevel}}</span>
+        </div>
+        <div class="recipe-overview-item">
+          <span>Serving Size</span>
+          <span>{{recipe.servingSize}}</span>
+        </div>
+        <div class="recipe-overview-item">
+          <span>Total Prep Time (minutes)</span>
+          <span>{{recipe.prepTimeMin}}</span>
+        </div>
+        <div class="recipe-overview-item">
+          <span>Total Cook Time (minutes)</span>
+          <span>{{recipe.cookTimeMin}}</span>
+        </div>
+      </div>
     </div>
     <div class="action-bar" v-if="recipe">
       <router-link
@@ -74,5 +89,22 @@ div.recipe-details-container {
 div.recipe-details-container img {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+}
+div.recipe-overview {
+ padding: 25px;
+ padding-top: 0px;
+
+}
+div.recipe-overview-item {
+  padding: 5px;
+  font-size: 1.25em;
+  color: #4b3f72;
+}
+div.recipe-overview-item span:first-child {
+  font-weight: bold;
+  padding-right: 10px;
+}
+div.recipe-overview-item span:first-child::after {
+ content: ":";
 }
 </style>
