@@ -7,6 +7,7 @@
       v-bind:key="category"
     >
       <h3>{{ category }}</h3>
+      <hr />
       <div class="ingredient-list">
         <ul class="groceries">
           <li
@@ -60,7 +61,13 @@ div.ingredient-category h3 {
   /* text-align: center; */
   /* background-color: #9d7dde; */
   color: #9d7dde;
-  padding-left: 30px;
+  padding-left: 20px;
+  margin-bottom: 0px;
+}
+hr{
+  border-top: 1.5px solid #9d7dde;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 div.ingredient-category ul.groceries {
   font-size: 17px;
