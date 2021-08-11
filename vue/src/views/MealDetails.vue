@@ -87,7 +87,7 @@ export default {
 <style>
 div.meal-details h1.meal-name-category {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 75px;
   margin-bottom: 50px;
   color: #4b3f72;
 }
