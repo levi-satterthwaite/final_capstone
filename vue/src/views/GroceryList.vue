@@ -6,6 +6,9 @@
       v-bind:message="shareMessage"
       v-on:success="handleSuccess"
     ></contact-form>
+     <div class="success" v-if="isSuccess">
+      You Grocery List Has Been Emailed!
+    </div>
     <meal-plan-groceries v-if="ingredientsByCategory && !isContactFormOpen"
       v-bind:error="error" v-bind:ingredientsByCategory="ingredientsByCategory" />
     <div class="action-bar">
@@ -33,6 +36,7 @@ export default {
       isContactFormOpen: false,
       mealPlan: null,
       error: null,
+      isSuccess: false
     };
   },
   components: {
@@ -45,6 +49,7 @@ export default {
     } ,
     handleSuccess() {
       this.hideContactForm();
+      this.isSuccess = true;
     },
     showContactForm() {
       this.isContactFormOpen = true;
@@ -52,18 +57,19 @@ export default {
   },
   computed: {
     shareMessage() {
-      let message = "";
+      let message = "<p>";
       const ingredientsByCategory = this.ingredientsByCategory;
       for(const category of ingredientsByCategory.keys()) {
-        message += category + "\n\n";
+        message += category.bold() + "<br>";
         for(const ingredient of ingredientsByCategory.get(category)) {
-          message += "\t" + ingredient.name + "\n";
+          message += "&emsp;" + ingredient.name + "<br>";
           for(const quantity of ingredient.quantities) {
-            message += "\t\t" + quantity.quantity + " " + quantity.unitMeasurement + "\n";
+            message += "&emsp;&emsp;" + quantity.quantity + " " + quantity.unitMeasurement + "<br>";
           } 
-          message += "\n\n";
+          message += "<br>";
         }
       }
+      message += "</p>"
       return message;
     },
     allIngredients() {
@@ -136,4 +142,13 @@ export default {
 </script>
 
 <style>
+div.success {
+  background-color: #9d7dde;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  width: 50%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
 </style>
