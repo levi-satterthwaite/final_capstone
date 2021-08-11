@@ -43,7 +43,9 @@
             <span>Instructions</span>
           </div>
           <div class="recipe-overview-item">
-            {{ recipe.instructions }}
+            <p v-for="(instruction, index) in instructions" v-bind:key="index">
+              {{instruction}}
+            </p>
           </div>
         </div>
       </div>
@@ -77,6 +79,12 @@ export default {
       }
       return "/files/" + this.recipe.imageFileName;
     },
+    instructions() {
+      if (!this.recipe) {
+        return null;
+      }
+      return this.recipe.instructions.split('\n');
+    }
   },
   async created() {
     const recipeId = this.$route.params.id;
@@ -133,5 +141,9 @@ div.recipe-overview-item span:first-child::after {
 div.recipe-overview div.recipe-ingredients,
 div.recipe-overview div.recipe-instructions {
   padding-top: 25px;
+}
+
+div.recipe-instructions p:first-child {
+  margin-top:0;
 }
 </style>
