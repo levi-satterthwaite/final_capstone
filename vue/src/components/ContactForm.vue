@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import emailjs from '@emailjs-com';
+import emailjs from 'emailjs-com';
 
 export default {
   methods: {
    sendEmail: (e) => {
-      emailjs.sendForm('service_2ax4geo', 'ejs-test-mail-service', e.target, 'user_mGcL0LdrwUOOtseA6Bbfe')
+      emailjs.sendForm('service_2ax4geo', 'template_y7nkht8', e.target, 'user_mGcL0LdrwUOOtseA6Bbfe')
         .then((result) => {
             console.log('SUCCESS!', result.status, result.text);
         }, (error) => {
