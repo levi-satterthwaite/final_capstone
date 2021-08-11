@@ -60,6 +60,7 @@
         class="btn"
         >Edit Recipe</router-link
       >
+      <button class="btn" v-on:click.prevent="deleteRecipe">Delete</button>
     </div>
   </div>
 </template>
@@ -87,6 +88,20 @@ export default {
         return null;
       }
       return this.recipe.instructions.split("\n");
+    },
+  },
+   methods: {
+    async deleteRecipe() {
+      try {
+        if (window.confirm("Are you sure you want to delete this recipe?")) {
+          await mealPlannerService.deleteRecipe(
+            this.recipe
+          );
+          this.$router.push({name: 'recipes', params: {}});
+        }
+      } catch(e) {
+        this.error = mealPlannerService.getError(e);
+      }
     },
   },
   async created() {

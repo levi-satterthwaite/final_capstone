@@ -5,7 +5,7 @@
       {{ meal.name }} | {{ meal.category }}
     </h1>
     <div class="recipes-by-category" v-if="meal">
-      <p  v-if="!hasRecipes">Add some recipes to your meal.</p>
+      <p v-if="!hasRecipes">Add some recipes to your meal.</p>
       <div
         class="recipe-category"
         v-for="category in mealRecipesByCategory.keys()"
@@ -31,12 +31,13 @@
         class="btn"
         >Edit Meal</router-link
       >
+      <button class="btn" v-on:click.prevent="deleteMeal">Delete</button>
     </div>
   </div>
 </template>
 
 <script>
-import mealPlannerService from "@/services/MealPlannerService"
+import mealPlannerService from "@/services/MealPlannerService";
 import RecipeCard from "@/components/RecipeCard";
 
 export default {
@@ -44,7 +45,7 @@ export default {
   data() {
     return {
       meal: null,
-      error: null
+      error: null,
     };
   },
   components: {
@@ -67,16 +68,28 @@ export default {
       return recipesByCategory;
     },
   },
+  methods: {
+    async deleteMeal() {
+      try {
+        if (window.confirm("Are you sure you want to delete this meal?")) {
+          await mealPlannerService.deleteMeal(this.meal);
+          this.$router.push({ name: "meals", params: {} });
+        }
+      } catch (e) {
+        this.error = mealPlannerService.getError(e);
+      }
+    },
+  },
   async created() {
     const mealId = this.$route.params.id;
     this.meal = this.$store.state.meals.find((meal) => {
       return meal.mealId == mealId;
     });
-    if(!this.meal) {
+    if (!this.meal) {
       try {
         const response = await mealPlannerService.getMealById(mealId);
         this.meal = response.data;
-      } catch(e) {
+      } catch (e) {
         this.error = mealPlannerService.getError(e);
       }
     }
