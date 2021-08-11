@@ -176,7 +176,8 @@ div.form div.field label {
 }
 div.form div.field input,
 div.form div.field select,
-div.form div.field textarea {
+div.form div.field textarea,
+div.page div.field input {
   -ms-box-sizing: content-box;
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;
@@ -185,7 +186,7 @@ div.form div.field textarea {
   font-size: 16px;
   line-height: 30px;
   border: none;
-  border-color: black;
+  border-color: #4b3f72;
   border-style: solid;
   border-radius: 10px;
   border-width: 1.5px;
