@@ -29,14 +29,17 @@
           <div class="recipe-overview-item">
             <span>Ingredients</span>
           </div>
-          <div
-            class="recipe-overview-item recipe-overview-ingredient"
-            v-for="ingredient in recipe.ingredientList"
-            v-bind:key="ingredient.ingredientId"
-          >
-            {{ ingredient.name }} - {{ ingredient.quantity }}
-            {{ ingredient.unitMeasurement }}
-          </div>
+          <ul class="recipe-overview-item">
+            <li
+              v-for="ingredient in recipe.ingredientList"
+              v-bind:key="ingredient.ingredientId"
+            >
+              <div class="recipe-overview-item">
+                {{ ingredient.name }} - {{ ingredient.quantity }}
+                {{ ingredient.unitMeasurement }}
+              </div>
+            </li>
+          </ul>
         </div>
         <div class="recipe-instructions">
           <div class="recipe-overview-item">
@@ -44,7 +47,7 @@
           </div>
           <div class="recipe-overview-item">
             <p v-for="(instruction, index) in instructions" v-bind:key="index">
-              {{instruction}}
+              {{ instruction }}
             </p>
           </div>
         </div>
@@ -83,8 +86,8 @@ export default {
       if (!this.recipe) {
         return null;
       }
-      return this.recipe.instructions.split('\n');
-    }
+      return this.recipe.instructions.split("\n");
+    },
   },
   async created() {
     const recipeId = this.$route.params.id;
@@ -127,7 +130,7 @@ div.recipe-overview {
   padding-top: 0px;
 }
 div.recipe-overview-item {
-  padding: 5px;
+  padding: 3px;
   font-size: 1.25em;
   color: #4b3f72;
 }
@@ -144,6 +147,23 @@ div.recipe-overview div.recipe-instructions {
 }
 
 div.recipe-instructions p:first-child {
-  margin-top:0;
+  margin-top: 0;
 }
+
+ul.recipe-overview-item {
+  list-style: none;
+}
+
+ul.recipe-overview-item li:before {
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: #4b3f72; /* Change the color */
+  font-weight: bold; /* If you want it to be bold */
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em; /* Also needed for space (tweak if needed) */
+  margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
+ul.recipe-overview-item li div.recipe-overview-item {
+  display: inline-block;
+} 
 </style>
