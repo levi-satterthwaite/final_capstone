@@ -6,11 +6,11 @@
         <div class="nav-links">
           <router-link v-bind:to="{ name: 'home' }">Home</router-link>
           <!-- &nbsp;|&nbsp; -->
-          <router-link v-bind:to="{ name: 'recipes' }">Recipes</router-link>
+          <router-link v-if="$store.state.token" v-bind:to="{ name: 'recipes' }">Recipes</router-link>
           <!-- &nbsp;|&nbsp; -->
-          <router-link v-bind:to="{ name: 'meals' }">Meals</router-link>
+          <router-link v-if="$store.state.token" v-bind:to="{ name: 'meals' }">Meals</router-link>
           <!-- &nbsp;|&nbsp; -->
-          <router-link v-bind:to="{ name: 'mealPlans' }">Meal Plans</router-link>
+          <router-link v-if="$store.state.token" v-bind:to="{ name: 'mealPlans' }">Meal Plans</router-link>
           <!--&nbsp;|&nbsp;-->
           <router-link
             v-bind:to="{ name: 'logout' }"
