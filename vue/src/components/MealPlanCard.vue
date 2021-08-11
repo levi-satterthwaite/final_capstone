@@ -1,6 +1,11 @@
 <template>
   <div class="meal-plan-card card">
-    <router-link v-bind:to="{name: 'mealPlanDetails', params: {id: mealPlan.mealPlanId}}">
+    <router-link
+      v-bind:to="{
+        name: 'mealPlanDetails',
+        params: { id: mealPlan.mealPlanId },
+      }"
+    >
       <div class="image-wrapper">
         <img
           v-bind:src="'/files/' + mealPlan.imageFileName"
@@ -37,6 +42,14 @@ div.content-wrapper {
 h2 {
   font-size: 27px;
   margin: 0px;
+  white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+  white-space: -webkit-pre-wrap; /* Chrome & Safari */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: pre-wrap; /* CSS3 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  word-break: break-all;
+  white-space: normal;
 }
 div.category {
   font-size: 20px;
