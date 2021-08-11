@@ -185,7 +185,7 @@ input#image {
 }
 div.form {
   padding: 30px;
-  width: 50%;
+  width: 70%;
   background-color: white;
 }
 div.form fieldset {
