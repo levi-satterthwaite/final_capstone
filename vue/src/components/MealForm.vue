@@ -232,11 +232,4 @@ export default {
 </script>
 
 <style>
-
-
-
-/* ul.recipes {
-  margin: 0px;
-} */
-
 </style>
