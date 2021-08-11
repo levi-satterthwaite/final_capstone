@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <header id="nav">
       <img src="@/assets/feed_me.jpg" alt="Feed Me Logo" class="feed-me-logo" />
       <div class="toolbar">
         <div class="nav-links">
@@ -24,7 +24,7 @@
           >
         </div>
       </div>
-    </div>
+    </header>
     <div class="router-view">
       <router-view />
     </div>
@@ -245,7 +245,7 @@ div.form ul.items li {
 div.error {
   color: red;
 }
-div#nav img {
+header#nav img {
   position: fixed;
   top: 0;
   left: 0;
