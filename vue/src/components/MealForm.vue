@@ -81,10 +81,10 @@
       <fieldset class="meal-image">
         <legend>Meal Image</legend>
         <div class="field">
-          <label for="image">Image</label>
+          <label for="image">Add Image Here</label>
           <input type="file" id="image" v-on:change="onFileChange" />
         </div>
-        <div class="form-controls">
+        <div class="form-controls align-right">
           <button v-on:click.prevent="chooseImage" class="btn btn-sm">
             Choose File
           </button>

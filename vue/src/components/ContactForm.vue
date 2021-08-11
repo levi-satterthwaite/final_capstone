@@ -3,11 +3,12 @@
     <div class="error" v-if="error">{{ error.message }}</div>
     <form @submit.prevent="sendEmail">
       <div class="field">
-        <label>Name</label>
+        <h3>Email this Grocery List</h3>
+        <label>Recipient's Name</label>
         <input type="text" name="user_name" />
       </div>
       <div class="field">
-        <label>Email</label>
+        <label>Recipient's Email</label>
         <input type="email" name="user_email" />
       </div>
       <div class="email-body" v-html="shareMessage"></div>
@@ -67,6 +68,9 @@ export default {
 div.contact-form {
   width: 30%;
   color: #4b3f72;
+}
+div.contact-form h3 {
+  font-size: 20px;
 }
 div.email-body {
   padding-left: 15px;
