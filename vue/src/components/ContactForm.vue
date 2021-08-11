@@ -1,15 +1,21 @@
 <template>
-  <div class="page">
+  <div class="form contact-form card">
     <div class="error" v-if="error">{{ error.message }}</div>
-    <form class="form contact-form card" @submit.prevent="sendEmail">
-      <label>Name</label>
-      <input type="text" name="user_name" />
-      <label>Email</label>
-      <input type="email" name="user_email" />
-      <label>Message</label>
-      <textarea name="message" v-model="shareMessage">
+    <form @submit.prevent="sendEmail">
+      <div class="field">
+        <label>Name</label>
+        <input type="text" name="user_name" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="user_email" />
+      </div>
+      <div class="email-body" v-html="shareMessage"></div>
+      <textarea name="message" v-show="false" v-model="shareMessage">
       </textarea>
-      <input type="submit" value="Send" />
+      <div class="form-controls align-right">
+        <input type="submit" class="btn" value="Send" />
+      </div>
     </form>
   </div>
 </template>
@@ -23,11 +29,11 @@ export default {
   data() {
     return {
       error: null,
-      shareMessage: ""
+      shareMessage: "",
     };
   },
   props: {
-    message: String
+    message: String,
   },
   methods: {
     sendEmail(e) {
@@ -53,9 +59,16 @@ export default {
   },
   mounted() {
     this.shareMessage = this.message;
-  }
+  },
 };
 </script>
 
 <style>
+div.contact-form {
+  width: 30%;
+  color: #4b3f72;
+}
+div.email-body {
+  padding-left: 15px;
+}
 </style>
