@@ -1,6 +1,5 @@
 package com.techelevator.recipes.dao;
 
-import com.techelevator.model.User;
 import com.techelevator.recipes.exceptions.*;
 import com.techelevator.recipes.model.Ingredient;
 import com.techelevator.recipes.model.Recipe;
@@ -117,7 +116,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
     @Override
     public void deleteRecipe(Recipe recipe) throws RecipeException {
         // check to see if recipe is being used in a meal plan
-        makeSureRecipeIsNotInAMealPlan(recipe);
+        makeSureRecipeIsNotInAMeal(recipe);
         // delete all recipe ingredients first
         deleteIngredientsFromRecipe(recipe, recipe.getIngredientList());
         // delete the recipe (use the sql statement here)
@@ -204,7 +203,7 @@ public class JdbcRecipeDAO implements RecipeDAO {
         }
     }
 
-    private void makeSureRecipeIsNotInAMealPlan(Recipe recipe) throws RecipeException {
+    private void makeSureRecipeIsNotInAMeal(Recipe recipe) throws RecipeException {
         // check the database to make sure there are no meal plans using this recipe
         // if there are any rows, throw an Error stating that the recipe is in use
         String sql = "SELECT recipe_id, meal_id FROM recipe_meal WHERE recipe_id = ?";

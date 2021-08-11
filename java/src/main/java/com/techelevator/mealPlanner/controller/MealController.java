@@ -96,7 +96,7 @@ public class MealController {
     }
 
     @RequestMapping(path = "/meals/{id}", method = RequestMethod.DELETE)
-    public Message deleteMeal(@PathVariable(name = "id") Long mealId, Principal principal) throws MealNotFoundException,
+    public Message deleteMeal(@PathVariable(name = "id") Long mealId, Principal principal) throws MealException,
             RecipeException, UserDoesNotExistException {
         User user = userDAO.findByUsername(principal.getName());
         if(user == null) {

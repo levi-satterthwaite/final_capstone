@@ -5,9 +5,7 @@ import com.techelevator.mealPlanner.exceptions.MealException;
 import com.techelevator.mealPlanner.exceptions.MealNotFoundException;
 import com.techelevator.mealPlanner.model.Meal;
 import com.techelevator.recipes.dao.RecipeDAO;
-import com.techelevator.recipes.exceptions.NegativeValueException;
-import com.techelevator.recipes.exceptions.RecipeException;
-import com.techelevator.recipes.exceptions.RecipeNotFoundException;
+import com.techelevator.recipes.exceptions.*;
 import com.techelevator.recipes.model.Recipe;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -136,16 +134,16 @@ public class JdbcMealDAO implements MealDAO {
     }
 
     @Override
-    public void deleteMeal(Meal meal) throws RecipeException {
+    public void deleteMeal(Meal meal) throws MealException {
+        makeSureMealIsNotInAMealPlan(meal);
         deleteRecipesFromMeal(meal, meal.getRecipeList());
-
         // delete the meal plan
         String sql = "DELETE FROM meal WHERE meal_id = ? AND user_id = ?";
         jdbcTemplate.update(sql, meal.getMealId(), meal.getUserId());
     }
 
     @Override
-    public void deleteRecipesFromMeal(Meal meal, List<Recipe> recipes) throws RecipeException {
+    public void deleteRecipesFromMeal(Meal meal, List<Recipe> recipes) {
         // loop over list of ingredients
         for(Recipe recipe : recipes) {
             // check to see if the ingredient is being used in a recipe
@@ -153,6 +151,14 @@ public class JdbcMealDAO implements MealDAO {
                 // if it does delete call deleteIngredientFromRecipe
                 deleteRecipeFromMeal(meal, recipe);
             }
+        }
+    }
+
+    private void makeSureMealIsNotInAMealPlan(Meal meal) throws MealException {
+        String sql = "SELECT meal_plan_id, meal_id FROM meal_plan_meal WHERE meal_id = ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, meal.getMealId());
+        if(rows.next()) {
+            throw new MealInUseException();
         }
     }
 

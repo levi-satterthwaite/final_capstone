@@ -19,6 +19,6 @@ public interface MealDAO {
     Meal addRecipesToMeal(Meal meal, List<Recipe> recipes) throws MealNotFoundException,
             RecipeNotFoundException;
     Meal updateMeal(Meal meal, Long userId) throws MealException, RecipeException, NegativeValueException;
-    void deleteMeal(Meal meal) throws RecipeException;
+    void deleteMeal(Meal meal) throws RecipeException, MealException;
     void deleteRecipesFromMeal(Meal meal, List<Recipe> recipes) throws RecipeException;
 }
