@@ -63,7 +63,6 @@ div.add-meal-plan {
 
 div.add-meal-plan h1 {
   color: #4B3F72;
-  margin-top: 50px;
 }
 </style>
 
