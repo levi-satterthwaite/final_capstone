@@ -19,6 +19,7 @@ import UpdateMeal from '../views/UpdateMeal.vue'
 import UpdateRecipe from '../views/UpdateRecipe.vue'
 import GroceryList from '../views/GroceryList.vue'
 import ContactForm from '../components/ContactForm.vue'
+import MealPlanSchedule from '../views/MealPlanSchedule.vue'
 
 Vue.use(Router)
 
@@ -175,6 +176,14 @@ const router = new Router({
       path: "/contactform",
       name: "contactForm",
       component: ContactForm,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/schedule",
+      name: "mealPlanSchedule",
+      component: MealPlanSchedule,
       meta: {
         requiresAuth: true
       }
