@@ -196,15 +196,12 @@ div.meal-plan-schedule {
 tr {
   color: #9d7dde !important;
 }
-a {
-  color: #4b3f72;
-}
-a:-webkit-any-link {
+div.meal-plan-schedule a:-webkit-any-link {
   color: white;
   font-weight: bold;
   padding-left: 5px;
 }
-a:-webkit-any-link:hover {
+div.meal-plan-schedule a:-webkit-any-link:hover {
   color: #4b3f72;
 }
 .fc-daygrid-event {
