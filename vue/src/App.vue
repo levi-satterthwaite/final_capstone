@@ -12,6 +12,7 @@
           <!-- &nbsp;|&nbsp; -->
           <router-link v-if="$store.state.token" v-bind:to="{ name: 'mealPlans' }">Meal Plans</router-link>
           <!--&nbsp;|&nbsp;-->
+          <router-link v-if="$store.state.token" v-bind:to="{ name: 'mealPlanSchedule' }">Schedule Meal Plans</router-link>
           <router-link
             v-bind:to="{ name: 'logout' }"
             v-if="$store.state.token != ''"
