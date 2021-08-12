@@ -8,7 +8,7 @@
     >
       <template v-slot:eventContent="arg">
         <!-- <b>{{ arg.timeText }}</b> -->
-        <div>
+        <div class="meal-plan-event">
           <router-link
             v-bind:to="{
               name: 'mealPlanDetails',
@@ -17,7 +17,7 @@
             >{{ arg.event.title }}</router-link
           >
         </div>
-        <div>
+        <div class="remove">
           <a v-on:click.prevent="noop">Remove</a>
         </div>
       </template>
@@ -175,6 +175,42 @@ export default {
 <style>
 div.meal-plan-schedule {
   background-color: rgb(245, 245, 245);
+}
+.fc-header-toolbar {
+  background-color: #9d7dde;
+  color: white;
+  border-radius: 10px;
+}
+.fc .fc-button-primary {
+  background-color: white;
+  color: #9d7dde;
+  border: 2px solid #9d7dde;
+}
+tr {
+  color: #9d7dde !important;
+}
+a {
+  color: #4b3f72;
+}
+a:-webkit-any-link {
+  color: white;
+  font-weight: bold;
+  padding-left: 5px;
+}
+a:-webkit-any-link:hover {
+  color: #4b3f72;
+}
+.fc-daygrid-event {
+  color: white !important;
+  background-color: #9d7dde;
+  border: 1px solid #9d7dde;
+}
+.remove a {
+  color: white;
+  padding-left: 5px;
+}
+.remove a:hover {
+  color: #4b3f72;
 }
 .fc {
   /* the calendar root */
