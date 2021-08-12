@@ -102,6 +102,19 @@ div.router-view {
   flex-grow: 1;
   justify-content: center;
 }
+.card h2 {
+  font-size: 27px;
+  margin: 0px;
+  /*white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+  /*white-space: -webkit-pre-wrap; /* Chrome & Safari */
+  /*white-space: -pre-wrap; /* Opera 4-6 */
+  /*white-space: -o-pre-wrap; /* Opera 7 */
+  /*white-space: pre-wrap; /* CSS3 */
+  /*/*word-wrap: break-word; /* Internet Explorer 5.5+ */
+  /* word-break: break-all;
+  white-space: normal; */
+  overflow-wrap: break-word;
+}
 /* div.toolbar a:last-child {
   margin-right: 20px;
 } */
