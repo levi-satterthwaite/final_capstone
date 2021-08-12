@@ -52,7 +52,7 @@ a:hover {
 #nav {
   background-color: #4b3f72;
   height: 78px;
-  z-index: 1;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: flex-end;

@@ -10,6 +10,11 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@fullcalendar/core": "^5.9.0",
+    "@fullcalendar/daygrid": "^5.9.0",
+    "@fullcalendar/interaction": "^5.9.0",
+    "@fullcalendar/timegrid": "^5.9.0",
+    "@fullcalendar/vue": "^5.9.0",
     "axios": "^0.21.1",
     "core-js": "^3.9.1",
     "emailjs-com": "^3.2.0",
