@@ -176,6 +176,10 @@ export default {
 div.meal-plan-schedule {
   background-color: rgb(245, 245, 245);
 }
+.fc .fc-view-harness {
+  background-color: white;
+  
+}
 .fc-header-toolbar {
   background-color: #9d7dde;
   color: white;
@@ -185,6 +189,9 @@ div.meal-plan-schedule {
   background-color: white;
   color: #9d7dde;
   border: 2px solid #9d7dde;
+}
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: rgba(75, 63, 114, 0.15);
 }
 tr {
   color: #9d7dde !important;
